@@ -34,3 +34,11 @@ Install [Internet in a Box](https://github.com/iiab/iiab) using the one-line ins
 7. OK, now you're ready. Tun the installer from the terminal
 8. `curl d.iiab.io/install.txt | sudo bash`
 9. Follow the instructions on the screen as you go. You may have to restart several times and restart the installation processes following the instructions provided on the screen.
+
+### Check that the installation works
+
+1. On a computer, tablet, or smartphone open the available wifi networks and see if `Internet in a Box` is available
+2. Connect to this network
+3. Open a browser
+4. Navigate to `http://box`
+5. If you see a mobile site for Internet in a Box everything worked
