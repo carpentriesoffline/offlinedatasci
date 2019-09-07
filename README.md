@@ -21,15 +21,16 @@ Early stage experiment
 
 ### Install Internet in a Box
 
-1. Install [Internet in a Box](https://github.com/iiab/iiab) using the one-line install script
-    1. The installation will take about an hour
-    2. It is recommend that you use an ethernet cable for internet connectivity if possible
-        1. If you do install over wifi you need to "run `iiab-hotspot-on` after IIAB installation"
-        2. See details at [iiab's install site](http://download.iiab.io/)
-    3. You will be asked a number of questions during the install script
-    4. In general the default choices are good
-    5. It is not necessary to edit the config file initially
-    6. When asked to choose the size of the install choose the smallest option (this is fastests and what has currently been tested)
-    7. OK, now you're ready. Tun the installer from the terminal
-    8. `curl d.iiab.io/install.txt | sudo bash`
-    9. Follow the instructions on the screen as you go.
+Install [Internet in a Box](https://github.com/iiab/iiab) using the one-line install script
+
+1. The installation will take about an hour
+2. It is recommend that you use an ethernet cable for internet connectivity if possible
+    1. If you do install over wifi you need to "run `iiab-hotspot-on` after IIAB installation"
+    2. See details at [iiab's install site](http://download.iiab.io/)
+3. You will be asked a number of questions during the install script
+4. In general the default choices are good
+5. It is not necessary to edit the config file initially
+6. When asked to choose the size of the install choose the smallest option (this is fastests and what has currently been tested)
+7. OK, now you're ready. Tun the installer from the terminal
+8. `curl d.iiab.io/install.txt | sudo bash`
+9. Follow the instructions on the screen as you go. You may have to restart several times and restart the installation processes following the instructions provided on the screen.
