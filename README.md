@@ -42,3 +42,32 @@ Install [Internet in a Box](https://github.com/iiab/iiab) using the one-line ins
 3. Open a browser
 4. Navigate to `http://box`
 5. If you see a mobile site for Internet in a Box everything worked
+
+### Setting up a local CRAN or partial CRAN mirror
+
+#### Partial CRAN mirror
+
+1. Install the R package [miniCRAN](https://github.com/andrie/miniCRAN)
+2. Create a local CRAN mirror that contains all of your desired packages and their dependencies.
+   The following example installs `tidyverse` and all of its dependencies, but you can add more
+   packages to the `pkgs` line to expand this. Replace `/path` with where you want to
+   store the CRAN mirror. Currently this should be an external harddrive.
+
+```
+library(miniCRAN)
+repo <- "https://cran.rstudio.com"
+pkgs <- c("tidyverse")
+pkgList <- pkgDep(pkgs, repos=repo, type="source", suggests=FALSE)
+makeRepo(pkgList, path="/path", repos=repo,
+         type=c("source", "win.binary", "mac.binary.el-capitan"))
+```
+
+#### Full CRAN mirror
+
+1. Follow [official instructions](https://cran.r-project.org/mirror-howto.html) (expansion of these instructions welcome, just haven't done it yet)
+2. This is ~1/4 TB so make sure that you have a large enough external harddrive
+
+#### Adding the CRAN mirror to the Raspberry Pi
+
+1. Attach the external harddrive to your Raspberry Pi and restart
+2. The files should now be available at http://box/usb/usb0/path where `path` is the path on the external harddrive
