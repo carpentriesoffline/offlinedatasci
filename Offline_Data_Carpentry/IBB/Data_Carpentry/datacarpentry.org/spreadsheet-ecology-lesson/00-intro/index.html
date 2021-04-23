@@ -1,0 +1,598 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+  
+<!-- Mirrored from datacarpentry.org/spreadsheet-ecology-lesson/00-intro/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 12 Apr 2021 15:33:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2021-03-31 21:37:00 +0000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="https://datacarpentry.org/spreadsheet-ecology-lesson">
+    <link rel="stylesheet" type="text/css" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/css/lesson.css" />
+    <link rel="stylesheet" type="text/css" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/css/syntax.css" />
+
+    
+
+
+
+    <!-- Favicons for everyone -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="Data Carpentry - Data Organization in Spreadsheets for Ecologists"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/favicons/dc/mstile-310x310.png" />
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+  <title>
+  Introduction &ndash; Data Organization in Spreadsheets for Ecologists
+  </title>  
+
+  </head>
+  <body>
+
+    
+
+
+
+    <div class="container">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org/" class="pull-left">
+        <img class="navbar-logo" src="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="https://datacarpentry.org/spreadsheet-ecology-lesson/">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/CODE_OF_CONDUCT.html">Code of Conduct</a></li>
+
+        
+	
+        <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/setup.html">Setup</a></li>
+
+        
+        <li class="dropdown">
+          <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            
+            <li><a href="index.html">Introduction</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/index.html">Formatting data tables in Spreadsheets</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/02-common-mistakes/index.html">Formatting problems</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/03-dates-as-data/index.html">Dates as data</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/04-quality-control/index.html">Quality control</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/05-exporting-data/index.html">Exporting data</a></li>
+            
+	    <li role="separator" class="divider"></li>
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/aio/index.html">All in one page (Beta)</a></li>
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/reference.html">Reference</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/about/index.html">About</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/datamanagement/index.html">Data Management Tips</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/discuss/index.html">Discussion</a></li>
+            
+            
+            <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/guide/index.html">Instructor Notes</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/LICENSE.html">License</a></li>
+	
+	<li><a href="https://github.com/datacarpentry/spreadsheet-ecology-lesson/edit/gh-pages/_episodes/00-intro.md" data-checker-ignore>Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+  <div class="col-xs-1">
+    <h3 class="text-left">
+      
+      <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span><span class="sr-only">lesson home</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-xs-10">
+    
+    <h3 class="maintitle"><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/">Data Organization in Spreadsheets for Ecologists</a></h3>
+    
+  </div>
+  <div class="col-xs-1">
+    <h3 class="text-right">
+      
+      <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/index.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+<article>
+<div class="row">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-10">
+    <h1 class="maintitle">Introduction</h1>
+  </div>
+  <div class="col-md-1">
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<blockquote class="objectives">
+  <h2>Overview</h2>
+
+  <div class="row">
+    <div class="col-md-3">
+      <strong>Teaching:</strong> 15 min
+      <br/>
+      <strong>Exercises:</strong> 3 min
+    </div>
+    <div class="col-md-9">
+      <strong>Questions</strong>
+      <ul>
+	
+	<li><p>What are basic principles for using spreadsheets for good data organization?</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+      <strong>Objectives</strong>
+      <ul>
+	
+	<li><p>Describe best practices for organizing data so computers can make the best use of data sets.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+</blockquote>
+
+<p>Good data organization is the foundation of your research
+project. Most researchers have data or do data entry in
+spreadsheets. Spreadsheet programs are very useful graphical
+interfaces for designing data tables and handling very basic data
+quality control functions.</p>
+
+<h3 id="spreadsheet-outline">Spreadsheet outline</h3>
+
+<p>After this lesson, you will be able to:</p>
+<ul>
+  <li>Implement best practices in data table formatting</li>
+  <li>Identify and address common formatting mistakes</li>
+  <li>Understand approaches for handling dates in spreadsheets</li>
+  <li>Utilize basic quality control features and data manipulation practices</li>
+  <li>Effectively export data from spreadsheet programs</li>
+</ul>
+
+<p><em>Overall good data practices</em></p>
+
+<p>Spreadsheets are good for data entry. Therefore we have a lot of data
+in spreadsheets. 
+Much of your time as a researcher will be spent in this ‘data wrangling’ stage.
+It’s not the most fun, but it’s necessary. We’ll teach you how to think
+about data organization and some practices for more effective data wrangling.</p>
+
+<h3 id="what-this-lesson-will-not-teach-you">What this lesson will not teach you</h3>
+
+<ul>
+  <li>How to do <em>statistics</em> in a spreadsheet</li>
+  <li>How to do <em>plotting</em> in a spreadsheet</li>
+  <li>How to <em>write code</em> in spreadsheet programs</li>
+</ul>
+
+<p>If you’re looking to do this, a good reference is
+<a href="https://www.amazon.com/Head-First-Excel-learners-spreadsheets/dp/0596807694/">Head First Excel</a>, published by O’Reilly.</p>
+
+<hr />
+
+<h3 id="why-arent-we-teaching-data-analysis-in-spreadsheets">Why aren’t we teaching data analysis in spreadsheets</h3>
+
+<ul>
+  <li>
+    <p>Data analysis in spreadsheets usually requires a lot of manual
+work. If you want to change a parameter or run an analysis with a
+new dataset, you usually have to redo everything by hand. (We do
+know that you can create macros, but see the next point.)</p>
+  </li>
+  <li>
+    <p>It is also difficult to track or reproduce statistical or plotting
+analyses done in spreadsheet programs when you want to go back to
+your work or someone asks for details of your analysis.</p>
+  </li>
+</ul>
+
+<h3 id="spreadsheet-programs">Spreadsheet programs</h3>
+
+<p>Many spreadsheet programs are available. Since most participants utilize Excel as their primary spreadsheet program, this lesson will make use of Excel examples.</p>
+
+<p>A free spreadsheet program that can also be used is LibreOffice.</p>
+
+<p>Commands may differ a bit between programs, but the general idea
+is the same.</p>
+
+<blockquote class="callout">
+  <h2 id="exercise">Exercise</h2>
+  <ul>
+    <li>How many people have used spreadsheets in their research?</li>
+    <li>How many people have accidentally done something that made them
+frustrated or sad?</li>
+  </ul>
+</blockquote>
+
+<p>Spreadsheets encompass a lot of the things we need
+to be able to do as researchers. We can use them for:</p>
+
+<ul>
+  <li>Data entry</li>
+  <li>Organizing data</li>
+  <li>Subsetting and sorting data</li>
+  <li>Statistics</li>
+  <li>Plotting</li>
+</ul>
+
+<p>We do a lot of different operations in spreadsheets. What kind of operations do you do in spreadsheets? Which ones do you think spreadsheets are good for?</p>
+
+<h2 id="problems-with-spreadsheets">Problems with Spreadsheets</h2>
+
+<p>Spreadsheets are good for data entry, but in reality we tend to
+use spreadsheet programs for much more than data entry. We use them
+to create data tables for publications, to generate summary
+statistics, and make figures.</p>
+
+<p>Generating tables for publications in a spreadsheet is not
+optimal - often, when formatting a data table for publication, we’re
+reporting key summary statistics in a way that is not really meant to
+be read as data, and often involves special formatting
+(merging cells, creating borders, making it pretty). We advise you to
+do this sort of operation within your document editing software.</p>
+
+<p>The latter two applications, generating statistics and figures, should 
+be used with caution: because of the graphical, drag and drop nature of 
+spreadsheet programs, it can be very difficult, if not impossible, to 
+replicate your steps (much less retrace anyone else’s), particularly if your 
+stats or figures require you to do more complex calculations. Furthermore, 
+in doing calculations in a spreadsheet, it’s easy to accidentally apply a 
+slightly different formula to multiple adjacent cells. When using a 
+command-line based statistics program like R or SAS, it’s practically 
+impossible to apply a calculation to one observation in your 
+dataset but not another unless you’re doing it on purpose.</p>
+
+<h3 id="using-spreadsheets-for-data-entry-and-cleaning">Using Spreadsheets for Data Entry and Cleaning</h3>
+
+<p>However, there are circumstances where you might want to use a spreadsheet 
+program to produce “quick and dirty” calculations or figures, and data 
+cleaning will help you use some of these features. Data cleaning also
+puts your data in a better format prior to importation into a 
+statistical analysis program. We will show you how to use some features of 
+spreadsheet programs to check your data quality along the way and produce 
+preliminary summary statistics.</p>
+
+<p>In this lesson, we will assume that you are most likely using Excel as
+your primary spreadsheet program - there are others (gnumeric, Calc
+from OpenOffice), and their functionality is similar, but Excel seems
+to be the program most used by biologists and ecologists.</p>
+
+<p>In this lesson we’re going to talk about:</p>
+
+<ol>
+  <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/">Formatting data tables in spreadsheets</a></li>
+  <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/02-common-mistakes/">Formatting problems</a></li>
+  <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/03-dates-as-data/">Dates as data</a></li>
+  <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/04-quality-control/">Quality control</a></li>
+  <li><a href="https://datacarpentry.org/spreadsheet-ecology-lesson/05-exporting-data/">Exporting data</a></li>
+</ol>
+
+
+
+
+
+
+<blockquote class="keypoints">
+  <h2>Key Points</h2>
+  <ul>
+    
+    <li><p>Good data organization is the foundation of any research project.</p>
+</li>
+    
+  </ul>
+</blockquote>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+  <div class="col-xs-1">
+    <h3 class="text-left">
+      
+      <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span><span class="sr-only">lesson home</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-xs-10">
+    
+  </div>
+  <div class="col-xs-1">
+    <h3 class="text-right">
+      
+      <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/01-format-data/index.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+
+      
+      
+
+
+
+
+
+
+<footer>
+  <div class="row">
+    <div class="col-md-6 copyright" align="left">
+	
+	Licensed under <a href="#">CC-BY 4.0</a> 2018–2021
+	by <a href="https://carpentries.org/">The Carpentries</a>
+        <br>
+        Licensed under <a href="#">CC-BY 4.0</a> 2016–2018
+	by <a href="http://datacarpentry.org/">Data Carpentry</a>
+	
+    </div>
+    <div class="col-md-6 help-links" align="right">
+	
+	<a href="https://github.com/datacarpentry/spreadsheet-ecology-lesson/edit/gh-pages/_episodes/00-intro.md" data-checker-ignore>Edit on GitHub</a>
+	
+	/
+	<a href="https://github.com/datacarpentry/spreadsheet-ecology-lesson/blob/gh-pages/CONTRIBUTING.md" data-checker-ignore>Contributing</a>
+	/
+	<a href="https://github.com/datacarpentry/spreadsheet-ecology-lesson/">Source</a>
+	/
+	<a href="https://github.com/datacarpentry/spreadsheet-ecology-lesson/blob/gh-pages/CITATION" data-checker-ignore>Cite</a>
+	/
+	<a href="mailto:team@carpentries.org">Contact</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" align="center">
+      Using <a href="https://github.com/carpentries/styles/">The Carpentries style</a>
+      version <a href="https://github.com/carpentries/styles/releases/tag/v9.5.3">9.5.3</a>.
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/js/jquery.min.js"></script>
+<script src="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/js/bootstrap.min.js"></script>
+<script src="https://datacarpentry.org/spreadsheet-ecology-lesson/assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+
+<!-- Mirrored from datacarpentry.org/spreadsheet-ecology-lesson/00-intro/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 12 Apr 2021 15:33:30 GMT -->
+</html>

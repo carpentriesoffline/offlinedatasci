@@ -1,0 +1,3 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+11:33:30	153/153	U-----	200	untouched ('OK')	text/plain	etag:%22604be3bc-99%22	https://datacarpentry.org/robots.txt		(from )
+11:33:30	17081/17081	U-----	200	untouched ('OK')	text/html	etag:W/%226064eb80-42b9%22	https://datacarpentry.org/spreadsheet-ecology-lesson/00-intro/index.html	./IBB/Data_Carpentry/datacarpentry.org/spreadsheet-ecology-lesson/00-intro/index.html	(from )
