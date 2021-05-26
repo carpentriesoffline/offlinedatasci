@@ -2,7 +2,6 @@ import os
 import wget
 from pathlib import Path
 import re
-from urls import *
 
 # absolute_path = os.path.abspath(__file__)
 # print("Full path: " + absolute_path)
@@ -25,11 +24,11 @@ def identify_file_os(filename):
   else:
     print("Error")
 
-def download_files(fileurl):
+def download_files(fileurl, carpenpi_dir):
   filename = fileurl.split("/")[-1]
   os = identify_file_os(filename)
 
-  directory = "./IBB/Downloads/" + os + "/"
+  directory = carpenpi_dir + os + "/"
   folder_path = Path(directory)
   file_directory = directory + filename
   file_path = Path (file_directory)
@@ -46,6 +45,3 @@ def download_files(fileurl):
   else:
     print("\n" + filename + " found in " + directory)
   print('-------------------------------------')
-
-for i in range (len(urls)):
-  download_files(urls[i]) 
