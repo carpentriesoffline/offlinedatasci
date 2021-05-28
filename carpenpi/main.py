@@ -12,6 +12,7 @@ def create_carpenpi_dir(directory=Path.home()):
     if not folder_path.is_dir():
         print("\nCreating carpenpi folder in " + str(directory))
         Path.mkdir(folder_path, parents=True)
+    return str(folder_path)
 
 def download(carpenpi_dir):
     for url in urls.urls:

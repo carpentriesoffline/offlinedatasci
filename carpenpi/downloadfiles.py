@@ -28,7 +28,7 @@ def download_files(fileurl, carpenpi_dir):
   filename = fileurl.split("/")[-1]
   os = identify_file_os(filename)
 
-  directory = carpenpi_dir + os + "/"
+  directory = carpenpi_dir + "/" + os + "/"
   folder_path = Path(directory)
   file_directory = directory + filename
   file_path = Path (file_directory)
