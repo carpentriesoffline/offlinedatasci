@@ -6,7 +6,34 @@ Tools for teaching and doing data science without an internet connection
 
 Early stage experiment
 
-## Getting started
+## Installation
+
+### From the repository:
+
+Clone the repository and from the root directory run:
+
+```sh
+pip install .
+```
+
+### From GitHub:
+
+```sh
+pip install git+https://git@github.com/weecology/web-free-data-science.git
+```
+
+## Usage
+
+### Download carpenpi files
+
+From the command line run:
+
+```sh
+carpenpi download /path/to/download/to
+```
+
+
+## Original instructors for setting up Raspberry Pi (being replaced by new carpenpi stack)
 
 ### Buy and setup a Raspberry Pi 4
 
