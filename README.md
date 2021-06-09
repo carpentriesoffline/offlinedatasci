@@ -19,7 +19,7 @@ pip install .
 ### From GitHub:
 
 ```sh
-pip install git+https://git@github.com/weecology/web-free-data-science.git
+pip install git+https://git@github.com/CarpenPi/web-free-data-science.git
 ```
 
 ## Usage
