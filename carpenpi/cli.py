@@ -2,7 +2,7 @@ import os
 import sys
 
 import argparse
-from carpenpi import download, downloadfiles
+from carpenpi import download, download_lessons, downloadfiles
 from carpenpi import create_carpenpi_dir
 import carpenpi
 
@@ -16,6 +16,12 @@ def get_parser():
                                 metavar='path',
                                 type=str,
                                 help='path to download carpenpi files to')
+    download_parser = subparsers.add_parser('download-lessons',
+                                            help = 'Download Carpentries lessons')
+    download_parser.add_argument('path',
+                                metavar='path',
+                                type=str,
+                                help='path to download carpenpi files to')
     return parser
 
 def main():
@@ -25,6 +31,9 @@ def main():
     if args.command == 'download':
         carpenpi_dir = create_carpenpi_dir(args.path)
         download(carpenpi_dir)
+    if args.command == 'download-lessons':
+        carpenpi_dir = create_carpenpi_dir(args.path)
+        download_lessons.download_lessons(carpenpi_dir)
 
 
 if __name__ == '__main__':
