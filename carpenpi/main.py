@@ -2,7 +2,6 @@
 # Download files using download files.py
 #Downloading Data Carpentry website using httrack
 
-import wget
 from pathlib import Path, PurePath
 from carpenpi import urls
 from carpenpi import downloadfiles
