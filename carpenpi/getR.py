@@ -11,14 +11,14 @@ localreleasefilewin = cwd+"/windowsversion.txt"
 localreleasefilemac = cwd+"/r_mac_html_2021-11-01.txt"
 windowscranurlbase="https://cran.r-project.org/bin/windows/base/"
 maccranurlbase = "https://cran.r-project.org/bin/macosx/base/"
-fileregex = "(R\-\d+\.\d+\.\d+(?:\-[a-zA-Z]+)?\.(?:exe|pkg))"
 latest_version_url_win= "https://cran.r-project.org/bin/windows/base/release.html"
 latest_version_url_mac="https://cran.r-project.org/bin/macosx/"
 
 
 
 
-def download_r_mostcurrentver(file,filepattern):
+def download_r_mostcurrentver(file):
+    fileregex = "(R\-\d+\.\d+\.\d+(?:\-[a-zA-Z]+)?\.(?:exe|pkg))"
     urlfile = urllib.request.urlopen(file)
     for line in urlfile:
         decoded = line.decode("utf-8") 
@@ -31,8 +31,7 @@ def download_r_mostcurrentver(file,filepattern):
             elif rcurrentversion[0].endswith('.pkg'):
                 baseurl="https://cran.r-project.org/bin/macosx/base/"
 
-            urllib.request.urlretrieve(baseurl+rcurrentversion[0], cwd + "/" + rcurrentversion[0])
-            print("R file: " + rcurrentversion[0]+ " has been downloaded")
+            if not os.path.exists(savepath):urllib.request.urlretrieve(baseurl+rcurrentversion[0], cwd + "/" + rcurrentversion[0])
 
 
                                 #forMAC
