@@ -1,7 +1,6 @@
 from datetime import datetime
 import os
 import re
-from turtle import down
 import urllib.request, urllib.error, urllib.parse
 
 def download_r_most_current_ver(file, path):
