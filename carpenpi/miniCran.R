@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-
+#Rscript miniCran.R
 repo = c("https://cran.rstudio.com")
 #Installing minicran
 if (!require("miniCRAN")) {
