@@ -1,19 +1,30 @@
 #imports
-import urllib.request, urllib.error, urllib.parse
-import re
-from datetime import datetime
+import bs4 as bs
+from downloadfunction import *
+#import downloadfunction as dof
+import lxml
 import os
-import glob
+import urllib.request, urllib.error, urllib.parse
+
+cwd = os.getcwd()
+url = 'https://www.rstudio.com/products/rstudio/download/#download'
 
 
-def file_search(filenamepattern): 
-  for filename in glob.glob(filenamepattern):
-    if os.path.isfile(filename):
-      parsed=re.split("[_.]", filename)
-      print(parsed)
+r_studio_versions = {}
+fp = urllib.request.urlopen(url)
+web_content = fp.read()
+soup = bs.BeautifulSoup(web_content, 'lxml')
+r_studio_download_table = soup.find_all('table')[1]
+table_body = r_studio_download_table.find('tbody')
+r_studio_versions = {}
 
+for row in table_body.find_all("tr"):
+  os_data = r_studio_parse_version_info(row)
+  os_version = os_data["osver"] 
+  r_studio_versions[os_version] = os_data
 
-
-#re.search(r'(\d{4})[/.-](\d{2})[/.-](\d{2})', date_line) 
-#re.findall(r"[\w']+", DATA)
-x=file_search("r_*_html_*.txt")
+for key in r_studio_versions.keys():
+    if key.startswith("mac") or key.startswith("Win") :
+      download_link = r_studio_versions[key]["url"]
+      print(os.path.basename(download_link))
+      download_and_save_installer(download_link, cwd+ "/" + os.path.basename(download_link))
