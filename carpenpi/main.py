@@ -60,6 +60,9 @@ def download_lessons(carpenpi_dir):
                   "http://swcarpentry.github.io/git-novice-es",
                   "http://swcarpentry.github.io/r-novice-gapminder-es"]
 
+    lessons = dc_lessons + sc_lessons
+    for lesson in lessons:
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", carpenpi_dir, lesson])
 
 def download_Rstudio(carpenpi_dir):
     url = 'https://www.rstudio.com/products/rstudio/download/#download'
