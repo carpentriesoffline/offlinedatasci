@@ -26,15 +26,17 @@ def main():
     if args.command == 'setup':
         carpenpi_dir = create_carpenpi_dir(args.path)
         if args.selection == 'all':
-            pass
+            download_and_save_r_installer(carpenpi_dir)
+            download_Rstudio(carpenpi_dir)
+            download_lessons(carpenpi_dir)
         elif args.selection == 'r':
-            pass
+            download_and_save_r_installer(carpenpi_dir)
         elif args.selection == 'rstudio':
             download_Rstudio(carpenpi_dir)
         elif args.selection == 'cran':
-            pass
+            pass 
         elif args.selection == 'lessons':
-            pass
+            download_lessons(carpenpi_dir)
         else:
             print("That option is not available. Choose from: all, r, rstudio, cran, lessons")
 
