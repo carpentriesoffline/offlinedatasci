@@ -3,12 +3,7 @@
 #Downloading Data Carpentry website using httrack
 
 from pathlib import Path
-from carpenpi import urls
-from carpenpi import downloadfiles
-from carpenpi import download_lessons
-
 import bs4 as bs
-from downloadfunction import *
 import os
 import re
 import subprocess
