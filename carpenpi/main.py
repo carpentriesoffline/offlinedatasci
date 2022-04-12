@@ -21,11 +21,6 @@ def create_carpenpi_dir(directory=Path.home()):
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
-def download(carpenpi_dir):
-    for url in urls.urls:
-        downloadfiles.download_files(url, carpenpi_dir=carpenpi_dir)
-    download_lessons.download_lessons(carpenpi_dir)
-
 def download_and_save_installer(latest_version_url, destination_path):
     if not os.path.exists(destination_path):
                 print("****File does not exists: ", destination_path)    
