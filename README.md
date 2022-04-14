@@ -15,6 +15,7 @@ Clone the repository and from the root directory run:
 ```sh
 pip install .
 ```
+on macOS make sure wheel package is installed first
 
 ### From GitHub:
 
