@@ -143,7 +143,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['wget'],  # Optional
+    install_requires=['wget',"beautifulsoup4", 'lxml'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -184,6 +184,8 @@ setup(
         ],
     },
 
+    include_package_data=True,
+    package_data={'': ['miniCran.R']},
     # List additional URLs that are relevant to your project as a dict.
     #
     # This field corresponds to the "Project-URL" metadata fields:
