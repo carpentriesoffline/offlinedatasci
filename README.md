@@ -1,3 +1,5 @@
+[![Build Check](https://github.com/CarpenPi/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/CarpenPi/offlinedatasci/actions/workflows/package-check.yml)
+
 # Web free data science
 
 Tools for teaching and doing data science without an internet connection
