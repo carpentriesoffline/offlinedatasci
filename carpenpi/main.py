@@ -8,7 +8,6 @@ import os
 import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
-import pkg_resources
 
 def create_carpenpi_dir(directory=Path.home()):
     folder_path = Path(directory, Path('carpenpi'))
@@ -52,9 +51,8 @@ def download_lessons(carpenpi_dir):
                   "http://swcarpentry.github.io/r-novice-gapminder-es"]
 
     lessons = dc_lessons + sc_lessons
-    miniCranloc = pkg_resources.resource_filename('miniCran', 'miniCran.R')
     for lesson in lessons:
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", miniCranloc, lesson])
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", carpenpi_dir, lesson])
 
 def download_Rstudio(carpenpi_dir):
     url = 'https://www.rstudio.com/products/rstudio/download/#download'
@@ -96,7 +94,7 @@ def download_r_most_current_ver(file, path):
 
             if not os.path.exists(destination_path):
                 print("****Downloading file: ", destination_path)
-                urllib.request.urlretrieve(download_path, destination_path)
+                # urllib.request.urlretrieve(download_path, destination_path)
             break  
 
 def r_studio_parse_version_info(row):
