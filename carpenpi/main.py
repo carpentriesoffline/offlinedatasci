@@ -18,7 +18,7 @@ def create_carpenpi_dir(directory=Path.home()):
 
 def download_and_save_installer(latest_version_url, destination_path):
     if not os.path.exists(destination_path):
-                print("****File does not exists: ", destination_path)    
+                print("****Downloading file: ", destination_path)    
                 urllib.request.urlretrieve(latest_version_url, destination_path) 
     else:
         print("Not being downloaded")
@@ -93,7 +93,7 @@ def download_r_most_current_ver(file, path):
             print("\nDestination: ", destination_path, "\nDownload path: ", download_path)
 
             if not os.path.exists(destination_path):
-                print("****file does not exists: ", destination_path)
+                print("****Downloading file: ", destination_path)
                 # urllib.request.urlretrieve(download_path, destination_path)
             break  
 
