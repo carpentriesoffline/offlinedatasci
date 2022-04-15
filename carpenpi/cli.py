@@ -34,7 +34,7 @@ def main():
         elif args.selection == 'rstudio':
             download_Rstudio(carpenpi_dir)
         elif args.selection == 'cran':
-            pass 
+            find_call_minicran() 
         elif args.selection == 'lessons':
             download_lessons(carpenpi_dir)
         else:

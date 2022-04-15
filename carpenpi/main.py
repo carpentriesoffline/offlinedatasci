@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
+import pkg_resources
 
 def create_carpenpi_dir(directory=Path.home()):
     folder_path = Path(directory, Path('carpenpi'))
@@ -105,5 +106,10 @@ def r_studio_parse_version_info(row):
   link_url = link['href'].strip()
   link_inner_html = link.text.strip()
   return {"osver": os, "version": link_inner_html, "url": link_url}        
+
+def find_call_minicran():
+    minicranpath=pkg_resources.resource_filename('carpenpi', 'miniCran.R')
+    print(minicranpath) 
+
 
 
