@@ -1,4 +1,6 @@
 #!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+
 #Rscript miniCran.R
 repo = c("https://cran.rstudio.com")
 #Installing minicran
@@ -12,8 +14,8 @@ if (!require("miniCRAN")) {
 dir.create(pth <- file.path(getwd(), "miniCRAN"))
   
   #Open local file of wanted packages
-wanted_pkgs = read.csv("required_packages/workshop_packages.csv")
-DC_pkgs = wanted_pkgs$package_name
+#wanted_pkgs = read.csv("required_packages/workshop_packages.csv") tidyverse
+DC_pkgs = c("tidyverse","RSQLite")
   
   # Get package dependency trees from list of wanted packages
 DC_pkg_tree = pkgDep(DC_pkgs, repos = repo, type = "source", suggests = FALSE, Rversion = R.version);
