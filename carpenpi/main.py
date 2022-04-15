@@ -109,8 +109,6 @@ def r_studio_parse_version_info(row):
 
 def find_call_minicran(carpenpi_dir):
     minicranpath=pkg_resources.resource_filename("carpenpi", "miniCran.R")
-    print("hereafter")
-    print(minicranpath)
     subprocess.run(["Rscript", minicranpath, carpenpi_dir])
 
 
