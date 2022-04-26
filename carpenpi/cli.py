@@ -32,11 +32,15 @@ def main():
         elif args.selection == 'r':
             download_and_save_r_installer(carpenpi_dir)
         elif args.selection == 'rstudio':
-            download_Rstudio(carpenpi_dir)
+            download_software(carpenpi_dir,"Rstudio")
         elif args.selection == 'cran':
-            pass 
+            find_call_minicran(carpenpi_dir) 
         elif args.selection == 'lessons':
             download_lessons(carpenpi_dir)
+        elif args.selection == 'python':
+            download_software(carpenpi_dir,"Python")
+        elif args.selection == 'pythonlibraries':
+            python_libraries(carpenpi_dir)
         else:
             print("That option is not available. Choose from: all, r, rstudio, cran, lessons")
 

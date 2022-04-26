@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
+import pkg_resources
 
 def create_carpenpi_dir(directory=Path.home()):
     folder_path = Path(directory, Path('carpenpi'))
@@ -21,7 +22,7 @@ def download_and_save_installer(latest_version_url, destination_path):
                 print("****Downloading file: ", destination_path)    
                 urllib.request.urlretrieve(latest_version_url, destination_path) 
     else:
-        print("Not being downloaded")
+        print("File not being downloaded")
 
 
 def download_and_save_r_installer(destination_path):
@@ -54,21 +55,33 @@ def download_lessons(carpenpi_dir):
     for lesson in lessons:
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", carpenpi_dir, lesson])
 
-def download_Rstudio(carpenpi_dir):
-    url = 'https://www.rstudio.com/products/rstudio/download/#download'
+def download_software(carpenpi_dir,software):
+    if software=="Rstudio":
+        url = 'https://www.rstudio.com/products/rstudio/download/#download'
+        download_table_num=1
+        oscolnum=0
+        hrefcolnum=1
+        key="osver"
+    elif software=="Python":
+        url = 'https://www.python.org/downloads/release/python-3104/'
+        download_table_num=0
+        oscolnum=1
+        hrefcolnum=0
+        key="version"
     r_studio_versions = {}
     fp = urllib.request.urlopen(url)
     web_content = fp.read()
     soup = bs.BeautifulSoup(web_content, 'lxml')
-    r_studio_download_table = soup.find_all('table')[1]
+    r_studio_download_table = soup.find_all('table')[download_table_num]
     table_body = r_studio_download_table.find('tbody')
     r_studio_versions = {}
     for row in table_body.find_all("tr"):
-      os_data = r_studio_parse_version_info(row)
-      os_version = os_data["osver"] 
+      os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
+      os_version = os_data[key] 
       r_studio_versions[os_version] = os_data
+    #print(r_studio_versions)
     for key in r_studio_versions.keys():
-        if key.startswith("mac") or key.startswith("Win") :
+        if (key.startswith("macOS")) or ("embeddable" not in key and "help" not in key and key.startswith("Windows")):
           download_link = r_studio_versions[key]["url"]
           print(os.path.basename(download_link))
           download_and_save_installer(download_link, carpenpi_dir + "/" + os.path.basename(download_link))
@@ -97,13 +110,23 @@ def download_r_most_current_ver(file, path):
                 # urllib.request.urlretrieve(download_path, destination_path)
             break  
 
-def r_studio_parse_version_info(row):
+def table_parse_version_info(row,oscolnum,hrefcolnum):
   # OS / LINK / SIZE / SHA-256
   columns = row.find_all("td") # find all columns in row
-  os = columns[0].text.strip() # return first column data (OS)
-  link = columns[1].a # return second column data (href) and access atag with href
+  os = columns[oscolnum].text.strip() # return first column data (OS)
+  link = columns[hrefcolnum].a # return second column data (href) and access atag with href
   link_url = link['href'].strip()
   link_inner_html = link.text.strip()
   return {"osver": os, "version": link_inner_html, "url": link_url}        
 
+def find_call_minicran(carpenpi_dir):
+    minicranpath=pkg_resources.resource_filename("carpenpi", "miniCran.R")
+    subprocess.run(["Rscript", minicranpath, carpenpi_dir])
 
+
+def python_libraries(carpenpi_dir):
+    #workshop_needed_libraries = pandas, matplotlib, numpy
+    #python_included_libraries = math, random, glob, time, sys, pathlib
+    py_library_reqs = open("./requirements.txt","w+")
+    py_library_reqs.write("matplotlib\nnumpy\npandas")
+    subprocess.run (["pypi-mirror", "download", "-d", carpenpi_dir + "/pythonpackages", "-r", "./requirements.txt"])
