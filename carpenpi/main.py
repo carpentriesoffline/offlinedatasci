@@ -132,3 +132,5 @@ def python_libraries(carpenpi_dir):
     shell_commands = ["pypi-mirror", "download", "--binary", "-d", str(download_dir)]
     shell_commands.extend(py_library_reqs)
     subprocess.run(shell_commands)
+    pypi_dir = Path(Path(carpenpi_dir), Path("pypi"))
+    subprocess.run(["pypi-mirror", "create", "-d", download_dir, "-m", pypi_dir])
