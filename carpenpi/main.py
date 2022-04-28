@@ -128,5 +128,5 @@ def python_libraries(carpenpi_dir):
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
     py_library_reqs = open("./requirements.txt","w+")
-    py_library_reqs.write("matplotlib\nnumpy\npandas")
+    py_library_reqs.write("notebook\nmatplotlib\nnumpy\npandas")
     subprocess.run (["pypi-mirror", "download", "-d", carpenpi_dir + "/pythonpackages", "-r", "./requirements.txt"])
