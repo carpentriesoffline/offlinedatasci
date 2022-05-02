@@ -27,8 +27,11 @@ def main():
         carpenpi_dir = create_carpenpi_dir(args.path)
         if args.selection == 'all':
             download_and_save_r_installer(carpenpi_dir)
-            download_Rstudio(carpenpi_dir)
+            download_software(carpenpi_dir, "Rstudio")
+            find_call_minicran(carpenpi_dir) 
             download_lessons(carpenpi_dir)
+            download_software(carpenpi_dir,"Python")
+            python_libraries(carpenpi_dir)
         elif args.selection == 'r':
             download_and_save_r_installer(carpenpi_dir)
         elif args.selection == 'rstudio':

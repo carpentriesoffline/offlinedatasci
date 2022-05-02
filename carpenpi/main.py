@@ -9,6 +9,7 @@ import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
 import pkg_resources
+import pypi_mirror
 
 def create_carpenpi_dir(directory=Path.home()):
     folder_path = Path(directory, Path('carpenpi'))
@@ -81,7 +82,9 @@ def download_software(carpenpi_dir,software):
       r_studio_versions[os_version] = os_data
     #print(r_studio_versions)
     for key in r_studio_versions.keys():
-        if (key.startswith("macOS")) or ("embeddable" not in key and "help" not in key and key.startswith("Windows")):
+        is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
+        is_macos = key.startswith("macOS")
+        if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
           print(os.path.basename(download_link))
           download_and_save_installer(download_link, carpenpi_dir + "/" + os.path.basename(download_link))
@@ -107,8 +110,8 @@ def download_r_most_current_ver(file, path):
 
             if not os.path.exists(destination_path):
                 print("****Downloading file: ", destination_path)
-                # urllib.request.urlretrieve(download_path, destination_path)
-            break  
+                urllib.request.urlretrieve(download_path, destination_path)
+            break
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
   # OS / LINK / SIZE / SHA-256
@@ -127,6 +130,26 @@ def find_call_minicran(carpenpi_dir):
 def python_libraries(carpenpi_dir):
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
-    py_library_reqs = open("./requirements.txt","w+")
-    py_library_reqs.write("matplotlib\nnumpy\npandas")
-    subprocess.run (["pypi-mirror", "download", "-d", carpenpi_dir + "/pythonpackages", "-r", "./requirements.txt"])
+    py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
+    download_dir = Path(Path(carpenpi_dir), Path("pythonpackages"))
+    pypi_dir = Path(Path(carpenpi_dir), Path("pypi"))
+    parameters = {
+        'pip': 'pip3',
+        'dest': download_dir,
+        'pkgs': py_library_reqs,
+        'python_version': '3.9.6'
+    }
+    pypi_mirror.download(platform = [ 'manylinux1_x86_64'], **parameters)
+    pypi_mirror.download(platform = [ 'macosx_10_10_x86_64'], **parameters)
+    pypi_mirror.download(platform = [ 'win_amd64'], **parameters)
+    mirror_creation_parameters = {
+    'download_dir': download_dir,
+    'mirror_dir': pypi_dir
+    }
+    pypi_mirror.create_mirror(**mirror_creation_parameters)
+
+
+
+
+
+
