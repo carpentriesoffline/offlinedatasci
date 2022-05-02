@@ -110,8 +110,8 @@ def download_r_most_current_ver(file, path):
 
             if not os.path.exists(destination_path):
                 print("****Downloading file: ", destination_path)
-                # urllib.request.urlretrieve(download_path, destination_path)
-            break  
+                urllib.request.urlretrieve(download_path, destination_path)
+            break
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
   # OS / LINK / SIZE / SHA-256
