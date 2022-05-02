@@ -82,7 +82,9 @@ def download_software(carpenpi_dir,software):
       r_studio_versions[os_version] = os_data
     #print(r_studio_versions)
     for key in r_studio_versions.keys():
-        if (key.startswith("macOS")) or ("embeddable" not in key and "help" not in key and key.startswith("Windows")):
+        is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
+        is_macos = key.startswith("macOS")
+        if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
           print(os.path.basename(download_link))
           download_and_save_installer(download_link, carpenpi_dir + "/" + os.path.basename(download_link))
