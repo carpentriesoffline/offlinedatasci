@@ -9,6 +9,7 @@ import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
 import pkg_resources
+import pypi_mirror
 
 def create_carpenpi_dir(directory=Path.home()):
     folder_path = Path(directory, Path('carpenpi'))
@@ -127,10 +128,26 @@ def find_call_minicran(carpenpi_dir):
 def python_libraries(carpenpi_dir):
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
-    py_library_reqs = ["notebook", "matplotlib", "numpy", "pandas"]
+    py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
     download_dir = Path(Path(carpenpi_dir), Path("pythonpackages"))
-    shell_commands = ["pypi-mirror", "download", "--binary", "-d", str(download_dir)]
-    shell_commands.extend(py_library_reqs)
-    subprocess.run(shell_commands)
     pypi_dir = Path(Path(carpenpi_dir), Path("pypi"))
-    subprocess.run(["pypi-mirror", "create", "-d", download_dir, "-m", pypi_dir])
+    parameters = {
+        'pip': 'pip3',
+        'dest': download_dir,
+        'pkgs': py_library_reqs,
+        'python_version': '3.9.6'
+    }
+    pypi_mirror.download(platform = [ 'manylinux1_x86_64'], **parameters)
+    pypi_mirror.download(platform = [ 'macosx_10_10_x86_64'], **parameters)
+    pypi_mirror.download(platform = [ 'win_amd64'], **parameters)
+    mirror_creation_parameters = {
+    'download_dir': download_dir,
+    'mirror_dir': pypi_dir
+    }
+    pypi_mirror.create_mirror(**mirror_creation_parameters)
+
+
+
+
+
+
