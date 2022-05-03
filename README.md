@@ -1,4 +1,4 @@
-[![Build Check](https://github.com/CarpenPi/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/CarpenPi/offlinedatasci/actions/workflows/package-check.yml)
+[![Build Check](https://github.com/offlinedatasci/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/offlinedatasci/offlinedatasci/actions/workflows/package-check.yml)
 
 # Web free data science
 
@@ -22,15 +22,15 @@ on macOS make sure wheel package is installed first
 ### From GitHub:
 
 ```sh
-pip install git+https://git@github.com/CarpenPi/web-free-data-science.git
+pip install git+https://git@github.com/offlinedatasci/web-free-data-science.git
 ```
 
 ## Usage
 
-### Download carpenpi files
+### Download offlinedatasci files
 
 From the command line run:
 
 ```sh
-carpenpi download /path/to/download/to
+offlinedatasci download /path/to/download/to
 ```
