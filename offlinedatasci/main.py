@@ -11,10 +11,10 @@ import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
 
-def create_carpenpi_dir(directory=Path.home()):
-    folder_path = Path(directory, Path('carpenpi'))
+def create_ods_dir(directory=Path.home()):
+    folder_path = Path(directory, Path('offlinedatasci'))
     if not folder_path.is_dir():
-        print("\nCreating carpenpi folder in " + str(directory))
+        print("\nCreating ods folder in " + str(directory))
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
@@ -34,7 +34,7 @@ def download_and_save_r_installer(destination_path):
     download_r_most_current_ver(latest_version_url_mac, destination_path)
 
 
-def download_lessons(carpenpi_dir):
+def download_lessons(ods_dir):
     dc_lessons = ["https://datacarpentry.org/ecology-workshop/",
                   "https://datacarpentry.org/spreadsheet-ecology-lesson/",
                   "http://datacarpentry.org/OpenRefine-ecology-lesson/",
@@ -54,9 +54,9 @@ def download_lessons(carpenpi_dir):
 
     lessons = dc_lessons + sc_lessons
     for lesson in lessons:
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", carpenpi_dir, lesson])
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson])
 
-def download_software(carpenpi_dir,software):
+def download_software(ods_dir,software):
     if software=="Rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
         download_table_num=1
@@ -87,7 +87,7 @@ def download_software(carpenpi_dir,software):
         if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
           print(os.path.basename(download_link))
-          download_and_save_installer(download_link, carpenpi_dir + "/" + os.path.basename(download_link))
+          download_and_save_installer(download_link, ods_dir + "/" + os.path.basename(download_link))
 
 def download_r_most_current_ver(file, path):
     # This regex will help find latest version for mac or windows
@@ -122,17 +122,17 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
   link_inner_html = link.text.strip()
   return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def find_call_minicran(carpenpi_dir):
-    minicranpath=pkg_resources.resource_filename("carpenpi", "miniCran.R")
-    subprocess.run(["Rscript", minicranpath, carpenpi_dir])
+def find_call_minicran(ods_dir):
+    minicranpath=pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
+    subprocess.run(["Rscript", minicranpath, ods_dir])
 
 
-def python_libraries(carpenpi_dir):
+def python_libraries(ods_dir):
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
     py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
-    download_dir = Path(Path(carpenpi_dir), Path("pythonpackages"))
-    pypi_dir = Path(Path(carpenpi_dir), Path("pypi"))
+    download_dir = Path(Path(ods_dir), Path("pythonpackages"))
+    pypi_dir = Path(Path(ods_dir), Path("pypi"))
     parameters = {
         'pip': 'pip3',
         'dest': download_dir,

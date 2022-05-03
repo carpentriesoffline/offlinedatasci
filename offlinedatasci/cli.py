@@ -1,12 +1,12 @@
 import argparse
-from carpenpi import *
+from offlinedatasci import *
 
 def get_parser():
-    parser = argparse.ArgumentParser(prog='carpenpi')
+    parser = argparse.ArgumentParser(prog='offlinedatasci')
     subparsers = parser.add_subparsers(dest='command')
 
     setup_parser = subparsers.add_parser('setup',
-                                            help = 'Setup CarpenPi content')
+                                            help = 'Setup offlinedatasci content')
     setup_parser.add_argument('selection',
                               metavar='selection',
                               type=str,
@@ -16,7 +16,7 @@ def get_parser():
     setup_parser.add_argument('path',
                                 metavar='path',
                                 type=str,
-                                help='path to setup carpenpi files in')
+                                help='path to setup offlinedatasci files in')
     return parser
 
 def main():
@@ -24,26 +24,26 @@ def main():
     args = parser.parse_args()
     print(args)
     if args.command == 'setup':
-        carpenpi_dir = create_carpenpi_dir(args.path)
+        ods_dir = create_ods_dir(args.path)
         if args.selection == 'all':
-            download_and_save_r_installer(carpenpi_dir)
-            download_software(carpenpi_dir, "Rstudio")
-            find_call_minicran(carpenpi_dir) 
-            download_lessons(carpenpi_dir)
-            download_software(carpenpi_dir,"Python")
-            python_libraries(carpenpi_dir)
+            download_and_save_r_installer(ods_dir)
+            download_software(ods_dir, "Rstudio")
+            find_call_minicran(ods_dir) 
+            download_lessons(ods_dir)
+            download_software(ods_dir,"Python")
+            python_libraries(ods_dir)
         elif args.selection == 'r':
-            download_and_save_r_installer(carpenpi_dir)
+            download_and_save_r_installer(ods_dir)
         elif args.selection == 'rstudio':
-            download_software(carpenpi_dir,"Rstudio")
+            download_software(ods_dir,"Rstudio")
         elif args.selection == 'cran':
-            find_call_minicran(carpenpi_dir) 
+            find_call_minicran(ods_dir) 
         elif args.selection == 'lessons':
-            download_lessons(carpenpi_dir)
+            download_lessons(ods_dir)
         elif args.selection == 'python':
-            download_software(carpenpi_dir,"Python")
+            download_software(ods_dir,"Python")
         elif args.selection == 'pythonlibraries':
-            python_libraries(carpenpi_dir)
+            python_libraries(ods_dir)
         else:
             print("That option is not available. Choose from: all, r, rstudio, cran, lessons")
 
