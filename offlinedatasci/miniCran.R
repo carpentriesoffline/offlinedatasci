@@ -9,20 +9,23 @@ if (!require("miniCRAN")) {
   library("miniCRAN")
 }
 
-#Function to return desired local path and create if needed
-  # Create temporary folder for miniCRAN
-dir.create(pth <- file.path(getwd(), "miniCRAN"))
-  
-  #Open local file of wanted packages
-#wanted_pkgs = read.csv("required_packages/workshop_packages.csv") tidyverse
+types=c("source", "win.binary","mac.binary")
 DC_pkgs = c("tidyverse","RSQLite")
-  
-  # Get package dependency trees from list of wanted packages
-DC_pkg_tree = pkgDep(DC_pkgs, repos = repo, type = "source", suggests = FALSE, Rversion = R.version);
-  
-makeRepo(DC_pkg_tree, path = pth, repos = repo, type = c("source", "win.binary","mac.binary"))
+pth <- file.path(getwd(), "miniCRAN")
 
-
-
-
+for (type in types){
+    DC_pkg_tree = pkgDep(DC_pkgs, repos = repo, type = type, suggests = FALSE, Rversion = R.version)
+    local_cran_avail = pkgAvail(repos = pth, type = type, Rversion = R.version)[, "Version"]
+    pkgs_to_download = DC_pkg_tree[!DC_pkg_tree %in% names(local_cran_avail)]
+    # Create temporary folder for miniCRAN
+    if (length(pkgs_to_download) ==0){
+        cat("Repository already exists, checking updates for", type, "\n")
+        updatePackages(path = pth, repos = repo, type =  type, ask = FALSE)
+    
+    }else{
+        dir.create(pth <- file.path(getwd(), "miniCRAN"))
+        # Get package dependency trees from list of wanted packages
+        makeRepo(pkgs_to_download, path = pth, repos = repo, type = type)
+    }
+}
 
