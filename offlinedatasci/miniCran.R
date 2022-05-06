@@ -14,6 +14,13 @@ DC_pkgs = c("tidyverse","RSQLite")
 pth <- file.path(getwd(), "miniCRAN")
 
 for (type in types){
+    repo_bin_path <- miniCRAN:::repoBinPath(path = pth, type = type, Rversion = R.version)
+    if (!('PACKAGES' %in% list.files(repo_bin_path))) {
+        if (!(file.exists(repo_bin_path))) {
+            dir.create(repo_bin_path, recursive = TRUE)
+        }
+        file.create(file.path(repo_bin_path, 'PACKAGES'))
+    }
     DC_pkg_tree = pkgDep(DC_pkgs, repos = repo, type = type, suggests = FALSE, Rversion = R.version)
     local_cran_avail = pkgAvail(repos = pth, type = type, Rversion = R.version)[, "Version"]
     pkgs_to_download = DC_pkg_tree[!DC_pkg_tree %in% names(local_cran_avail)]
@@ -23,7 +30,6 @@ for (type in types){
         updatePackages(path = pth, repos = repo, type =  type, ask = FALSE)
     
     }else{
-        dir.create(pth <- file.path(getwd(), "miniCRAN"))
         # Get package dependency trees from list of wanted packages
         makeRepo(pkgs_to_download, path = pth, repos = repo, type = type)
     }
