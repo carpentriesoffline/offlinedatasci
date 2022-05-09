@@ -18,7 +18,7 @@ def create_ods_dir(directory=Path.home()):
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
-def download_and_save_installer(latest_version_url, destination_path):
+def download_and_save_installer(latest_version_url, destination_path): 
     if not os.path.exists(destination_path):
                 print("****Downloading file: ", destination_path)    
                 urllib.request.urlretrieve(latest_version_url, destination_path) 
@@ -69,6 +69,9 @@ def download_software(ods_dir,software):
         oscolnum=1
         hrefcolnum=0
         key="version"
+    destination_path = Path(Path(ods_dir), Path(software))
+    if not os.path.isdir(destination_path):
+        os.makedirs(destination_path)
     r_studio_versions = {}
     fp = urllib.request.urlopen(url)
     web_content = fp.read()
@@ -80,16 +83,16 @@ def download_software(ods_dir,software):
       os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
       os_version = os_data[key] 
       r_studio_versions[os_version] = os_data
-    #print(r_studio_versions)
     for key in r_studio_versions.keys():
         is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
         is_macos = key.startswith("macOS")
         if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
           print(os.path.basename(download_link))
-          download_and_save_installer(download_link, ods_dir + "/" + os.path.basename(download_link))
+          destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
+          download_and_save_installer(download_link, destination_path2)
 
-def download_r_most_current_ver(file, path):
+def download_r_most_current_ver(file, ods_dir):
     # This regex will help find latest version for mac or windows
     # Format: R-4.1.2.pkg or R-4.1.2-win.exe
     version_regex = "(R\-\d+\.\d+\.\d+(?:\-[a-zA-Z]+)?\.(?:exe|pkg))"
@@ -105,12 +108,16 @@ def download_r_most_current_ver(file, path):
             elif r_current_version[0].endswith('.pkg'):
                 baseurl = "https://cran.r-project.org/bin/macosx/base/"
             download_path = baseurl + r_current_version[0]
-            destination_path = path + "/" + r_current_version[0]
-            print("\nDestination: ", destination_path, "\nDownload path: ", download_path)
+            destination_path = Path(Path(ods_dir), Path("R"))
+            if not os.path.isdir(destination_path):
+                os.makedirs(destination_path)
 
-            if not os.path.exists(destination_path):
-                print("****Downloading file: ", destination_path)
-                urllib.request.urlretrieve(download_path, destination_path)
+            destination_path2 = Path(Path(ods_dir), Path("r"), Path(r_current_version[0]))
+            print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
+
+            if not os.path.exists(destination_path2):
+                print("****Downloading file: ", destination_path2)
+                urllib.request.urlretrieve(download_path, destination_path2)
             break
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
@@ -131,7 +138,7 @@ def python_libraries(ods_dir):
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
     py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
-    download_dir = Path(Path(ods_dir), Path("pythonpackages"))
+    download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
     parameters = {
         'pip': 'pip3',
