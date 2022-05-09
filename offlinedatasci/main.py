@@ -12,7 +12,7 @@ import pkg_resources
 import pypi_mirror
 
 def create_ods_dir(directory=Path.home()):
-    folder_path = Path(directory, Path('offlinedatasci'))
+    folder_path = Path(directory)
     if not folder_path.is_dir():
         print("\nCreating ods folder in " + str(directory))
         Path.mkdir(folder_path, parents=True)
