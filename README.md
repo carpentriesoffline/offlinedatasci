@@ -1,4 +1,4 @@
-[![Build Check](https://github.com/offlinedatasci/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/offlinedatasci/offlinedatasci/actions/workflows/package-check.yml)
+[![Build Check](https://github.com/carpentriesoffline/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/carpentriesoffline/offlinedatasci/actions/workflows/package-check.yml)
 
 # Web free data science
 
@@ -22,7 +22,7 @@ on macOS make sure wheel package is installed first
 ### From GitHub:
 
 ```sh
-pip install git+https://git@github.com/offlinedatasci/web-free-data-science.git
+pip install git+https://git@github.com/carpentriesoffline/offlinedatasci.git
 ```
 
 ## Usage
