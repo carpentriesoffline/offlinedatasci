@@ -12,9 +12,14 @@ import pkg_resources
 import pypi_mirror
 
 def create_ods_dir(directory=Path.home()):
+    """Get path to save downloads or make it
+
+    Keyword arguments:
+    directory (default Path.home())
+    """
     folder_path = Path(directory)
     if not folder_path.is_dir():
-        print("\nCreating ods folder in " + str(directory))
+        print("\Saving ods downloads in " + str(directory))
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
@@ -57,6 +62,11 @@ def download_lessons(ods_dir):
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson])
 
 def download_software(ods_dir,software):
+    """Get path to save downloads or make it
+
+    Keyword arguments:
+    directory (default Path.home())
+    """
     if software=="Rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
         download_table_num=1
@@ -121,6 +131,13 @@ def download_r_most_current_ver(file, ods_dir):
             break
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
+  """Parse and return software information from table
+
+    Keyword arguments:
+    row -- Row that is being passed
+    oscolnum -- Number of column in which OS is found
+    hrefcolnum -- Number of column in which hrefs are found
+    """
   # OS / LINK / SIZE / SHA-256
   columns = row.find_all("td") # find all columns in row
   os = columns[oscolnum].text.strip() # return first column data (OS)
@@ -135,6 +152,11 @@ def find_call_minicran(ods_dir):
 
 
 def python_libraries(ods_dir):
+    """Creating partial PyPI mirror of workshop libraires
+
+    Keyword arguments:
+    ods_dir -- Directory to save mirror
+    """
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
     py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
