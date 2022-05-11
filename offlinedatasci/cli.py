@@ -24,7 +24,7 @@ def main():
     args = parser.parse_args()
     print(args)
     if args.command == 'setup':
-        ods_dir = create_ods_dir(args.path)
+        ods_dir = get_ods_dir(args.path)
         if args.selection == 'all':
             download_and_save_r_installer(ods_dir)
             download_software(ods_dir, "Rstudio")
