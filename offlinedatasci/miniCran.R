@@ -8,7 +8,7 @@ if (!require("miniCRAN")) {
 }
 types = c("source", "win.binary", "mac.binary")
 DC_pkgs = c("tidyverse", "RSQLite")
-pth = file.path(args, "miniCRAN")
+pth = file.path(args[1], "miniCRAN")
 for (type in types) {
     repo_bin_path <- miniCRAN:::repoBinPath(path = pth, type = type, Rversion = R.version)
     if (!('PACKAGES' %in% list.files(repo_bin_path))) {

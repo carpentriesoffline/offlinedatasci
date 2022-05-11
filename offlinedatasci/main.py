@@ -18,7 +18,7 @@ def create_ods_dir(directory=Path.home()):
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
-def download_and_save_installer(latest_version_url, destination_path): 
+def download_and_save_installer(latest_version_url, destination_path):
     if not os.path.exists(destination_path):
                 print("****Downloading file: ", destination_path)    
                 urllib.request.urlretrieve(latest_version_url, destination_path) 
@@ -112,7 +112,7 @@ def download_r_most_current_ver(file, ods_dir):
             if not os.path.isdir(destination_path):
                 os.makedirs(destination_path)
 
-            destination_path2 = Path(Path(ods_dir), Path("r"), Path(r_current_version[0]))
+            destination_path2 = Path(Path(ods_dir), Path("R"), Path(r_current_version[0]))
             print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
 
             if not os.path.exists(destination_path2):
