@@ -19,7 +19,7 @@ def get_ods_dir(directory=Path.home()):
     """
     folder_path = Path(directory)
     if not folder_path.is_dir():
-        print("\Saving ods downloads in " + str(directory))
+        print("\nCreating ods folder in " + str(directory))
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
