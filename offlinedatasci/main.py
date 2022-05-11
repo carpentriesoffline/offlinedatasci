@@ -11,11 +11,11 @@ import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
 
-def create_ods_dir(directory=Path.home()):
-    """Get path to save downloads or make it.
+def get_ods_dir(directory=Path.home()):
+    """Get path to save downloads, create if it does not exist.
 
     Keyword arguments:
-    directory (default Path.home())
+    directory -- Path to save downloads (defaults to user home path)
     """
     folder_path = Path(directory)
     if not folder_path.is_dir():
@@ -38,7 +38,7 @@ def download_and_save_installer(latest_version_url, destination_path):
 
 
 def download_and_save_r_installer(destination_path):
-    """Contains links to R release html pages and passes them to be download function.
+    """Download most recent version of R installer (mac and windows) from CRAN
 
     Keyword arguments:
     destination_path -- Path to save installers
@@ -51,9 +51,9 @@ def download_and_save_r_installer(destination_path):
 
 
 def download_lessons(ods_dir):
-    """Contains links to workshop lessons, and downloads the rendered lessons.
+    """Downloads the workshop lessons as rendered HTML.
     Keyword arguments:
-    destination_path -- Path to save rendered lessons
+    destination_path -- Path to save rendered HTML lessons
     """
     dc_lessons = ["https://datacarpentry.org/ecology-workshop/",
                   "https://datacarpentry.org/spreadsheet-ecology-lesson/",
@@ -77,10 +77,11 @@ def download_lessons(ods_dir):
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson])
 
 def download_software(ods_dir,software):
-    """Get path to save downloads or make it
+    """Download installers from HTML page
 
     Keyword arguments:
-    directory (default Path.home())
+    ods_dir -- Directory to save installers
+    software -- Software to download "Python" or "Rstudio"
     """
     if software=="Rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
@@ -117,17 +118,17 @@ def download_software(ods_dir,software):
           destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
           download_and_save_installer(download_link, destination_path2)
 
-def download_r_most_current_ver(file, ods_dir):
-    """Determine and download most recent version of R installer (mac and windows) from CRAN r-project URL
+def download_r_most_current_ver(url, ods_dir):
+    """Determine and download most recent version of R installer (mac and windows) from CRAN.
 
     Keyword arguments:
-    file -- CRAN r-project URL
+    url -- CRAN r-project URL
     ods_dir -- Directory to save R installers
     """
     # This regex will help find latest version for mac or windows
     # Format: R-4.1.2.pkg or R-4.1.2-win.exe
     version_regex = "(R\-\d+\.\d+\.\d+(?:\-[a-zA-Z]+)?\.(?:exe|pkg))"
-    urlfile = urllib.request.urlopen(file)
+    urlfile = urllib.request.urlopen(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
   
@@ -155,23 +156,23 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     """Parse and return software information from table.
 
     Keyword arguments:
-    row -- Row that is being passed
+    row -- Row from HTML table
     oscolnum -- Number of column in which OS is found
-    hrefcolnum -- Number of column in which hrefs are found
+    hrefcolnum -- Number of column in which HREFs are found
     """
-  # OS / LINK / SIZE / SHA-256
-  columns = row.find_all("td") # find all columns in row
-  os = columns[oscolnum].text.strip() # return first column data (OS)
-  link = columns[hrefcolnum].a # return second column data (href) and access atag with href
-  link_url = link['href'].strip()
-  link_inner_html = link.text.strip()
-  return {"osver": os, "version": link_inner_html, "url": link_url}        
+    # OS / LINK / SIZE / SHA-256
+    columns = row.find_all("td") # find all columns in row
+    os = columns[oscolnum].text.strip() # return first column data (OS)
+    link = columns[hrefcolnum].a # return second column data (href) and access atag with href
+    link_url = link['href'].strip()
+    link_inner_html = link.text.strip()
+    return {"osver": os, "version": link_inner_html, "url": link_url}        
 
 def find_call_minicran(ods_dir):
-    """Get miniCran.R path from Offlinedatasci and run it.
+    """Creating partial CRAN mirror of workshop libraries.
 
     Keyword arguments:
-    ods_dir -- Directory to save CRAN-like repository of packages
+    ods_dir -- Directory to create CRAN mirror
     """
     minicranpath=pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
     subprocess.run(["Rscript", minicranpath, ods_dir])
@@ -181,7 +182,7 @@ def python_libraries(ods_dir):
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
-    ods_dir -- Directory to save mirror
+    ods_dir -- Directory to save partial Pypi mirror
     """
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
