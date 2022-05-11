@@ -144,7 +144,7 @@ def download_r_most_current_ver(url, ods_dir):
             if not os.path.isdir(destination_path):
                 os.makedirs(destination_path)
 
-            destination_path2 = Path(Path(ods_dir), Path("r"), Path(r_current_version[0]))
+            destination_path2 = Path(Path(ods_dir), Path("R"), Path(r_current_version[0]))
             print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
 
             if not os.path.exists(destination_path2):
