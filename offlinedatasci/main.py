@@ -61,7 +61,10 @@ def download_lessons(ods_dir):
                   "https://datacarpentry.org/R-ecology-lesson/",
                   "https://datacarpentry.org/python-ecology-lesson/",
                   "https://datacarpentry.org/sql-ecology-lesson/"]
-    
+
+    for lesson in dc_lessons:
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson])
+
     sc_lessons = ["http://swcarpentry.github.io/shell-novice",
                   "http://swcarpentry.github.io/git-novice",
                   "http://swcarpentry.github.io/python-novice-inflammation",
@@ -72,9 +75,9 @@ def download_lessons(ods_dir):
                   "http://swcarpentry.github.io/git-novice-es",
                   "http://swcarpentry.github.io/r-novice-gapminder-es"]
 
-    lessons = dc_lessons + sc_lessons
-    for lesson in lessons:
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson])
+    # Software Carpentry lessons have external CSS so requires a more expansize search & rewriting to get all necessary files
+    for lesson in sc_lessons:
+        subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D", "swcarpentry.github.io", "-K", "--no-parent", "-P", ods_dir, lesson])
 
 def download_software(ods_dir,software):
     """Download installers from HTML page
