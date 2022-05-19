@@ -87,7 +87,7 @@ def download_software(ods_dir,software):
         hrefcolnum=1
         key="osver"
     elif software=="Python":
-        url = get_python_link()
+        url = get_python_download_page()
         download_table_num=0
         oscolnum=1
         hrefcolnum=0
@@ -128,7 +128,6 @@ def download_r_most_current_ver(url, ods_dir):
     urlfile = urllib.request.urlopen(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
-  
         match = re.findall(version_regex, decoded)
         if (match):
             r_current_version = match
@@ -160,19 +159,16 @@ def get_ods_dir(directory=Path.home()):
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
-def get_python_link ():
+def get_python_download_page():
     """Get download page from Python homepage."""
-    url="https://www.python.org"
-    fp = urllib.request.urlopen(url)
+    base_url="https://www.python.org"
+    fp = urllib.request.urlopen(base_url)
     web_content = fp.read()
     soup = bs.BeautifulSoup(web_content, "html.parser")
-    w = soup.find("a", href=lambda href: href and "release" in href)
-    hrefurl=w["href"]
-    path1= url + hrefurl
-    return(path1)
-    
-
-get_python_link()
+    release_a_tag = soup.find("a", href=lambda href: href and "release" in href)
+    current_release_path = release_a_tag["href"]
+    current_release_url = base_url + current_release_path
+    return(current_release_url)
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
     """Parse and return software information from table.
