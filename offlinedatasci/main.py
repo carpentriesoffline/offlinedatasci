@@ -11,18 +11,6 @@ import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
 
-def get_ods_dir(directory=Path.home()):
-    """Get path to save downloads, create if it does not exist.
-
-    Keyword arguments:
-    directory -- Path to save downloads (defaults to user home path)
-    """
-    folder_path = Path(directory)
-    if not folder_path.is_dir():
-        print("\nCreating ods folder in " + str(directory))
-        Path.mkdir(folder_path, parents=True)
-    return str(folder_path)
-
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
 
@@ -99,7 +87,7 @@ def download_software(ods_dir,software):
         hrefcolnum=1
         key="osver"
     elif software=="Python":
-        url = 'https://www.python.org/downloads/release/python-3104/'
+        url = get_python_download_page()
         download_table_num=0
         oscolnum=1
         hrefcolnum=0
@@ -140,7 +128,6 @@ def download_r_most_current_ver(url, ods_dir):
     urlfile = urllib.request.urlopen(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
-  
         match = re.findall(version_regex, decoded)
         if (match):
             r_current_version = match
@@ -160,6 +147,28 @@ def download_r_most_current_ver(url, ods_dir):
                 print("****Downloading file: ", destination_path2)
                 urllib.request.urlretrieve(download_path, destination_path2)
             break
+def get_ods_dir(directory=Path.home()):
+    """Get path to save downloads, create if it does not exist.
+
+    Keyword arguments:
+    directory -- Path to save downloads (defaults to user home path)
+    """
+    folder_path = Path(directory)
+    if not folder_path.is_dir():
+        print("\nCreating ods folder in " + str(directory))
+        Path.mkdir(folder_path, parents=True)
+    return str(folder_path)
+
+def get_python_download_page():
+    """Get download page from Python homepage."""
+    base_url="https://www.python.org"
+    fp = urllib.request.urlopen(base_url)
+    web_content = fp.read()
+    soup = bs.BeautifulSoup(web_content, "html.parser")
+    release_a_tag = soup.find("a", href=lambda href: href and "release" in href)
+    current_release_path = release_a_tag["href"]
+    current_release_url = base_url + current_release_path
+    return(current_release_url)
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
     """Parse and return software information from table.
