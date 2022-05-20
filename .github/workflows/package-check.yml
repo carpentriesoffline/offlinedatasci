@@ -6,6 +6,11 @@ on:
 
 name: Build Check
 
+env:
+  R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+  _R_CHECK_FORCE_SUGGESTS_: true
+  RSPM: "https://packagemanager.rstudio.com/all/__linux__/focal/latest"
+
 jobs:
   build-check:
     runs-on: ${{ matrix.config.os }}
@@ -25,9 +30,14 @@ jobs:
         with:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - uses: r-lib/actions/setup-r@v1
       - name: Install lxml using the binary wheel
         run: | 
           pip --version
           pip install --prefer-binary lxml
       - name: Test package installation
-        run: python setup.py install
+        run: pip install .
+      - name: Test miniCRAN
+        run: |
+          sudo apt-get install -y libglpk40
+          python cran_test.py
