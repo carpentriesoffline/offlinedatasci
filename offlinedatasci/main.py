@@ -37,7 +37,7 @@ def download_and_save_installer(latest_version_url, destination_path):
         print("File not being downloaded")
 
 
-def download_and_save_r_installer(destination_path):
+def download_r(destination_path):
     """Download most recent version of R installer (mac and windows) from CRAN
 
     Keyword arguments:
@@ -92,13 +92,13 @@ def download_software(ods_dir,software):
     ods_dir -- Directory to save installers
     software -- Software to download "Python" or "Rstudio"
     """
-    if software=="Rstudio":
+    if software=="rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
         download_table_num=1
         oscolnum=0
         hrefcolnum=1
         key="osver"
-    elif software=="Python":
+    elif software=="python":
         url = 'https://www.python.org/downloads/release/python-3104/'
         download_table_num=0
         oscolnum=1
@@ -177,7 +177,7 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link_inner_html = link.text.strip()
     return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def find_call_minicran(ods_dir):
+def download_minicran(ods_dir):
     """Creating partial CRAN mirror of workshop libraries.
 
     Keyword arguments:
