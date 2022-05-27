@@ -10,15 +10,16 @@ def main():
                         dest= "install",
                         nargs='?', 
                         const='all',
-                        choices=INSTALL_OPTIONS)
+                        choices=INSTALL_OPTIONS,
+                        help="Specify install options: all, custom, lessons,minicran,python, python_libraries,r,rstudio")
 
     parser.add_argument("--python",
                         nargs='+', 
-                        help="for setup")
+                        help="Specify Python libraries")
 
     parser.add_argument("--r",
                         nargs='+', 
-                        help="for setup")
+                        help="Specify R packages")
 
     #parser.add_argument("-custom", 
     #                    dest="custom", 
@@ -46,7 +47,7 @@ def main():
             download_minicran(ods_dir) 
             #download_lessons(ods_dir)
             download_software(ods_dir,"python")
-            python_libraries(ods_dir)
+            download_python_libraries(ods_dir)
         elif selection=="rstudio" or selection=="python":
             print( selection," downloading")
             download_software(ods_dir,selection)

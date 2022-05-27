@@ -187,7 +187,7 @@ def download_minicran(ods_dir):
     subprocess.run(["Rscript", minicranpath, ods_dir])
 
 
-def python_libraries(ods_dir):
+def download_python_libraries(ods_dir):
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
