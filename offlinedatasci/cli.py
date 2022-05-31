@@ -1,45 +1,39 @@
 import argparse
+from secrets import choice
 import sys
 from offlinedatasci import *
 
 def main():
     parser = argparse.ArgumentParser(prog='offlinedatasci')
-    INSTALL_OPTIONS=["all", "custom", "lessons", "minicran", "python", "python_libraries", "r", "rstudio"]
+    subparsers = parser.add_subparsers(help='sub-command help', dest='command')
+    INSTALL_OPTIONS=["all", "lessons", "minicran", "python", "python_libraries", "r", "rstudio"]
 
-    p=parser.add_argument("-i",
-                        dest= "install",
-                        nargs=1, 
-                        #const='all',
-                        choices=INSTALL_OPTIONS,
-                        required=True,
-                        help=f"Specify install options: {INSTALL_OPTIONS.join(', ')}"
-                        )
+    install_parser = subparsers.add_parser('install')
+    install_parser.add_argument('item',
+                                default='all',
+                                nargs='+',
+                                choices=INSTALL_OPTIONS)
 
-    parser.add_argument("--python",
-                        nargs='+', 
-                        help="Specify Python libraries")
+    packages_parser = subparsers.add_parser('custom-install')
+    packages_parser.add_argument('language',
+                                nargs=1,
+                                choices=['r', 'python'])
+    packages_parser.add_argument('libraries',
+                                nargs='+')
 
-    parser.add_argument("--r",
-                        nargs='+', 
-                        help="Specify R packages")
-
-    #parser.add_argument("-custom", 
-    #                    dest="custom", 
-    #                    help="Custom",
-    #                    type=str, 
-    #                    choices=["carpentries","data Science", "custom"])
-
-    parser.add_argument('--path',
+    parser.add_argument('path',
                         metavar='path',
                         type=str,
-                        required=True,
+                        #required=True,
                         help='path to setup offlinedatasci files in') 
 
-    args, unknown = parser.parse_known_args()
 
-    ods_dir = get_ods_dir(args.path)
+    #args, unknown =  parser.parse_intermixed_args()
 
-    def get_installer_functions(selection,ods_dir):
+    args = parser.parse_args()
+
+    def get_installer_functions(selection):
+        ods_dir = get_ods_dir(args.path)
         if selection=="all":
             download_r(ods_dir)
             download_software(ods_dir, "rstudio")
@@ -53,11 +47,19 @@ def main():
         else:
             try:
                 download_function = f"download_{selection}"
-                getattr(sys.modules[__name__], download_function)(ods_dir)
+                #getattr(sys.modules[__name__], download_function)(ods_dir)
+                print(download_function)
             except Exception:
-                print(f'method does not exist for selection {selection}')
+                print(f'method does not exist for selection: {selection}')
 
-    get_installer_functions(args.install[0],ods_dir)
+    if args.command == 'install':
+        for i in args.item:
+            get_installer_functions(i)
+    elif args.command == 'custom-install':
+        if args.language[0] == 'python':
+            #download_python_libraries()
+            print(args.libraries)
+
 
 if __name__ == '__main__':
               
