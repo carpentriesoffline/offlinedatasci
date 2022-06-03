@@ -1,0 +1,5 @@
+wget
+beautifulsoup4
+lxml
+python-pypi-mirror
+requests

@@ -1,0 +1,2 @@
+[console_scripts]
+offlinedatasci = offlinedatasci:cli.main

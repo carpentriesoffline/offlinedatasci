@@ -1,0 +1,13 @@
+LICENSE
+README.md
+setup.py
+offlinedatasci/__init__.py
+offlinedatasci/cli.py
+offlinedatasci/main.py
+offlinedatasci/miniCran.R
+offlinedatasci.egg-info/PKG-INFO
+offlinedatasci.egg-info/SOURCES.txt
+offlinedatasci.egg-info/dependency_links.txt
+offlinedatasci.egg-info/entry_points.txt
+offlinedatasci.egg-info/requires.txt
+offlinedatasci.egg-info/top_level.txt

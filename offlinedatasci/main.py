@@ -10,6 +10,7 @@ import subprocess
 import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
+import sys
 
 def get_ods_dir(directory=Path.home()):
     """Get path to save downloads, create if it does not exist.
@@ -177,17 +178,19 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link_inner_html = link.text.strip()
     return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def download_minicran(ods_dir):
+def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
     """Creating partial CRAN mirror of workshop libraries.
 
     Keyword arguments:
     ods_dir -- Directory to create CRAN mirror
     """
-    minicranpath=pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
-    subprocess.run(["Rscript", minicranpath, ods_dir])
+    minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
+    word = ' '.join(py_library_reqs)
+    subprocess.run(["Rscript", minicranpath, ods_dir, word])
 
 
-def download_python_libraries(ods_dir):
+def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook","numpy", "pandas"] ):
+    print(py_library_reqs)
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
@@ -195,7 +198,6 @@ def download_python_libraries(ods_dir):
     """
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
-    py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
     download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
     parameters = {
@@ -213,8 +215,30 @@ def download_python_libraries(ods_dir):
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
+def default_packages_python():
+    packages = {
+        "software-carpentry": [ "matplotlib", "notebook", "numpy", "pandas"] ,
+        "data-science":["tensorflow", "scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "pytorch", "scrapy", "beautifulsoup", "seaborn"]
+    }
+    return packages
 
+def default_packages_r():
+    packages = {
+        "data-carpentry": ["tidyverse", "RSQLite"],
+        "data-science":["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
+    }
 
+    return packages
 
-
-
+def package_selection(language,custom_package_list):
+    package_language = f"default_packages_{language}"
+    language_packages_function = getattr(sys.modules[__name__], package_language)
+    language_dictionary = language_packages_function()
+    packages_to_download =[]
+    for item in custom_package_list:
+        if item in [*language_dictionary]:
+            packages_to_download += language_dictionary[item]
+        else:
+            packages_to_download.append(item)
+    packages_to_download = list(set(packages_to_download))
+    return packages_to_download
