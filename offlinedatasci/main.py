@@ -185,8 +185,8 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
     ods_dir -- Directory to create CRAN mirror
     """
     minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
-    word = ' '.join(py_library_reqs)
-    subprocess.run(["Rscript", minicranpath, ods_dir, word])
+    custom_library_string = ' '.join(py_library_reqs)
+    subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
 
 
 def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook","numpy", "pandas"] ):
