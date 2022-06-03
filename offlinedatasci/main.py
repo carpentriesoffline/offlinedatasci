@@ -206,9 +206,9 @@ def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook"
         'pkgs': py_library_reqs,
         'python_version': '3.9.6'
     }
-    pypi_mirror.download(platform = [ 'manylinux1_x86_64'], **parameters)
-    pypi_mirror.download(platform = [ 'macosx_10_10_x86_64'], **parameters)
-    pypi_mirror.download(platform = [ 'win_amd64'], **parameters)
+    pypi_mirror.download(platform = ['manylinux1_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['macosx_10_10_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
     'download_dir': download_dir,
     'mirror_dir': pypi_dir
@@ -217,7 +217,7 @@ def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook"
 
 def default_packages_python():
     packages = {
-        "software-carpentry": [ "matplotlib", "notebook", "numpy", "pandas"] ,
+        "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
         "data-science":["tensorflow", "scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "pytorch", "scrapy", "beautifulsoup", "seaborn"]
     }
     return packages
@@ -234,7 +234,7 @@ def package_selection(language,custom_package_list):
     package_language = f"default_packages_{language}"
     language_packages_function = getattr(sys.modules[__name__], package_language)
     language_dictionary = language_packages_function()
-    packages_to_download =[]
+    packages_to_download = []
     for item in custom_package_list:
         if item in [*language_dictionary]:
             packages_to_download += language_dictionary[item]
