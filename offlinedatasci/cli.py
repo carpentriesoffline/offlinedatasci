@@ -4,7 +4,7 @@ import sys
 from offlinedatasci import *
 
 def get_installer_functions(selection,ods_dir):
-    if selection=="all":
+    if selection == "all":
         download_r(ods_dir)
         download_software(ods_dir, "rstudio")
         download_minicran(ods_dir) 
@@ -12,7 +12,7 @@ def get_installer_functions(selection,ods_dir):
         download_software(ods_dir,"python")
         download_python_libraries(ods_dir)
 
-    elif selection=="rstudio" or selection=="python":
+    elif selection == "rstudio" or selection == "python":
         download_software(ods_dir, selection)
     else:
         try:
@@ -47,17 +47,16 @@ def main():
     args = parser.parse_args()
     ods_dir = get_ods_dir(args.path)
 
-    if args.command=='install':
+    if args.command == 'install':
         for i in args.item:
-            get_installer_functions(i,ods_dir)
+            get_installer_functions(i, ods_dir)
 
-    elif args.command=='add-packages':
-        packages_to_install = package_selection(args.language[0],args.libraries)
-        if args.language[0]=="python":
-            download_python_libraries(ods_dir,packages_to_install)
-        elif args.language[0]=="r":
-            print (packages_to_install)
-            download_minicran(ods_dir,packages_to_install)
+    elif args.command == 'add-packages':
+        packages_to_install = package_selection(args.language[0], args.libraries)
+        if args.language[0] == "python":
+            download_python_libraries(ods_dir, packages_to_install)
+        elif args.language[0] == "r":
+            download_minicran(ods_dir, packages_to_install)
         
             
 if __name__=='__main__':

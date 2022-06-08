@@ -83,8 +83,8 @@ def download_lessons(ods_dir):
     for lesson in sc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D", "swcarpentry.github.io", "-K", "--no-parent", "-P", ods_dir, lesson],
-                       stdout=subprocess.DEVNULL,
-                       stderr=subprocess.STDOUT)
+                       stdout = subprocess.DEVNULL,
+                       stderr = subprocess.STDOUT)
 
 def download_software(ods_dir,software):
     """Download installers from HTML page
@@ -93,18 +93,18 @@ def download_software(ods_dir,software):
     ods_dir -- Directory to save installers
     software -- Software to download "Python" or "Rstudio"
     """
-    if software=="rstudio":
+    if software == "rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
-        download_table_num=1
-        oscolnum=0
-        hrefcolnum=1
+        download_table_num = 1
+        oscolnum = 0
+        hrefcolnum = 1
         key="osver"
-    elif software=="python":
+    elif software == "python":
         url = 'https://www.python.org/downloads/release/python-3104/'
-        download_table_num=0
-        oscolnum=1
-        hrefcolnum=0
-        key="version"
+        download_table_num = 0
+        oscolnum = 1
+        hrefcolnum = 0
+        key = "version"
     destination_path = Path(Path(ods_dir), Path(software))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
@@ -124,7 +124,6 @@ def download_software(ods_dir,software):
         is_macos = key.startswith("macOS")
         if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
-          print(os.path.basename(download_link))
           destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
           download_and_save_installer(download_link, destination_path2)
 
@@ -189,8 +188,7 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
     subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
 
 
-def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook","numpy", "pandas"] ):
-    print(py_library_reqs)
+def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"] ):
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
@@ -210,34 +208,32 @@ def download_python_libraries(ods_dir,py_library_reqs=[ "matplotlib", "notebook"
     pypi_mirror.download(platform = ['macosx_10_10_x86_64'], **parameters)
     pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
-    'download_dir': download_dir,
-    'mirror_dir': pypi_dir
+        'download_dir': download_dir,
+        'mirror_dir': pypi_dir
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
-def default_packages_python():
-    packages = {
-        "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
-        "data-science":["tensorflow", "scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "pytorch", "scrapy", "beautifulsoup", "seaborn"]
+def get_default_packages(language):
+    packages = { 
+        "r": {
+            "data-carpentry": ["tidyverse", "RSQLite"],
+            "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
+        },
+        "python": {
+            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
+            "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
+            "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
+        }
     }
-    return packages
+    return packages[language]
 
-def default_packages_r():
-    packages = {
-        "data-carpentry": ["tidyverse", "RSQLite"],
-        "data-science":["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
-    }
 
-    return packages
-
-def package_selection(language,custom_package_list):
-    package_language = f"default_packages_{language}"
-    language_packages_function = getattr(sys.modules[__name__], package_language)
-    language_dictionary = language_packages_function()
+def package_selection(language, custom_package_list):
+    language_dictionary = get_default_packages(language)
     packages_to_download = []
     for item in custom_package_list:
         if item in [*language_dictionary]:
-            packages_to_download += language_dictionary[item]
+            packages_to_download.extend(language_dictionary[item])
         else:
             packages_to_download.append(item)
     packages_to_download = list(set(packages_to_download))
