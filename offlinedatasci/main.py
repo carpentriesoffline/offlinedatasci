@@ -10,6 +10,7 @@ import subprocess
 import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
+import sys
 
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
@@ -25,7 +26,7 @@ def download_and_save_installer(latest_version_url, destination_path):
         print("File not being downloaded")
 
 
-def download_and_save_r_installer(destination_path):
+def download_r(destination_path):
     """Download most recent version of R installer (mac and windows) from CRAN
 
     Keyword arguments:
@@ -70,8 +71,8 @@ def download_lessons(ods_dir):
     for lesson in sc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D", "swcarpentry.github.io", "-K", "--no-parent", "-P", ods_dir, lesson],
-                       stdout=subprocess.DEVNULL,
-                       stderr=subprocess.STDOUT)
+                       stdout = subprocess.DEVNULL,
+                       stderr = subprocess.STDOUT)
 
 def download_software(ods_dir,software):
     """Download installers from HTML page
@@ -80,18 +81,20 @@ def download_software(ods_dir,software):
     ods_dir -- Directory to save installers
     software -- Software to download "Python" or "Rstudio"
     """
-    if software=="Rstudio":
+    if software == "rstudio":
         url = 'https://www.rstudio.com/products/rstudio/download/#download'
-        download_table_num=1
-        oscolnum=0
-        hrefcolnum=1
+        download_table_num = 1
+        oscolnum = 0
+        hrefcolnum = 1
         key="osver"
-    elif software=="Python":
+
+    elif software=="python":
         url = get_python_download_page()
         download_table_num=0
         oscolnum=1
         hrefcolnum=0
         key="version"
+
     destination_path = Path(Path(ods_dir), Path(software))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
@@ -111,7 +114,6 @@ def download_software(ods_dir,software):
         is_macos = key.startswith("macOS")
         if (is_macos or is_windows):
           download_link = r_studio_versions[key]["url"]
-          print(os.path.basename(download_link))
           destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
           download_and_save_installer(download_link, destination_path2)
 
@@ -186,17 +188,18 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link_inner_html = link.text.strip()
     return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def find_call_minicran(ods_dir):
+def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
     """Creating partial CRAN mirror of workshop libraries.
 
     Keyword arguments:
     ods_dir -- Directory to create CRAN mirror
     """
-    minicranpath=pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
-    subprocess.run(["Rscript", minicranpath, ods_dir])
+    minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
+    custom_library_string = ' '.join(py_library_reqs)
+    subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
 
 
-def python_libraries(ods_dir):
+def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"] ):
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
@@ -204,7 +207,6 @@ def python_libraries(ods_dir):
     """
     #workshop_needed_libraries = pandas, matplotlib, numpy
     #python_included_libraries = math, random, glob, time, sys, pathlib
-    py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"]
     download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
     parameters = {
@@ -213,17 +215,37 @@ def python_libraries(ods_dir):
         'pkgs': py_library_reqs,
         'python_version': '3.9.6'
     }
-    pypi_mirror.download(platform = [ 'manylinux1_x86_64'], **parameters)
-    pypi_mirror.download(platform = [ 'macosx_10_10_x86_64'], **parameters)
-    pypi_mirror.download(platform = [ 'win_amd64'], **parameters)
+    pypi_mirror.download(platform = ['manylinux1_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['macosx_10_10_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
-    'download_dir': download_dir,
-    'mirror_dir': pypi_dir
+        'download_dir': download_dir,
+        'mirror_dir': pypi_dir
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
+def get_default_packages(language):
+    packages = { 
+        "r": {
+            "data-carpentry": ["tidyverse", "RSQLite"],
+            "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
+        },
+        "python": {
+            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
+            "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
+            "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
+        }
+    }
+    return packages[language]
 
 
-
-
-
+def package_selection(language, custom_package_list):
+    language_dictionary = get_default_packages(language)
+    packages_to_download = []
+    for item in custom_package_list:
+        if item in [*language_dictionary]:
+            packages_to_download.extend(language_dictionary[item])
+        else:
+            packages_to_download.append(item)
+    packages_to_download = list(set(packages_to_download))
+    return packages_to_download
