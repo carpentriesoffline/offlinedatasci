@@ -74,46 +74,52 @@ def download_lessons(ods_dir):
                        stdout = subprocess.DEVNULL,
                        stderr = subprocess.STDOUT)
 
-def download_software(ods_dir,software):
-    """Download installers from HTML page
+def download_rstudio(ods_dir):
+    """Download RStudio installers"""
+    baseurl = 'https://www.rstudio.com/products/rstudio/download/#download'
+    destination_path = Path(Path(ods_dir), Path("rstudio"))
+    if not os.path.isdir(destination_path):
+        os.makedirs(destination_path)
+    fp = urllib.request.urlopen(baseurl)
+    web_content = fp.read()
+    soup = bs.BeautifulSoup(web_content, 'lxml')
+    links = soup.find_all('a')
+    for link in links:
+        if link.has_attr('href') and (".exe" in link['href'] or ".dmg" in link['href']):
+            url = str(link['href'])
+            download_and_save_installer(url, Path(Path(destination_path), Path(os.path.basename(url))))
+
+def download_python(ods_dir):
+    """Download Python installers from HTML page
 
     Keyword arguments:
     ods_dir -- Directory to save installers
-    software -- Software to download "Python" or "Rstudio"
     """
-    if software == "rstudio":
-        url = 'https://www.rstudio.com/products/rstudio/download/#download'
-        download_table_num = 1
-        oscolnum = 0
-        hrefcolnum = 1
-        key="osver"
+    url = get_python_download_page()
+    download_table_num=0
+    oscolnum=1
+    hrefcolnum=0
+    key="version"
 
-    elif software=="python":
-        url = get_python_download_page()
-        download_table_num=0
-        oscolnum=1
-        hrefcolnum=0
-        key="version"
-
-    destination_path = Path(Path(ods_dir), Path(software))
+    destination_path = Path(Path(ods_dir), Path("python"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
-    r_studio_versions = {}
+    python_versions = {}
     fp = urllib.request.urlopen(url)
     web_content = fp.read()
     soup = bs.BeautifulSoup(web_content, 'lxml')
     r_studio_download_table = soup.find_all('table')[download_table_num]
     table_body = r_studio_download_table.find('tbody')
-    r_studio_versions = {}
+    python_versions = {}
     for row in table_body.find_all("tr"):
       os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
       os_version = os_data[key] 
-      r_studio_versions[os_version] = os_data
-    for key in r_studio_versions.keys():
+      python_versions[os_version] = os_data
+    for key in python_versions.keys():
         is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
         is_macos = key.startswith("macOS")
         if (is_macos or is_windows):
-          download_link = r_studio_versions[key]["url"]
+          download_link = python_versions[key]["url"]
           destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
           download_and_save_installer(download_link, destination_path2)
 
