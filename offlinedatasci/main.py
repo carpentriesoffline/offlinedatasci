@@ -18,7 +18,7 @@ import warnings
 
 def add_lesson_index_page(lesson_path):
     """Add a basic landing page for lessons
-    
+
     Uses the top-level directory name to group lessons into sections by source
     Then displays an unordered list of lessons within each source
 
@@ -84,6 +84,43 @@ def download_all(ods_dir):
     except Exception as e:
         print(f"Error downloading Python packages: {e}")
 
+def activate(ods_dir):
+    activate_cran(ods_dir)
+
+def activate_cran(ods_dir):
+    minicran_path = os.path.join("file://", ods_dir.lstrip("/"), "miniCRAN") #lstrip needed because "If any component is an absolute path, all previous path components will be discarded"
+    rprofile_line = 'local({r <- getOption("repos"); r["CRAN"] <- "%s"; options(repos=r)}) #Added by offlinedatasci\n' % minicran_path
+    rprofile_path = os.path.join(os.path.expanduser("~"), ".Rprofile")
+    with open(rprofile_path) as input:
+        rprofile_list = list(input)
+    with open(rprofile_path, 'w') as output:
+        activated = False
+        for line in rprofile_list:
+            if line.strip() == rprofile_line.strip():
+                output.write(line)
+                activated = True
+            elif line.strip() == f"#{rprofile_line.strip()}":
+                output.write(rprofile_line)
+                activated = True
+            else:
+                output.write(line)
+        if not activated:
+            output.write(rprofile_line)
+
+def deactivate():
+    deactivate_cran()
+
+def deactivate_cran():
+    rprofile_path = os.path.join(os.path.expanduser("~"), ".Rprofile")
+    with open(rprofile_path) as input:
+        rprofile_list = list(input)
+    with open(rprofile_path, 'w') as output:
+        for line in rprofile_list:
+            if "#Added by offlinedatasci" in line.strip():
+                pass
+            else:
+                output.write(line)
+
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
 
@@ -92,8 +129,8 @@ def download_and_save_installer(latest_version_url, destination_path):
     destination_path -- Path to save installer
     """
     if not os.path.exists(destination_path):
-                print("****Downloading file: ", destination_path)    
-                urllib.request.urlretrieve(latest_version_url, destination_path) 
+                print("****Downloading file: ", destination_path)
+                urllib.request.urlretrieve(latest_version_url, destination_path)
     else:
         print("File not being downloaded")
 
@@ -127,7 +164,7 @@ def download_lessons(ods_dir):
 
         macOS: you can install wget using Xcode command line tools
                or using `conda install wget -c conda-forge` if you are using conda.
-        
+
         Windows: you can download a wget binary from: https://eternallybored.org/misc/wget/
         """)
         return
@@ -155,7 +192,7 @@ def download_lessons(ods_dir):
                         "-P", Path(lesson_path, "data-carpentry"), lesson],
                        stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
-        
+
     for lesson in lc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
@@ -181,7 +218,7 @@ def download_lessons(ods_dir):
                         "-P", Path(lesson_path, "software-carpentry"), lesson],
                        stdout = subprocess.DEVNULL,
                        stderr = subprocess.STDOUT)
-        
+
     add_lesson_index_page(lesson_path)
 
 def download_rstudio(ods_dir):
@@ -229,7 +266,7 @@ def find_r_current_version(url):
     version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
     urlfile = requests.get(url)
     for line in urlfile:
-        decoded = line.decode("utf-8") 
+        decoded = line.decode("utf-8")
         match = re.findall(version_regex, decoded)
         if (match):
             r_current_version = match[0].strip(".exe").strip(".pkg")
@@ -305,7 +342,7 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link = columns[hrefcolnum].a # return second column data (href) and access atag with href
     link_url = link['href'].strip()
     link_inner_html = link.text.strip()
-    return {"osver": os, "version": link_inner_html, "url": link_url}        
+    return {"osver": os, "version": link_inner_html, "url": link_url}
 
 def download_r_packages(ods_dir,
                       py_library_reqs = ["tidyverse", "RSQLite"],
@@ -323,10 +360,10 @@ def download_r_packages(ods_dir,
         Install R from: https://cloud.r-project.org/
         """)
         return
-    
+
     if r_version is None:
         r_version = find_r_current_version("https://cloud.r-project.org/bin/windows/base/")
-    
+
     r_major_minor_version_nums = r_version.replace('R-', '').split('.')
     r_major_minor_version = '.'.join(r_major_minor_version_nums[:2])
 
@@ -356,7 +393,7 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
         # Therefore we don't download mac and Linux packages on Windows
         # See https://github.com/pypa/pip/issues/11664
         warnings.warn("""Only mirroring Python packages for Windows
-                      
+
         pip cannot currently download macos and Linux packages on Windows.
         See https://github.com/pypa/pip/issues/11664
         """)
@@ -372,13 +409,13 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
 def get_default_packages(package_type):
-    packages = { 
+    packages = {
         "r-packages": {
             "data-carpentry": ["tidyverse", "RSQLite"],
             "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
         },
         "python-packages": {
-            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
+            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"],
             "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
             "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
         }
