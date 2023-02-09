@@ -6,14 +6,15 @@ from offlinedatasci import *
 def get_installer_functions(selection,ods_dir):
     if selection == "all":
         download_r(ods_dir)
-        download_software(ods_dir, "rstudio")
+        download_rstudio(ods_dir)
         download_minicran(ods_dir) 
         download_lessons(ods_dir)
-        download_software(ods_dir,"python")
+        download_python(ods_dir)
         download_python_libraries(ods_dir)
-
-    elif selection == "rstudio" or selection == "python":
-        download_software(ods_dir, selection)
+    elif selection == "rstudio":
+        download_rstudio(ods_dir)
+    elif selection == "python":
+        download_python(ods_dir)
     else:
         try:
             download_function = f"download_{selection}"
