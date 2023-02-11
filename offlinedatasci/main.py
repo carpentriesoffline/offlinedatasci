@@ -227,7 +227,8 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
     pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
         'download_dir': download_dir,
-        'mirror_dir': pypi_dir
+        'mirror_dir': pypi_dir,
+        'copy': True
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
