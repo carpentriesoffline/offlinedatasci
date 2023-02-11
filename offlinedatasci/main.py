@@ -220,6 +220,7 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
         'dest': download_dir,
         'pkgs': py_library_reqs,
         'python_version': '3.11',
+        'allow_binary': True
     }
     pypi_mirror.download(platform = ['manylinux_2_17_x86_64'], **parameters)
     pypi_mirror.download(platform = ['macosx_10_12_x86_64'], **parameters)
