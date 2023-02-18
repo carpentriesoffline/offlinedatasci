@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "offlinedatasci"
+description = "Download and configure common tools for teaching and doing data science without an internet connection"
+readme = "README.md"
+version = "0.1.0"
+
+authors = [
+  { name="Virnaliz Cruz" },
+  { name="Colin Sauze" },
+  { name="Jannetta Steyn" },
+  { name="Abhishek Dasgupta" },
+  { name="Ethan P. White" },
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Environment :: Win32 (MS Windows)",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Education",
+  "Topic :: Scientific/Engineering",
+]
+
+dependencies = [
+  'wget',
+  'beautifulsoup4',
+  'lxml',
+  'python-pypi-mirror',
+  'requests',
+]
+
+requires-python = ">=3.6"
+
+[project.urls]
+"Carpentries Offline Website" = "https://carpentriesoffline.github.io/"
+"Documentation" = "https://github.com/carpentriesoffline/offlinedatasci/#readme"
+"CI" = "https://github.com/carpentriesoffline/offlinedatasci/actions"
+"Source" = "https://github.com/carpentriesoffline/offlinedatasci"
+"Tracker" = "https://github.com/carpentriesoffline/offlinedatasci/issues"
+
+[project.scripts]
+"offlinedatasci"="offlinedatasci:cli.main"
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools.package-data]
+"*" = ["miniCran.R"]
