@@ -219,14 +219,16 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
         'pip': 'pip3',
         'dest': download_dir,
         'pkgs': py_library_reqs,
-        'python_version': '3.9.6'
+        'python_version': '3.11',
+        'allow_binary': True
     }
-    pypi_mirror.download(platform = ['manylinux1_x86_64'], **parameters)
-    pypi_mirror.download(platform = ['macosx_10_10_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['manylinux_2_17_x86_64'], **parameters)
+    pypi_mirror.download(platform = ['macosx_10_12_x86_64'], **parameters)
     pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
         'download_dir': download_dir,
-        'mirror_dir': pypi_dir
+        'mirror_dir': pypi_dir,
+        'copy': True
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
