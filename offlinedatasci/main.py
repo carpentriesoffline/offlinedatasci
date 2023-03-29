@@ -215,6 +215,14 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
     Keyword arguments:
     ods_dir -- Directory to create CRAN mirror
     """
+    if not shutil.which('Rscript'):
+        warnings.warn("""Rscript not detected so not installing miniCRAN.
+
+        R needs to be installed on your computer to clone lesson websites.
+
+        Install R from: https://cran.r-project.org/
+        """)
+        return
     minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
     custom_library_string = ' '.join(py_library_reqs)
     subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
