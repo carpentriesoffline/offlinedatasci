@@ -10,7 +10,9 @@ import subprocess
 import urllib.request, urllib.error, urllib.parse
 import pkg_resources
 import pypi_mirror
+import shutil
 import sys
+import warnings
 
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
@@ -44,6 +46,19 @@ def download_lessons(ods_dir):
     Keyword arguments:
     destination_path -- Path to save rendered HTML lessons
     """
+
+    if not shutil.which('wget'):
+        warnings.warn("""wget not detected so not downloading lessons.
+
+        wget needs to be installed on your computer to clone lesson websites.
+
+        macOS: you can install wget using Xcode command line tools
+               or using `conda install wget -c conda-forge` if you are using conda.
+        
+        Windows: you can download a wget binary from: https://eternallybored.org/misc/wget/
+        """)
+        return
+
     dc_lessons = ["https://datacarpentry.org/ecology-workshop/",
                   "https://datacarpentry.org/spreadsheet-ecology-lesson/",
                   "http://datacarpentry.org/OpenRefine-ecology-lesson/",
