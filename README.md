@@ -18,6 +18,14 @@ Early stage experiment
 
 ### Using pip:
 
+From PyPI
+
+```sh
+pip install offlinedatasci
+```
+
+From GitHub (latest development version)
+
 ```sh
 pip install git+https://git@github.com/carpentriesoffline/offlinedatasci.git
 ```
