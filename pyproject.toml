@@ -41,7 +41,6 @@ dependencies = [
   'beautifulsoup4',
   'lxml',
   'python-pypi-mirror',
-  'requests',
 ]
 
 requires-python = ">=3.6"
