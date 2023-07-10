@@ -3,18 +3,16 @@ from secrets import choice
 import sys
 from offlinedatasci import *
 
-def get_installer_functions(selection,ods_dir):
+function_list = [download_r,download_rstudio,download_minicran,
+                 download_lessons,download_lessons,
+                 download_python,download_python_libraries]
+def get_installer_functions(selection, ods_dir):
     if selection == "all":
-        download_r(ods_dir)
-        download_rstudio(ods_dir)
-        download_minicran(ods_dir) 
-        download_lessons(ods_dir)
-        download_python(ods_dir)
-        download_python_libraries(ods_dir)
+        try_except_functions(ods_dir, function_list)
     elif selection == "rstudio":
-        download_rstudio(ods_dir)
+        try_except_functions(ods_dir, download_rstudio)
     elif selection == "python":
-        download_python(ods_dir)
+        try_except_functions(ods_dir, download_python)
     else:
         try:
             download_function = f"download_{selection}"
