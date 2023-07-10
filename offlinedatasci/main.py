@@ -156,19 +156,21 @@ def download_r_most_current_ver(url, ods_dir):
             r_current_version = match
             if r_current_version[0].endswith(".exe"):
                 baseurl = "https://cran.r-project.org/bin/windows/base/"
+                download_paths = [baseurl + r_current_version[0]]
             elif r_current_version[0].endswith('.pkg'):
-                baseurl = "https://cran.r-project.org/bin/macosx/base/"
-            download_path = baseurl + r_current_version[0]
+                baseurl = "https://cran.r-project.org/bin/macosx/"
+                download_paths = [baseurl + "big-sur-arm64/base/" + r_current_version[0].strip(".pkg") + "-arm64.pkg",
+                                  baseurl + "big-sur-x86_64/base/" + r_current_version[0].strip(".pkg") + "-x86_64.pkg"]
             destination_path = Path(Path(ods_dir), Path("R"))
             if not os.path.isdir(destination_path):
                 os.makedirs(destination_path)
 
-            destination_path2 = Path(Path(ods_dir), Path("R"), Path(r_current_version[0]))
-            print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
-
-            if not os.path.exists(destination_path2):
-                print("****Downloading file: ", destination_path2)
-                urllib.request.urlretrieve(download_path, destination_path2)
+            for download_path in download_paths:
+                destination_path2 = Path(Path(ods_dir), Path("R"), Path(r_current_version[0]))
+                print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
+                if not os.path.exists(destination_path2):
+                    print("****Downloading file: ", destination_path2)
+                    urllib.request.urlretrieve(download_path, destination_path2)
             break
 def get_ods_dir(directory=Path.home()):
     """Get path to save downloads, create if it does not exist.
