@@ -4,8 +4,8 @@ import sys
 from offlinedatasci import *
 
 function_list = [download_r,download_rstudio,download_minicran,
-                 download_lessons,download_lessons,
-                 download_python,download_python_libraries]
+                 download_lessons,download_python,
+                 download_python_libraries]
 def get_installer_functions(selection, ods_dir):
     if selection == "all":
         try_except_functions(ods_dir, function_list)

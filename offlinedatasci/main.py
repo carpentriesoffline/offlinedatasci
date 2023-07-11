@@ -284,6 +284,8 @@ def package_selection(language, custom_package_list):
     return packages_to_download
 
 def try_except_functions(input,functions):
+    if not isinstance(functions, list):
+        functions = [functions]
     for function in functions:
         try:
             function(input)
