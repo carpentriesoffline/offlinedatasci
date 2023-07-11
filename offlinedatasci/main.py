@@ -282,3 +282,12 @@ def package_selection(language, custom_package_list):
             packages_to_download.append(item)
     packages_to_download = list(set(packages_to_download))
     return packages_to_download
+
+def try_except_functions(input,functions):
+    if not isinstance(functions, list):
+        functions = [functions]
+    for function in functions:
+        try:
+            function(input)
+        except Exception as e:
+            print( f"Error in function: {function.__name__}. Error: {str(e)}")
