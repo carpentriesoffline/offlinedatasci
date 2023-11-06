@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "offlinedatasci"
 description = "Download and configure common tools for teaching and doing data science without an internet connection"
 readme = "README.md"
-version = "0.1.0"
+version = "0.2.0"
 
 authors = [
   { name="Virnaliz Cruz" },
