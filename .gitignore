@@ -15,6 +15,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+env/
 lib/
 lib64/
 parts/
@@ -26,6 +27,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+testdir/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
