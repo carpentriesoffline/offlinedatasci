@@ -65,8 +65,14 @@ def download_lessons(ods_dir):
                   "https://datacarpentry.org/R-ecology-lesson/",
                   "https://datacarpentry.org/python-ecology-lesson/",
                   "https://datacarpentry.org/sql-ecology-lesson/"]
+    lc_lessons = ["https://librarycarpentry.org/lc-overview/",
+                  "https://librarycarpentry.org/lc-data-intro/",
+                  "https://librarycarpentry.org/lc-shell/",
+                  "https://librarycarpentry.org/lc-open-refine/",
+                  "https://librarycarpentry.org/lc-git/",
+                  ]
 
-    for lesson in dc_lessons:
+    for lesson in dc_lessons + lc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson],
                        stdout=subprocess.DEVNULL,
@@ -82,7 +88,7 @@ def download_lessons(ods_dir):
                   "http://swcarpentry.github.io/git-novice-es",
                   "http://swcarpentry.github.io/r-novice-gapminder-es"]
 
-    # Software Carpentry lessons have external CSS so requires a more expansize search & rewriting to get all necessary files
+    # Software Carpentry lessons have external CSS so requires a more expansive search & rewriting to get all necessary files
     for lesson in sc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D", "swcarpentry.github.io", "-K", "--no-parent", "-P", ods_dir, lesson],
