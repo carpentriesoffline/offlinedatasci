@@ -65,3 +65,16 @@ For example, to add the `sf`, `terra`, and `stars` geospatial packages to the CR
 ```sh
 offlinedatasci add-packages r sf terra stars /install/path
 ```
+
+## Developer docs
+
+### Creating a release
+
+1. Increment the version numbers in `pyproject.toml` & `__init__.py`
+2. Create a tag for the new version
+3. Push the tag to GitHub
+4. Make sure the `build` package is installed
+5. Make sure your PyPI credentials are stored in `~/.pypirc`
+6. Build the source distribution: `python -m build --sdist`
+7. Build the universal wheel: `python -m build --wheel`
+8. Upload the new release to PyPI: `twine upload dist/*`
