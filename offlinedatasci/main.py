@@ -72,9 +72,21 @@ def download_lessons(ods_dir):
                   "https://librarycarpentry.org/lc-git/",
                   ]
 
-    for lesson in dc_lessons + lc_lessons:
+    lesson_path = Path(Path(ods_dir), Path("lessons"))
+    if not os.path.isdir(lesson_path):
+        os.makedirs(lesson_path)
+
+    for lesson in dc_lessons:
         print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "-P", ods_dir, lesson],
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
+                        "-P", Path(lesson_path, "data-carpentry"), lesson],
+                       stdout=subprocess.DEVNULL,
+                       stderr=subprocess.STDOUT)
+        
+    for lesson in lc_lessons:
+        print(f"Downloading lesson from {lesson}")
+        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
+                        "-P", Path(lesson_path, "library-carpentry"), lesson],
                        stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
 
@@ -91,7 +103,9 @@ def download_lessons(ods_dir):
     # Software Carpentry lessons have external CSS so requires a more expansive search & rewriting to get all necessary files
     for lesson in sc_lessons:
         print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D", "swcarpentry.github.io", "-K", "--no-parent", "-P", ods_dir, lesson],
+        subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D",
+                        "swcarpentry.github.io", "-K", "--no-parent", "--no-host-directories",
+                        "-P", Path(lesson_path, "software-carpentry"), lesson],
                        stdout = subprocess.DEVNULL,
                        stderr = subprocess.STDOUT)
 
