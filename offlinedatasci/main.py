@@ -3,6 +3,7 @@
 #Downloading Data Carpentry website using httrack
 
 from pathlib import Path
+import airium
 import bs4 as bs
 import os
 import re
@@ -13,6 +14,36 @@ import pypi_mirror
 import shutil
 import sys
 import warnings
+
+def add_lesson_index_page(lesson_path):
+    """Add a basic landing page for lessons
+    
+    Uses the top-level directory name to group lessons into sections by source
+    Then displays an unordered list of lessons within each source
+
+    """
+    lesson_path = Path(lesson_path)
+    a = airium.Airium()
+    a('<!DOCTYPE html>')
+    sources = next(os.walk(lesson_path))[1]
+    with a.html():
+        for source in sources:
+            with a.head():
+                a.meta(charset="utf-8")
+                a.title(_t="Lessons")
+            with a.body():
+                a.h1(_t="Lesson Material")
+                a.h2(_t=source.replace('-', ' ').title())
+            lessons = next(os.walk(Path(lesson_path, Path(source))))[1]
+            with a.ul():
+                for lesson in lessons:
+                    with a.li():
+                        lesson_index = Path(Path(source), Path(lesson), Path("index.html"))
+                        with a.a(href = lesson_index):
+                            a(lesson.replace('-', ' ').title())
+
+    with open(Path(Path(lesson_path), Path("index.html")), "w+") as index_file:
+        index_file.writelines(str(a))
 
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
@@ -108,6 +139,8 @@ def download_lessons(ods_dir):
                         "-P", Path(lesson_path, "software-carpentry"), lesson],
                        stdout = subprocess.DEVNULL,
                        stderr = subprocess.STDOUT)
+        
+    add_lesson_index_page(lesson_path)
 
 def download_rstudio(ods_dir):
     """Download RStudio installers"""
