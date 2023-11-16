@@ -65,8 +65,8 @@ def download_r(destination_path):
     Keyword arguments:
     destination_path -- Path to save installers
     """
-    latest_version_url_win = "https://cran.r-project.org/bin/windows/base/release.html"
-    latest_version_url_mac = "https://cran.r-project.org/bin/macosx/"
+    latest_version_url_win = "https://cloud.r-project.org/bin/windows/base/release.html"
+    latest_version_url_mac = "https://cloud.r-project.org/bin/macosx/"
 
     download_r_most_current_ver(latest_version_url_win, destination_path)
     download_r_most_current_ver(latest_version_url_mac, destination_path)
@@ -208,10 +208,10 @@ def download_r_most_current_ver(url, ods_dir):
         if (match):
             r_current_version = match
             if r_current_version[0].endswith(".exe"):
-                baseurl = "https://cran.r-project.org/bin/windows/base/"
+                baseurl = "https://cloud.r-project.org/bin/windows/base/"
                 download_paths = [baseurl + r_current_version[0]]
             elif r_current_version[0].endswith('.pkg'):
-                baseurl = "https://cran.r-project.org/bin/macosx/"
+                baseurl = "https://cloud.r-project.org/bin/macosx/"
                 download_paths = [baseurl + "big-sur-arm64/base/" + r_current_version[0].strip(".pkg") + "-arm64.pkg",
                                   baseurl + "big-sur-x86_64/base/" + r_current_version[0].strip(".pkg") + "-x86_64.pkg"]
             destination_path = Path(Path(ods_dir), Path("R"))
@@ -275,7 +275,7 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
 
         R needs to be installed on your computer to clone lesson websites.
 
-        Install R from: https://cran.r-project.org/
+        Install R from: https://cloud.r-project.org/
         """)
         return
     minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
