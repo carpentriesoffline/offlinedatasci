@@ -38,9 +38,11 @@ classifiers = [
 ]
 
 dependencies = [
+  'airium',
   'beautifulsoup4',
   'lxml',
   'python-pypi-mirror',
+  'setuptools'
 ]
 
 requires-python = ">=3.6"
