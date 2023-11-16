@@ -9,7 +9,7 @@ import os
 import re
 import subprocess
 import urllib.request, urllib.error, urllib.parse
-import pkg_resources
+import importlib_resources
 import pypi_mirror
 import shutil
 import sys
@@ -278,7 +278,7 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
         Install R from: https://cloud.r-project.org/
         """)
         return
-    minicranpath = pkg_resources.resource_filename("offlinedatasci", "miniCran.R")
+    minicranpath = importlib_resources.files("offlinedatasci") / "miniCran.R"
     custom_library_string = ' '.join(py_library_reqs)
     subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
 
