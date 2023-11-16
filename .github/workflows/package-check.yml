@@ -31,3 +31,5 @@ jobs:
           pip install --prefer-binary lxml
       - name: Test package installation
         run: pip install .
+      - name: Package tests
+        run: pytest -v
