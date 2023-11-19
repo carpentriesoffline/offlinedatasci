@@ -1,4 +1,5 @@
 [![Build Check](https://github.com/carpentriesoffline/offlinedatasci/actions/workflows/package-check.yml/badge.svg)](https://github.com/carpentriesoffline/offlinedatasci/actions/workflows/package-check.yml)
+[![Documentation Status](https://readthedocs.org/projects/offlinedatasci/badge/?version=latest)](https://offlinedatasci.readthedocs.io/en/latest/?badge=latest)
 
 # OfflineDataSci
 

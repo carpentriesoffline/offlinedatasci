@@ -1,5 +1,7 @@
 # Getting started
 
+offlinedatasci comes with two interfaces, a command line interface and a Python interface.
+
 ## Command line interface
 
 ### Installing everything
