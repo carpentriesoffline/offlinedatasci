@@ -5,7 +5,7 @@
 offlinedatasci is available for Python >=3.6 and can be installed using `pip`:
 
 ```
-pip install DeepForest
+pip install offlinedatasci
 ```
 
 ## External dependencies
