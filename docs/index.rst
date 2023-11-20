@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to offlinedatasci's documentation!
-==========================================
+Welcome to offlinedatasci's docs!
+=================================
 
 offlinedatsci is a tool for supporting teaching and doing data science in internet-limited environments.
 It helps you download and configure common tools for teaching and doing data science without an internet connection.
