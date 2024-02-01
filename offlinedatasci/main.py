@@ -283,7 +283,9 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link_inner_html = link.text.strip()
     return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
+def download_minicran(ods_dir,
+                      py_library_reqs = ["tidyverse", "RSQLite"],
+                      r_version = None):
     """Creating partial CRAN mirror of workshop libraries.
 
     Keyword arguments:
@@ -297,9 +299,16 @@ def download_minicran(ods_dir,py_library_reqs = ["tidyverse", "RSQLite"]):
         Install R from: https://cloud.r-project.org/
         """)
         return
+    
+    if r_version is None:
+        r_version = find_r_current_version("https://cloud.r-project.org/bin/windows/base/")
+    
+    r_major_minor_version_nums = r_version.replace('R-', '').split('.')
+    r_major_minor_version = '.'.join(r_major_minor_version_nums[:2])
+
     minicranpath = importlib_resources.files("offlinedatasci") / "miniCran.R"
     custom_library_string = ' '.join(py_library_reqs)
-    subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string])
+    subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string, r_major_minor_version])
 
 
 def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"] ):
