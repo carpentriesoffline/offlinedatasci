@@ -59,17 +59,20 @@ def download_and_save_installer(latest_version_url, destination_path):
         print("File not being downloaded")
 
 
-def download_r(destination_path):
+def download_r(ods_dir):
     """Download most recent version of R installer (mac and windows) from CRAN
 
     Keyword arguments:
     destination_path -- Path to save installers
     """
-    latest_version_url_win = "https://cloud.r-project.org/bin/windows/base/release.html"
-    latest_version_url_mac = "https://cloud.r-project.org/bin/macosx/"
+    destination_path = Path(Path(ods_dir), Path("R"))
+    if not os.path.isdir(destination_path):
+        os.makedirs(destination_path)
 
-    download_r_most_current_ver(latest_version_url_win, destination_path)
-    download_r_most_current_ver(latest_version_url_mac, destination_path)
+    latest_version_url = "https://cloud.r-project.org/bin/macosx/"
+    r_current_version = find_r_current_version(latest_version_url)
+    download_r_windows(r_current_version, ods_dir)
+    download_r_macosx(r_current_version, ods_dir)
 
 
 def download_lessons(ods_dir):
@@ -191,40 +194,56 @@ def download_python(ods_dir):
           destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
           download_and_save_installer(download_link, destination_path2)
 
-def download_r_most_current_ver(url, ods_dir):
-    """Determine and download most recent version of R installer (mac and windows) from CRAN.
+def find_r_current_version(url):
+    """Determine the most recent version of R from CRAN
 
     Keyword arguments:
     url -- CRAN r-project URL
-    ods_dir -- Directory to save R installers
     """
-    # This regex will help find latest version for mac or windows
-    # Format: R-4.1.2.pkg or R-4.1.2-win.exe
-    version_regex = "(R\-\d+\.\d+\.\d+(?:\-[a-zA-Z]+)?\.(?:exe|pkg))"
+    version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
     urlfile = urllib.request.urlopen(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
         match = re.findall(version_regex, decoded)
         if (match):
-            r_current_version = match
-            if r_current_version[0].endswith(".exe"):
-                baseurl = "https://cloud.r-project.org/bin/windows/base/"
-                download_paths = [baseurl + r_current_version[0]]
-            elif r_current_version[0].endswith('.pkg'):
-                baseurl = "https://cloud.r-project.org/bin/macosx/"
-                download_paths = [baseurl + "big-sur-arm64/base/" + r_current_version[0].strip(".pkg") + "-arm64.pkg",
-                                  baseurl + "big-sur-x86_64/base/" + r_current_version[0].strip(".pkg") + "-x86_64.pkg"]
-            destination_path = Path(Path(ods_dir), Path("R"))
-            if not os.path.isdir(destination_path):
-                os.makedirs(destination_path)
+            r_current_version = match[0].strip(".exe").strip(".pkg")
+            return r_current_version
+    return None
 
-            for download_path in download_paths:
-                destination_path2 = Path(Path(ods_dir), Path("R"), Path(r_current_version[0]))
-                print("\nDestination: ", destination_path2, "\nDownload path: ", download_path)
-                if not os.path.exists(destination_path2):
-                    print("****Downloading file: ", destination_path2)
-                    urllib.request.urlretrieve(download_path, destination_path2)
-            break
+def download_r_windows(r_current_version, ods_dir):
+    """Download the most recent version of R installer for Windows from CRAN.
+
+    Keyword arguments:
+    r_current_version -- The most recent version of R
+    ods_dir -- Directory to save R installers
+    """
+    baseurl = "https://cloud.r-project.org/bin/windows/base/"
+    download_path = baseurl + r_current_version + "-win.exe"
+    destination_path = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-win.exe"))
+    if not os.path.exists(destination_path):
+        print("****Downloading file: ", destination_path)
+        urllib.request.urlretrieve(download_path, destination_path)
+
+def download_r_macosx(r_current_version, ods_dir):
+    """Download the most recent version of R installer for MacOSX from CRAN.
+
+    Keyword arguments:
+    r_current_version -- The most recent version of R
+    ods_dir -- Directory to save R installers
+    """
+    baseurl = "https://cloud.r-project.org/bin/macosx/"
+    download_path_arm64 = baseurl + "big-sur-arm64/base/" + r_current_version + "-arm64.pkg"
+    destination_path_arm64 = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-arm64.pkg"))
+    if not os.path.exists(destination_path_arm64):
+        print("****Downloading file: ", destination_path_arm64)
+        urllib.request.urlretrieve(download_path_arm64, destination_path_arm64)
+
+    download_path_x86_64 = baseurl + "big-sur-x86_64/base/" + r_current_version + "-x86_64.pkg"
+    destination_path_x86_64 = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-x86_64.pkg"))
+    if not os.path.exists(destination_path_x86_64):
+        print("****Downloading file: ", destination_path_x86_64)
+        urllib.request.urlretrieve(download_path_x86_64, destination_path_x86_64)
+
 def get_ods_dir(directory=Path.home()):
     """Get path to save downloads, create if it does not exist.
 
