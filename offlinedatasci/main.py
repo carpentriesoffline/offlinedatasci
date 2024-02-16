@@ -45,6 +45,44 @@ def add_lesson_index_page(lesson_path):
     with open(Path(Path(lesson_path), Path("index.html")), "w+") as index_file:
         index_file.writelines(str(a))
 
+def download_all(ods_dir):
+    """Download all installers, repositories, and lesson materials.
+
+    Each function will run even if others fail.
+
+    Keyword arguments:
+    ods_dir -- Directory to save installers and lesson materials
+    """
+    try:
+        download_r(ods_dir)
+    except Exception as e:
+        print(f"Error downloading R: {e}")
+
+    try:
+        download_rstudio(ods_dir)
+    except Exception as e:
+        print(f"Error downloading RStudio: {e}")
+
+    try:
+        download_minicran(ods_dir)
+    except Exception as e:
+        print(f"Error downloading R packages: {e}")
+
+    try:
+        download_lessons(ods_dir)
+    except Exception as e:
+        print(f"Error downloading lessons: {e}")
+
+    try:
+        download_python(ods_dir)
+    except Exception as e:
+        print(f"Error downloading Python: {e}")
+
+    try:
+        download_python_libraries(ods_dir)
+    except Exception as e:
+        print(f"Error downloading Python packages: {e}")
+
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
 
@@ -364,11 +402,8 @@ def package_selection(language, custom_package_list):
     packages_to_download = list(set(packages_to_download))
     return packages_to_download
 
-def try_except_functions(input,functions):
-    if not isinstance(functions, list):
-        functions = [functions]
-    for function in functions:
-        try:
-            function(input)
-        except Exception as e:
-            print( f"Error in function: {function.__name__}. Error: {str(e)}")
+def try_except_functions(input, function):
+    try:
+        function(input)
+    except Exception as e:
+        print( f"Error in function: {function.__name__}. Error: {str(e)}")

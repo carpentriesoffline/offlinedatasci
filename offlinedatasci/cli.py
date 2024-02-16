@@ -3,12 +3,9 @@ from secrets import choice
 import sys
 from offlinedatasci import *
 
-function_list = [download_r,download_rstudio,download_minicran,
-                 download_lessons,download_python,
-                 download_python_libraries]
-def get_installer_functions(selection, ods_dir):
+def get_installer_function(selection, ods_dir):
     if selection == "all":
-        try_except_functions(ods_dir, function_list)
+        try_except_functions(ods_dir, download_all)
     elif selection == "rstudio":
         try_except_functions(ods_dir, download_rstudio)
     elif selection == "python":
@@ -19,6 +16,7 @@ def get_installer_functions(selection, ods_dir):
             getattr(sys.modules[__name__], download_function)(ods_dir)
         except Exception:
             print(f'method does not exist for selection: {selection}')
+
 def main():
     parser = argparse.ArgumentParser(prog = 'offlinedatasci')
     subparsers = parser.add_subparsers(help = 'sub-command help', dest='command')
@@ -48,7 +46,7 @@ def main():
 
     if args.command == 'install':
         for i in args.item:
-            get_installer_functions(i, ods_dir)
+            get_installer_function(i, ods_dir)
 
     elif args.command == 'add-packages':
         packages_to_install = package_selection(args.language[0], args.libraries)
