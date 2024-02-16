@@ -5,7 +5,7 @@ from offlinedatasci import *
 
 def get_installer_function(selection, ods_dir):
     if selection == "all":
-        try_except_functions(ods_dir, download_all)
+        download_all(ods_dir)
     elif selection == "rstudio":
         try_except_functions(ods_dir, download_rstudio)
     elif selection == "python":
