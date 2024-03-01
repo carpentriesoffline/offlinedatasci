@@ -38,3 +38,7 @@ testdir/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+
+#Local document generating
+offlinedatasci/convert_docx_to_md.py
+Offline-datasci.docx
