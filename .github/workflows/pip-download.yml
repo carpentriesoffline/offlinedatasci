@@ -1,0 +1,32 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+name: pip download
+
+jobs:
+  build-check:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macOS-latest}
+          - {os: windows-latest}
+          - {os: ubuntu-latest}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+      - name: Try pip download
+        run: |
+          mkdir test-dl
+          pip download -d test-dl --platform win_amd64 --only-binary=:all: notebook matplotlib numpy pandas
+          pip download -d test-dl --platform macosx_10_12_x86_64 --only-binary=:all: notebook matplotlib numpy pandas
+          pip download -d test-dl --platform manylinux_2_17_x86_64 --only-binary=:all: notebook matplotlib numpy pandas
