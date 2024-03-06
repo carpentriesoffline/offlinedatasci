@@ -1,9 +1,43 @@
-# T1 Offlinedatasci: A Python package for managing Data Science software installers when limited access to the internet is anticipated
 
-# T2 Offlinedatasci: A Python package for streamlining the management of data science software installers in anticipation of limited internet access
 
-Virnaliz Cruz, Colin Sauze, Abhishek Dasgupta, Janetta Stein, Ethan P.
-White
+---
+# Offlinedatasci: A Python package for managing Data Science software installers when limited access to the internet is anticipated
+title2: Offlinedatasci: A Python package for streamlining the management of data science software installers in anticipation of limited internet access
+
+tags:
+  - Python
+  - data science instruction
+  - offline data science
+
+authors:
+  - name: Virnaliz Cruz
+    orcid: 0000-0001-6783-2651
+    affiliation: 1
+  - name: Colin Sauze 
+    orcid: 0000-0001-5368-9217
+    affiliation: 3
+  - name: Abhishek Dasgupta 
+    orcid: 0000-0003-4420-0656 
+    affiliation: 4
+  - name: Jannetta Steyn
+    orcid: 0000-0002-0231-9897
+    affiliation: 2
+  - name: Ethan P. White
+    orcid: 0000-0001-6728-7745
+    affiliation: 1 
+
+affiliations:
+ - name: University of Florida
+   index: 1
+ - name: Newcastle University
+   index: 2
+ - name: National Oceanography Centre
+   index: 3
+ - name: University of Oxford
+   index: 4
+date: 29 February 2024
+bibliography: paper.bib
+---
 
 ## Summary
 
@@ -31,7 +65,7 @@ and data science practitioners.
 
 Working with data has become more accessible with increased data
 generation, more open data sharing practices, and improvements in
-computational power and storage capacity (Kelleher & Tierney, 2018). In
+computational power and storage capacity [@kelleher2018ds]. In
 response, there has been an increase in the development of software for
 manipulating, visualizing, and analyzing data, as well as instructional
 materials to make it easier to learn these important skills and tools.
@@ -39,14 +73,13 @@ The resulting data, software, and educational materials are typically
 distributed online. As a result, these improvements in access to data
 science tools and skills are not homogeneously distributed. The median
 percent of population with Internet access across all countries is only
-60.1% (CIA, 2021). This includes a connection from any device with
+60.1% [cia2021internetusers]. This includes a connection from any device with
 varying degrees of consistency ranging from continuously, to several
 times a week, to once every few months. In the US, some of the factors
 that are associated with limited internet access are race and ethnicity,
-geography, and most importantly income (Swenson and Ghertner 2020).
+geography, and most importantly income [@swenson2021internet].
 Low-income US households are less likely to have access to broadband and
-more likely to have no internet access at all (Swenson and Ghertner
-2020). Although the increase in internet access worldwide is undeniable,
+more likely to have no internet access at all [@swenson2021internet]. Although the increase in internet access worldwide is undeniable,
 the rate at which access increases and the quality of that access
 remains unequal.
 
@@ -124,11 +157,11 @@ systems students are likely to use requires automating the download of
 the installer for the most recent version of the software for each
 operating system. We accomplish this by parsing the html from the
 relevant installer download pages, for R
-([[https://cran.r-project.org/]{.underline}](https://cran.r-project.org/)),
+(https://cran.r-project.org/),
 Python
-(https://www.python.org/[[downloads]{.underline}](https://www.python.org/downloads)),
+(https://www.python.org/downloads/),
 and RStudio
-([[https://posit.co/download/rstudio-desktop/]{.underline}](https://posit.co/download/rstudio-desktop/))
+(https://posit.co/download/rstudio-desktop/)
 to determine the most recent versions and download the corresponding
 installers for both Windows and macOS. In cases where multiple
 installers are available for different architectures (e.g., M1/M2 macs
@@ -156,7 +189,7 @@ downloading the package of interest but also its entire dependency tree;
 and 2) package repositories must follow specific file structures with
 appropriate metadata. To address this issue, we leverage software
 packages designed to create partial mirrors of the CRAN and PyPI package
-repositories. We use miniCRAN (de Vries, 2023) for mirroring CRAN and
+repositories. We use miniCRAN [@vries2022minicran] for mirroring CRAN and
 pypi-mirror for mirroring PyPI. These packages automate the download of
 packages including their full dependence trees and set up the local
 repository file structures. These local mirrors can then be used by
@@ -181,7 +214,7 @@ instruction and individual learning. The lesson materials currently
 included are the Software Carpentry, Data Carpentry, and Library
 Carpentry lessons. These open lesson materials serve as the foundation
 for a global teaching effort, run by The Carpentries
-([[https://carpentries.org/]{.underline}](https://carpentries.org/)),
+(https://carpentries.org/),
 that involves instruction in a number of regions with limited internet.
 The software is also designed to allow the easy addition of any online
 teaching material. Lesson material is written in a variety of different
@@ -211,14 +244,12 @@ connected to the world wide web.
 The package can be installed via the Python Package Index (PyPI) using
 pip:
 
-pip install offlinedatasci
+`pip install offlinedatasci`
 
 The development version can be installed directly from the associated
-GitHub repository
-([[https://github.com/carpentriesoffline/offlinedatasci/]{.underline}](https://github.com/carpentriesoffline/offlinedatasci/)):
+GitHub repository (https://github.com/carpentriesoffline/offlinedatasci/):
 
-pip install
-git+https://git@github.com/carpentriesoffline/offlinedatasci.git
+`pip install git+https://git@github.com/carpentriesoffline/offlinedatasci.git`
 
 ### User interface
 
@@ -231,9 +262,9 @@ For workshop instructors, the standard approach to using offlinedatasci
 will be to install all components for use on their local teaching
 server. This is done using:
 
-offlinedatasci install all \<path\>
+`offlinedatasci install all <path>`
 
-where \<path\> is replaced with the path where offlinedatasci should
+where \<path> is replaced with the path where offlinedatasci should
 create its storage directory.This will download software for both macOS
 and Windows, set up repository mirrors for both Python and R packages,
 and download and set up the default instructional material for viewing
@@ -243,24 +274,22 @@ More granular control for installing individual components is also
 available to facilitate personal use and customizing content for
 specific workshops. For example:
 
--   Install Python: offlinedatasci install python \<path\>
+-   Install Python: `offlinedatasci install python <path>`
 
--   Install R and RStudio: offlinedatasci install r rstudio \<path\>
+-   Install R and RStudio: `offlinedatasci install r rstudio <path>`
 
--   Install lessons: offlinedatasci install lessons \<path\>
+-   Install lessons: `offlinedatasci install lessons <path>`
+ 
 
--   
+-   Install R and Python package mirrors: `offlinedatasci install
+    r-packages python-packages <path>`
+  
 
--   Install R and Python package mirrors: offlinedatasci install
-    r-packages python-packages \<path\>
+-   Add additional R packages: `offlinedatasci add r-packages
+    <packagename> <packagename> <path>`
 
--   
-
--   Add additional R packagesofflinedatasci add r-packages
-    \<packagename\> \<packagename\> \<path\>
-
--   Add additional Python packages:offlinedatasci add python-packages
-    \<packagename\> \<packagename\> \<path\>
+-   Add additional Python packages:`offlinedatasci add python-packages
+    <packagename> <packagename> <path>`
 
 #### Python interface
 
@@ -269,30 +298,28 @@ functions directly rather than through the CLI. The default installation
 command for workshop instructors that installs/updates all of the
 software and lesson material is:
 
-import offlinedatasci as ods
+`import offlinedatasci as ods`
 
-ods.download_all("\<path\>")
+`ods.download_all("<path>")`
 
 [The more granular functions follow a similar structure to those in the
-CLI. For example:]{.mark}
+CLI. For example:
 
--   Install Python: ods.download_python("\<path\>")
+-   Install Python: `ods.download_python("<path>")`
 
--   Install lesson material: ods.download_lessons("\<path\>")
+-   Install lesson material: `ods.download_lessons("<path>")`
 
--   Install R packages: ods.download_r_packages("\<path\>")
+-   Install R packages: `ods.download_r_packages("<path>")`
 
--   Instal custom R packages: ods.download_r_packages("\<path\>",
-    \[\<packagename\>, \<packagename\>\])
+-   Instal custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
 
 ## Acknowledgements
 
-We would like to acknowledge the Carpentries for their support and
-invaluable feedback.
+We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
 
 # 
 
-![](media/image1.png){width="6.5in" height="3.625in"}
+![figure1](offlinedatasci.png)
 
 Figure 1. Visualization of offlinedatasci works in the context of the
 larger Carpentries Offline system. Offlinedatasci handles downloading
@@ -304,16 +331,3 @@ their personal computers.
 
 References
 
-> Kelleher, J. D., & Tierney, B. (2018). *Data Science*. MIT Press.
->
-> Swenson, K., & Ghertner, R. (2021). *People in Low-Income Households
-> Have Less Access to Internet Services*. ASPE.
-> [[https://aspe.hhs.gov/reports/low-income-internet-access]{.underline}](https://aspe.hhs.gov/reports/low-income-internet-access)
->
-> Vries, A. de, Chubaty, A., & Microsoft. (2022). *miniCRAN: Create a
-> Mini Version of CRAN Containing Only Selected Packages* (0.2.16).
-> [[https://cran.r-project.org/web/packages/miniCRAN/index.html]{.underline}](https://cran.r-project.org/web/packages/miniCRAN/index.html)
->
-> Washington, DC: Central Intelligence Agency (2021) *The World
-> Factbook, Internet users*.
-> [[https://www.cia.gov/the-world-factbo4ok/field/internet-users/]{.underline}](https://www.cia.gov/the-world-factbook/field/internet-users/)
