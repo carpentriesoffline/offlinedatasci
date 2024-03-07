@@ -1,7 +1,5 @@
-
-
 ---
-# Offlinedatasci: A Python package for managing Data Science software installers when limited access to the internet is anticipated
+title: "Offlinedatasci: A Python package for managing Data Science software installers when limited access to the internet is anticipated"
 
 tags:
   - Python
