@@ -7,25 +7,25 @@ tags:
   - offline data science
 
 authors:
-  - name: Virnaliz M. Price-Whelan
-    orcid: 0000-0003-0872-7098
+  - name: Virnaliz Cruz
+    orcid: 0000-0001-6783-2651
     affiliation: 1
   - name: Colin Sauze 
     orcid: 0000-0001-5368-9217
     affiliation: 3
   - name: Abhishek Dasgupta 
-    orcid: 0000-0003-4420-0656, 
+    orcid: 0000-0003-4420-0656 
     affiliation: 4
   - name: Jannetta Steyn
     orcid: 0000-0002-0231-9897
-    affiliation: Newcastle University
+    affiliation: 2
   - name: Ethan P. White
     orcid: 0000-0001-6728-7745
     affiliation: 1 
 
 affiliations:
- - name: University of Florida, United States
-   index: 2
+ - name: University of Florida
+   index: 1
  - name: Newcastle University
    index: 2
  - name: National Oceanography Centre
