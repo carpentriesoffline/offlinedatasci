@@ -44,8 +44,8 @@ educational materials. As a result, it can be challenging to run data
 science training and conduct data science work in locations with limited
 or no internet access. We developed the offlinedatasci package to help
 address this challenge as part of a broader set of tools and
-instructional materials developed by Carpentries offline to facilitate
-teaching and doing data science in internet limited environments.
+instructional materials developed by CarpentriesOffline to facilitate
+teaching and doing data science in Internet limited environments.
 Offlinedatasci automates the downloading and updating of the most recent
 materials for running workshops, and conducting offline data science
 work more broadly, including open source statistical and graphing
