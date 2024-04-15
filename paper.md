@@ -88,7 +88,7 @@ is an unavoidable requirement for most stages of data science, the need
 for regular Internet access can be mitigated by obtaining the necessary
 data, software, and lesson materials when and where internet access is
 available. Once these materials are downloaded, much of the associated
-training and data science work can be accomplished without internet
+training and data science work can be accomplished without Internet
 access. However, the knowledge necessary to accomplish this is often not
 available to beginning data scientists. This makes limited Internet
 access particularly challenging in teaching environments, where students
