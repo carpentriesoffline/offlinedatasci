@@ -38,14 +38,14 @@ bibliography: paper.bib
 
 ## Summary
 
-Teaching, learning, and conducting data science often relies on internet
+Teaching, learning, and conducting data science often rely on Internet
 connections for accessing and distributing data, software, and
 educational materials. As a result, it can be challenging to run data
 science training and conduct data science work in locations with limited
 or no internet access. We developed the offlinedatasci package to help
 address this challenge as part of a broader set of tools and
 instructional materials developed by CarpentriesOffline to facilitate
-teaching and doing data science in Internet limited environments.
+teaching and doing data science in Internet-limited environments.
 Offlinedatasci automates the downloading and updating of the most recent
 materials for running workshops, and conducting offline data science
 work more broadly, including open source statistical and graphing
@@ -86,7 +86,7 @@ stable Internet connection to download data, install software, and view
 teaching materials while learning or working. While access to a computer
 is an unavoidable requirement for most stages of data science, the need
 for regular Internet access can be mitigated by obtaining the necessary
-data, software, and lesson materials when and where internet access is
+data, software, and lesson materials when and where Internet access is
 available. Once these materials are downloaded, much of the associated
 training and data science work can be accomplished without Internet
 access. However, the knowledge necessary to accomplish this is often not
@@ -104,9 +104,9 @@ accessibility to the Internet.
 
 The offlinedatasci package is part of a growing set of tools and
 instructional materials developed by Carpentries offline to facilitate
-teaching and doing data science in Internet limited environments. The
+teaching and doing data science in Internet-limited environments. The
 larger ecosystem allows local computers, like Raspberry Pi's, to be used
-as isolated servers to provide workshop attendees a wireless network to
+as isolated servers to provide workshop attendees with a wireless network to
 acquire the necessary materials during workshops even when there is no
 Internet access. The offlinedatasci package automates the downloading
 and updating of the most recent materials for running workshops and also
