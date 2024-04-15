@@ -44,14 +44,14 @@ educational materials. As a result, it can be challenging to run data
 science training and conduct data science work in locations with limited
 or no internet access. We developed the offlinedatasci package to help
 address this challenge as part of a broader set of tools and
-instructional materials developed by CarpentriesOffline to facilitate
+instructional materials developed by [CarpentriesOffline](https://carpentriesoffline.org) to facilitate
 teaching and doing data science in Internet limited environments.
 Offlinedatasci automates the downloading and updating of the most recent
 materials for running workshops, and conducting offline data science
 work more broadly, including open source statistical and graphing
 software (R and Python), the associated integrated development
-environments (IDEs; RStudio and Jupyter), partial data science focused
-mirrors of the associated package repositories (CRAN, PyPI), and lesson
+environments (IDEs; RStudio and Jupyter), data science focused
+partial mirrors of the associated package repositories (CRAN, PyPI), and lesson
 materials structured for local use via the browser. This package
 includes Python and command-line interfaces and is designed for both
 maintaining local teaching servers (for instructors teaching in
@@ -78,7 +78,7 @@ geography, and most importantly income [@swenson2021internet].
 Low-income US households are less likely to have access to broadband and
 more likely to have no Internet access at all [@swenson2021internet]. Although the increase in Internet access worldwide is undeniable,
 the rate at which access increases and the quality of that access
-remains unequal.
+remains unequally distributed.
 
 Most online data science tools and teaching materials make two basic
 assumptions about the users' resources: 1) access to computers; and 2) a
@@ -103,9 +103,9 @@ challenges that students and data scientists face due to unequal
 accessibility to the Internet.
 
 The offlinedatasci package is part of a growing set of tools and
-instructional materials developed by Carpentries offline to facilitate
+instructional materials developed by CarpentriesOffline to facilitate
 teaching and doing data science in Internet limited environments. The
-larger ecosystem allows local computers, like Raspberry Pi's, to be used
+larger ecosystem allows local computers and low power devices such as the Raspberry Pi, to be used
 as isolated servers to provide workshop attendees a wireless network to
 acquire the necessary materials during workshops even when there is no
 Internet access. The offlinedatasci package automates the downloading
@@ -116,17 +116,17 @@ development environments (IDEs) for working with this software (RStudio
 and Jupyter), 3) up-to-date mirrors of the package repositories used to
 install data science packages (CRAN, PyPI), and 4) online lesson
 materials configured for local viewing (currently a selection of
-Carpentries workshop lessons with their respective practice data sets).
+[Carpentries](https://carpentries.org) workshop lessons with their respective practice data sets).
 
 ## Software Design (Methods)
 
 This package is designed for two use cases. The original design focused
 on instructors teaching data science in Internet limited environments
-using a Raspberry Pi, or other local computer capable of serving content
-over WiFi, that students would connect to to access data, installers,
+using a Raspberry Pi, or a local computer capable of serving content
+over WiFi, that would provide students with access to data, installers,
 package repositories, and lesson material. This local server would serve
-as a replacement for a connection to the world wide web. The
-Offlinedatasci package was designed to make creating and updating the
+as a replacement for a connection to the Internet. The
+offlinedatasci package was designed to make creating and updating the
 content on this local teaching server easier. To make the software more
 broadly useful it has been designed to be helpful to both individual
 learners outside of a workshop and for individuals working in data
@@ -152,7 +152,7 @@ versions of installers for essential tools including R, Python, and
 Rstudio. Obtaining up-to-date software installers for all operating
 systems students are likely to use requires automating the download of
 the installer for the most recent version of the software for each
-operating system. We accomplish this by parsing the html from the
+operating system. We accomplish this by parsing the HTML from the
 relevant installer download pages, for R
 (https://cran.r-project.org/),
 Python
@@ -164,13 +164,13 @@ installers for both Windows and macOS. In cases where multiple
 installers are available for different architectures (e.g., M1/M2 macs
 and Intel-based macs) we download all available installers to support
 the widest range of possible user architectures (1.36 GB total as of
-08/15/23). By leveraging Python\'s capabilities to parse web pages and
+2023-08-15). By leveraging Python\'s capabilities to parse web pages and
 extract version information, we eliminate the need for manual checks for
 updates and facilitate instructors, researchers, and data scientists
 having the latest software readily available for future use. To avoid
 unnecessary downloads in Internet limited environments the update
 mechanism checks if the most recent version of the required components
-is already available locally (based on the names of the installers which
+is already available locally (based on the filenames of the installers which
 include the version number) and if the local version is up-to-date it is
 not redownloaded. This approach avoids unnecessary data use while
 ensuring that the latest version of the software is available.
@@ -188,13 +188,13 @@ appropriate metadata. To address this issue, we leverage software
 packages designed to create partial mirrors of the CRAN and PyPI package
 repositories. We use miniCRAN [@vries2022minicran] for mirroring CRAN and
 pypi-mirror for mirroring PyPI. These packages automate the download of
-packages including their full dependence trees and set up the local
+packages including their full dependency trees and set up the local
 repository file structures. These local mirrors can then be used by
 pointing to a local teaching server with the repository mirror or by
 individual users pointing to the mirrored repository on their own
-machine. The later use case is facilitated by offlinedatasci commands
-that can be used to automatically set R and Python to perform installs
-from a specific local mirror. By default users can access a preselected
+machine. The latter use case is facilitated by offlinedatasci commands
+that can be used to configure R and Python to perform installs
+from a specific local mirror. By default users can access a pre-selected
 curated selection of packages and add more packages as needed without
 worrying about dependency management and file structures. We focus on
 partial mirrors containing the essential packages needed for data
