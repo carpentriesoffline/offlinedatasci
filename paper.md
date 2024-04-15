@@ -76,39 +76,39 @@ times a week, to once every few months. In the US, some of the factors
 that are associated with limited internet access are race and ethnicity,
 geography, and most importantly income [@swenson2021internet].
 Low-income US households are less likely to have access to broadband and
-more likely to have no internet access at all [@swenson2021internet]. Although the increase in internet access worldwide is undeniable,
+more likely to have no Internet access at all [@swenson2021internet]. Although the increase in Internet access worldwide is undeniable,
 the rate at which access increases and the quality of that access
 remains unequal.
 
 Most online data science tools and teaching materials make two basic
 assumptions about the users' resources: 1) access to computers; and 2) a
-stable internet connection to download data, install software, and view
+stable Internet connection to download data, install software, and view
 teaching materials while learning or working. While access to a computer
 is an unavoidable requirement for most stages of data science, the need
-for regular internet access can be mitigated by obtaining the necessary
+for regular Internet access can be mitigated by obtaining the necessary
 data, software, and lesson materials when and where internet access is
 available. Once these materials are downloaded, much of the associated
 training and data science work can be accomplished without internet
 access. However, the knowledge necessary to accomplish this is often not
-available to beginning data scientists. This makes limited internet
+available to beginning data scientists. This makes limited Internet
 access particularly challenging in teaching environments, where students
 often learn how to download and install data science tools during
-classes and workshops. Workshops may be run without internet access and
-many of the students may not have sufficient internet access prior to
+classes and workshops. Workshops may be run without Internet access and
+many of the students may not have sufficient Internet access prior to
 the workshop, leading to problems in acquiring hundreds of megabytes
 worth of software applications and their dependencies for workshop
 attendees. Simplifying the downloading and offline use of data science
-components that have internet requirements could ameliorate some of the
+components that have Internet requirements could ameliorate some of the
 challenges that students and data scientists face due to unequal
-accessibility to the internet.
+accessibility to the Internet.
 
 The offlinedatasci package is part of a growing set of tools and
 instructional materials developed by Carpentries offline to facilitate
-teaching and doing data science in internet limited environments. The
+teaching and doing data science in Internet limited environments. The
 larger ecosystem allows local computers, like Raspberry Pi's, to be used
 as isolated servers to provide workshop attendees a wireless network to
 acquire the necessary materials during workshops even when there is no
-internet access. The offlinedatasci package automates the downloading
+Internet access. The offlinedatasci package automates the downloading
 and updating of the most recent materials for running workshops and also
 facilitates offline data science work more broadly by providing: 1) open
 source statistical and graphing software (R and Python), 2) integrated
@@ -121,7 +121,7 @@ Carpentries workshop lessons with their respective practice data sets).
 ## Software Design (Methods)
 
 This package is designed for two use cases. The original design focused
-on instructors teaching data science in internet limited environments
+on instructors teaching data science in Internet limited environments
 using a Raspberry Pi, or other local computer capable of serving content
 over WiFi, that students would connect to to access data, installers,
 package repositories, and lesson material. This local server would serve
@@ -130,10 +130,10 @@ Offlinedatasci package was designed to make creating and updating the
 content on this local teaching server easier. To make the software more
 broadly useful it has been designed to be helpful to both individual
 learners outside of a workshop and for individuals working in data
-science who anticipate unreliable or no access to the internet. It
+science who anticipate unreliable or no access to the Internet. It
 downloads a selection of software installers, configures partial mirrors
 of package repositories, and downloads lessons content for later use on
-the internet limited computer. This means that when an internet
+the Internet limited computer. This means that when an Internet
 connection is available a single command can be executed to download,
 update, and configure all necessary material for later use.
 
@@ -168,7 +168,7 @@ the widest range of possible user architectures (1.36 GB total as of
 extract version information, we eliminate the need for manual checks for
 updates and facilitate instructors, researchers, and data scientists
 having the latest software readily available for future use. To avoid
-unnecessary downloads in internet limited environments the update
+unnecessary downloads in Internet limited environments the update
 mechanism checks if the most recent version of the required components
 is already available locally (based on the names of the installers which
 include the version number) and if the local version is up-to-date it is
