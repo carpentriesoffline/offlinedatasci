@@ -16,7 +16,7 @@ authors:
   - name: Abhishek Dasgupta 
     orcid: 0000-0003-4420-0656 
     affiliation: 4
-  - name: Jannetta Steyn
+  - name: Jannetta S. Steyn
     orcid: 0000-0002-0231-9897
     affiliation: 2
   - name: Ethan P. White
