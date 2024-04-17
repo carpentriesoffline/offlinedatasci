@@ -150,10 +150,9 @@ Python packages.
 
 The offlinedatasci package automatically downloads the most recent
 versions of installers for essential tools including R, Python, and
-Rstudio. Obtaining up-to-date software installers for all operating
-systems students are likely to use requires automating the download of
-the installer for the most recent version of the software for each
-operating system. We accomplish this by parsing the HTML from the
+Rstudio. Obtaining up-to-date installers for all systems, that students are
+likely to use, requires automating the download of the most recent version for
+each operating system. We accomplish this by parsing the HTML from the
 relevant installer download pages, for R
 (https://cran.r-project.org/),
 Python
