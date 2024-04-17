@@ -43,6 +43,7 @@ dependencies = [
   'importlib_resources',
   'lxml',
   'python-pypi-mirror',
+  'requests',
   'setuptools'
 ]
 

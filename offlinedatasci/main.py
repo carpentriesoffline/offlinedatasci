@@ -11,6 +11,7 @@ import subprocess
 import urllib.request, urllib.error, urllib.parse
 import importlib_resources
 import pypi_mirror
+import requests
 import shutil
 import sys
 import warnings
@@ -189,8 +190,8 @@ def download_rstudio(ods_dir):
     destination_path = Path(Path(ods_dir), Path("rstudio"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
-    fp = urllib.request.urlopen(baseurl)
-    web_content = fp.read()
+    fp = requests.get(baseurl)
+    web_content = fp.content
     soup = bs.BeautifulSoup(web_content, 'lxml')
     links = soup.find_all('a')
     for link in links:
@@ -214,8 +215,8 @@ def download_python(ods_dir):
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
     python_versions = {}
-    fp = urllib.request.urlopen(url)
-    web_content = fp.read()
+    fp = requests.get(url)
+    web_content = fp.content
     soup = bs.BeautifulSoup(web_content, 'lxml')
     r_studio_download_table = soup.find_all('table')[download_table_num]
     table_body = r_studio_download_table.find('tbody')
@@ -239,7 +240,7 @@ def find_r_current_version(url):
     url -- CRAN r-project URL
     """
     version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
-    urlfile = urllib.request.urlopen(url)
+    urlfile = requests.get(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
         match = re.findall(version_regex, decoded)
@@ -297,8 +298,8 @@ def get_ods_dir(directory=Path.home()):
 def get_python_download_page():
     """Get download page from Python homepage."""
     base_url="https://www.python.org"
-    fp = urllib.request.urlopen(base_url)
-    web_content = fp.read()
+    fp = requests.get(base_url)
+    web_content = fp.content
     soup = bs.BeautifulSoup(web_content, "html.parser")
     release_a_tag = soup.find("a", href=lambda href: href and "release" in href)
     current_release_path = release_a_tag["href"]
