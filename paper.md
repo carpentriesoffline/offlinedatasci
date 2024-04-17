@@ -310,6 +310,11 @@ CLI. For example:
 
 -   Instal custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
 
+### Documentation
+
+Package documentation is built automatically on each commit to the GitHub repository using Sphinx [@brandl2010sphinx] and Read The Docs (<https://about.readthedocs.com/?ref=readthedocs.org>).
+Documentation is available at <https://offlinedatasci.readthedocs.io>.
+
 ## Acknowledgements
 
 We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
