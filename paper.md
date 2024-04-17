@@ -272,19 +272,12 @@ available to facilitate personal use and customizing content for
 specific workshops. For example:
 
 -   Install Python: `offlinedatasci install python <path>`
-
 -   Install R and RStudio: `offlinedatasci install r rstudio <path>`
-
 -   Install lessons: `offlinedatasci install lessons <path>`
- 
-
 -   Install R and Python package mirrors: `offlinedatasci install
     r-packages python-packages <path>`
-  
-
 -   Add additional R packages: `offlinedatasci add r-packages
     <packagename> <packagename> <path>`
-
 -   Add additional Python packages:`offlinedatasci add python-packages
     <packagename> <packagename> <path>`
 
@@ -299,16 +292,13 @@ software and lesson material is:
 
 `ods.download_all("<path>")`
 
-[The more granular functions follow a similar structure to those in the
+The more granular functions follow a similar structure to those in the
 CLI. For example:
 
--   Install Python: `ods.download_python("<path>")`
-
--   Install lesson material: `ods.download_lessons("<path>")`
-
--   Install R packages: `ods.download_r_packages("<path>")`
-
--   Instal custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
+- Install Python: `ods.download_python("<path>")`
+- Install lesson material: `ods.download_lessons("<path>")`
+- Install R packages: `ods.download_r_packages("<path>")`
+- Install custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
 
 ### Documentation
 
