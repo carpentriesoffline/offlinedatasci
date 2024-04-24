@@ -1,5 +1,5 @@
 ---
-title: "Offlinedatasci: A Python package for managing Data Science software installers when limited access to the internet is anticipated"
+title: "Offlinedatasci: A Python package for managing Data Science software installers when limited access to the Internet is anticipated"
 
 tags:
   - Python
@@ -42,7 +42,7 @@ Teaching, learning, and conducting data science often rely on Internet
 connections for accessing and distributing data, software, and
 educational materials. As a result, it can be challenging to run data
 science training and conduct data science work in locations with limited
-or no internet access. We developed the offlinedatasci package to help
+or no Internet access. We developed the offlinedatasci package to help
 address this challenge as part of a broader set of tools and
 instructional materials developed by [CarpentriesOffline](https://carpentriesoffline.org) to facilitate
 teaching and doing data science in Internet-limited environments.
@@ -56,7 +56,7 @@ partial mirrors of the associated package repositories (CRAN, PyPI), and lesson
 materials structured for local use via the browser. This package
 includes Python and command-line interfaces and is designed for both
 maintaining local teaching servers (for instructors teaching in
-internet-limited environments) and for local use by individual learners
+Internet-limited environments) and for local use by individual learners
 and data science practitioners.
 
 ## Introduction and Statement of Need
@@ -74,7 +74,7 @@ percent of population with Internet access across all countries is only
 60.1% [cia2021internetusers]. This includes a connection from any device with
 varying degrees of consistency ranging from continuously, to several
 times a week, to once every few months. In the US, some of the factors
-that are associated with limited internet access are race and ethnicity,
+that are associated with limited Internet access are race and ethnicity,
 geography, and most importantly income [@swenson2021internet].
 Low-income US households are less likely to have access to broadband and
 more likely to have no Internet access at all [@swenson2021internet]. Although the increase in Internet access worldwide is undeniable,
@@ -213,7 +213,7 @@ included are the Software Carpentry, Data Carpentry, and Library
 Carpentry lessons. These open lesson materials serve as the foundation
 for a global teaching effort, run by The Carpentries
 (https://carpentries.org/),
-that involves instruction in a number of regions with limited internet.
+that involves instruction in a number of regions with limited Internet.
 The software is also designed to allow the easy addition of any online
 teaching material. Lesson material is written in a variety of different
 formats and using a range of build systems that frequently rely on
@@ -222,7 +222,7 @@ Therefore offlinedatasci downloads rendered content directly from lesson
 websites to avoid the complexity and fragility associated with upstream
 changes when building lessons from multiple sources. Our approach uses
 Wget, a software package that enables retrieving files using common
-internet protocols. We use Wget to manage this process, leveraging it\'s
+Internet protocols. We use Wget to manage this process, leveraging it\'s
 capabilities to: 1) recursively mirror directories; automating the
 process of finding all of the web pages associated with multiple page
 lessons; 2) convert absolute links in downloaded documents to relative
@@ -231,7 +231,7 @@ the lessons; 3) automate downloading all of the external resources
 ensuring inclusion of things like images and CSS that are crucial for
 the proper presentation of materials; 4) only download lesson pages that
 have been updated since the last download; and 5) resume aborted
-downloads, minimizing data use in cases of interruptions to internet
+downloads, minimizing data use in cases of interruptions to Internet
 access. The lessons are presented on a single unified landing page, so
 that users can open a single index.html file with their browser of
 choice and smoothly navigate to all local lessons just as if they were
@@ -313,7 +313,7 @@ CLI. For example:
 
 ## Acknowledgements
 
-We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
+We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in Internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
 
 # 
 
