@@ -3,6 +3,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  schedule:
+    - cron: '26 02 * * *'
 
 name: Build Check
 
