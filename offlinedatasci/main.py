@@ -367,8 +367,18 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
         'python_version': '3.11',
         'allow_binary': True
     }
-    pypi_mirror.download(platform = ['manylinux_2_17_x86_64'], **parameters)
-    pypi_mirror.download(platform = ['macosx_10_12_x86_64'], **parameters)
+    if sys.platform == 'win32':
+        # pip download does not currently work for other OSs on Windows
+        # Therefore we don't download mac and Linux packages on Windows
+        # See https://github.com/pypa/pip/issues/11664
+        warnings.warn("""Only mirroring Python packages for Windows
+                      
+        pip cannot currently download macos and Linux packages on Windows.
+        See https://github.com/pypa/pip/issues/11664
+        """)
+    else:
+        pypi_mirror.download(platform = ['manylinux_2_17_x86_64'], **parameters)
+        pypi_mirror.download(platform = ['macosx_10_12_x86_64'], **parameters)
     pypi_mirror.download(platform = ['win_amd64'], **parameters)
     mirror_creation_parameters = {
         'download_dir': download_dir,
