@@ -306,6 +306,13 @@ def get_python_download_page():
     current_release_url = base_url + current_release_path
     return(current_release_url)
 
+def get_python_version():
+    """Determine the Python version from the Python homepage."""
+    python_download_page = get_python_download_page()
+    version_txt = python_download_page.split('-')[1][0:3]
+    version = version_txt[0] + "." + version_txt[1:3]
+    return version
+
 def table_parse_version_info(row,oscolnum,hrefcolnum):
     """Parse and return software information from table.
 
@@ -356,15 +363,14 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
     Keyword arguments:
     ods_dir -- Directory to save partial Pypi mirror
     """
-    #workshop_needed_libraries = pandas, matplotlib, numpy
-    #python_included_libraries = math, random, glob, time, sys, pathlib
+    python_version = get_python_version()
     download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
     parameters = {
         'pip': 'pip3',
         'dest': download_dir,
         'pkgs': py_library_reqs,
-        'python_version': '3.11',
+        'python_version': python_version,
         'allow_binary': True
     }
     if sys.platform == 'win32':
