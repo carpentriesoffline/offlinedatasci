@@ -363,8 +363,6 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
     Keyword arguments:
     ods_dir -- Directory to save partial Pypi mirror
     """
-    #workshop_needed_libraries = pandas, matplotlib, numpy
-    #python_included_libraries = math, random, glob, time, sys, pathlib
     python_version = get_python_version()
     download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
