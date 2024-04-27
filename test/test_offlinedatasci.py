@@ -17,6 +17,13 @@ def test_download_python(tmp_path):
     assert glob(f"{tmp_path}/python/python-*.exe")
     assert glob(f"{tmp_path}/python/python-*.pkg")
 
+def test_download_python_libraries(tmp_path):
+    # test on notebook since it has caused issues in the past
+    # See https://github.com/carpentriesoffline/offlinedatasci/issues/95
+    download_python_libraries(tmp_path, ['notebook'])
+    assert glob(f"{tmp_path}/pythonlibraries/*.whl")
+    assert glob(f"{tmp_path}/pypi/index.html")
+
 def check_for_empty_folders(folder):
     empty_folders = []
     for root, dirs, files in os.walk(folder):
