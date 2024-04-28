@@ -150,10 +150,9 @@ Python packages.
 
 The offlinedatasci package automatically downloads the most recent
 versions of installers for essential tools including R, Python, and
-Rstudio. Obtaining up-to-date software installers for all operating
-systems students are likely to use requires automating the download of
-the installer for the most recent version of the software for each
-operating system. We accomplish this by parsing the HTML from the
+Rstudio. Obtaining up-to-date installers for all systems, that students are
+likely to use, requires automating the download of the most recent version for
+each operating system. We accomplish this by parsing the HTML from the
 relevant installer download pages, for R
 (https://cran.r-project.org/),
 Python
@@ -273,19 +272,12 @@ available to facilitate personal use and customizing content for
 specific workshops. For example:
 
 -   Install Python: `offlinedatasci install python <path>`
-
 -   Install R and RStudio: `offlinedatasci install r rstudio <path>`
-
 -   Install lessons: `offlinedatasci install lessons <path>`
- 
-
 -   Install R and Python package mirrors: `offlinedatasci install
     r-packages python-packages <path>`
-  
-
 -   Add additional R packages: `offlinedatasci add r-packages
     <packagename> <packagename> <path>`
-
 -   Add additional Python packages:`offlinedatasci add python-packages
     <packagename> <packagename> <path>`
 
@@ -300,16 +292,18 @@ software and lesson material is:
 
 `ods.download_all("<path>")`
 
-[The more granular functions follow a similar structure to those in the
+The more granular functions follow a similar structure to those in the
 CLI. For example:
 
--   Install Python: `ods.download_python("<path>")`
+- Install Python: `ods.download_python("<path>")`
+- Install lesson material: `ods.download_lessons("<path>")`
+- Install R packages: `ods.download_r_packages("<path>")`
+- Install custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
 
--   Install lesson material: `ods.download_lessons("<path>")`
+### Documentation
 
--   Install R packages: `ods.download_r_packages("<path>")`
-
--   Instal custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
+Package documentation is built automatically on each commit to the GitHub repository using Sphinx [@brandl2010sphinx] and Read The Docs (<https://about.readthedocs.com/?ref=readthedocs.org>).
+Documentation is available at <https://offlinedatasci.readthedocs.io>.
 
 ## Acknowledgements
 
@@ -327,5 +321,5 @@ materials to learners taking classes or workshops. It can also be used
 by individual learners or data science practitioners by installing it on
 their personal computers.
 
-References
+## References
 
