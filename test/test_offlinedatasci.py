@@ -20,7 +20,7 @@ def test_download_python(tmp_path):
 def test_download_python_libraries(tmp_path):
     # test on notebook since it has caused issues in the past
     # See https://github.com/carpentriesoffline/offlinedatasci/issues/95
-    download_python_libraries(tmp_path, ['notebook'])
+    download_python_packages(tmp_path, ['notebook'])
     assert glob(f"{tmp_path}/pythonlibraries/*.whl")
     assert glob(f"{tmp_path}/pypi/index.html")
 
