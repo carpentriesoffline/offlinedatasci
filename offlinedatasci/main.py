@@ -65,7 +65,7 @@ def download_all(ods_dir):
         print(f"Error downloading RStudio: {e}")
 
     try:
-        download_minicran(ods_dir)
+        download_r_packages(ods_dir)
     except Exception as e:
         print(f"Error downloading R packages: {e}")
 
@@ -80,7 +80,7 @@ def download_all(ods_dir):
         print(f"Error downloading Python: {e}")
 
     try:
-        download_python_libraries(ods_dir)
+        download_python_packages(ods_dir)
     except Exception as e:
         print(f"Error downloading Python packages: {e}")
 
@@ -329,7 +329,7 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link_inner_html = link.text.strip()
     return {"osver": os, "version": link_inner_html, "url": link_url}        
 
-def download_minicran(ods_dir,
+def download_r_packages(ods_dir,
                       py_library_reqs = ["tidyverse", "RSQLite"],
                       r_version = None):
     """Creating partial CRAN mirror of workshop libraries.
@@ -357,7 +357,7 @@ def download_minicran(ods_dir,
     subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string, r_major_minor_version])
 
 
-def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"] ):
+def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook","numpy", "pandas"] ):
     """Creating partial PyPI mirror of workshop libraries.
 
     Keyword arguments:
@@ -393,19 +393,19 @@ def download_python_libraries(ods_dir,py_library_reqs = [ "matplotlib", "noteboo
     }
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
-def get_default_packages(language):
+def get_default_packages(package_type):
     packages = { 
-        "r": {
+        "r-packages": {
             "data-carpentry": ["tidyverse", "RSQLite"],
             "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
         },
-        "python": {
+        "python-packages": {
             "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
             "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
             "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
         }
     }
-    return packages[language]
+    return packages[package_type]
 
 
 def package_selection(language, custom_package_list):

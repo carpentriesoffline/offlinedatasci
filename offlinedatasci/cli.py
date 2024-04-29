@@ -10,17 +10,17 @@ def get_installer_function(selection, ods_dir):
         try_except_functions(ods_dir, download_rstudio)
     elif selection == "python":
         try_except_functions(ods_dir, download_python)
-    else:
-        try:
-            download_function = f"download_{selection}"
-            getattr(sys.modules[__name__], download_function)(ods_dir)
-        except Exception:
-            print(f'method does not exist for selection: {selection}')
+    elif selection == "r-packages":
+        try_except_functions(ods_dir, download_r_packages)
+    elif selection == "python-packages":
+        try_except_functions(ods_dir, download_python_packages)
+    elif selection == "lessons":
+        try_except_functions(ods_dir, download_lessons)
 
 def main():
     parser = argparse.ArgumentParser(prog = 'offlinedatasci')
     subparsers = parser.add_subparsers(help = 'sub-command help', dest='command')
-    INSTALL_OPTIONS = ["all", "lessons", "minicran", "python", "python_libraries", "r", "rstudio"]
+    INSTALL_OPTIONS = ["all", "lessons", "r-packages", "python", "python-packages", "r", "rstudio"]
 
     install_parser = subparsers.add_parser('install')
     install_parser.add_argument('item',
@@ -28,11 +28,11 @@ def main():
                                 nargs = '+',
                                 choices=INSTALL_OPTIONS)
 
-    packages_parser = subparsers.add_parser('add-packages')
-    packages_parser.add_argument('language',
+    packages_parser = subparsers.add_parser('add')
+    packages_parser.add_argument('package_type',
                                 nargs = 1,
-                                choices =['r', 'python'])
-    packages_parser.add_argument('libraries',
+                                choices =['r-packages', 'python-packages'])
+    packages_parser.add_argument('packages',
                                 nargs = '+')
 
     parser.add_argument('path',
@@ -48,12 +48,12 @@ def main():
         for i in args.item:
             get_installer_function(i, ods_dir)
 
-    elif args.command == 'add-packages':
-        packages_to_install = package_selection(args.language[0], args.libraries)
-        if args.language[0] == "python":
-            download_python_libraries(ods_dir, packages_to_install)
-        elif args.language[0] == "r":
-            download_minicran(ods_dir, packages_to_install)
+    elif args.command == 'add':
+        packages_to_install = package_selection(args.package_type[0], args.packages)
+        if args.package_type[0] == "python-packages":
+            download_python_packages(ods_dir, packages_to_install)
+        elif args.package_type[0] == "r-packages":
+            download_r_packages(ods_dir, packages_to_install)
         
             
 if __name__=='__main__':
