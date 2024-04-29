@@ -4,20 +4,18 @@ import sys
 from offlinedatasci import *
 
 def get_installer_function(selection, ods_dir):
-    if selection == "r-packages": selection = "r_packages"
-    if selection == "python-packages": selection = "python_packages"
     if selection == "all":
         download_all(ods_dir)
     elif selection == "rstudio":
         try_except_functions(ods_dir, download_rstudio)
     elif selection == "python":
         try_except_functions(ods_dir, download_python)
-    else:
-        try:
-            download_function = f"download_{selection}"
-            getattr(sys.modules[__name__], download_function)(ods_dir)
-        except Exception:
-            print(f'method does not exist for selection: {selection}')
+    elif selection == "r-packages":
+        try_except_functions(ods_dir, download_r_packages)
+    elif selection == "python-packages":
+        try_except_functions(ods_dir, download_python_packages)
+    elif selection == "lessons":
+        try_except_functions(ods_dir, download_lessons)
 
 def main():
     parser = argparse.ArgumentParser(prog = 'offlinedatasci')
