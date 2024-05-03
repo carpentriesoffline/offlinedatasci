@@ -24,6 +24,12 @@ def test_download_python_libraries(tmp_path):
     assert glob(f"{tmp_path}/pythonlibraries/*.whl")
     assert glob(f"{tmp_path}/pypi/index.html")
 
+def test_download_r_packages(tmp_path):
+    # test on notebook since it has caused issues in the past
+    # See https://github.com/carpentriesoffline/offlinedatasci/issues/95
+    download_r_packages(tmp_path, ['RSQLite'])
+    assert glob(f"{tmp_path}/miniCRAN/*")
+
 def check_for_empty_folders(folder):
     empty_folders = []
     for root, dirs, files in os.walk(folder):
