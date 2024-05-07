@@ -59,8 +59,5 @@ requires-python = ">=3.6"
 [project.scripts]
 "offlinedatasci"="offlinedatasci:cli.main"
 
-[tool.setuptools.packages]
-find = {}
-
 [tool.setuptools.package-data]
 "*" = ["miniCran.R"]
