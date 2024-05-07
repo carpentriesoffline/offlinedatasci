@@ -16,7 +16,11 @@ if (!require("miniCRAN")) {
 # Currently installing from ethanwhite's fork, thus requiring remotes, because the current
 # R release for macOS doesn't work on the released version of miniCRAN
 if (install_minicran) {
-    install.packages("miniCRAN") 
+    if (is.null(getOption("repos"))){
+        install.packages("miniCRAN", repos = "https://cloud.r-project.org" )
+    } else {
+        install.packages("miniCRAN") 
+    }
 }
 
 library(miniCRAN)
