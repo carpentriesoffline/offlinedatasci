@@ -51,7 +51,7 @@ Offlinedatasci automates the downloading and updating of the most recent
 materials for running workshops, and conducting offline data science
 work more broadly, including open source statistical and graphing
 software (R and Python), the associated integrated development
-environments (IDEs; RStudio and Jupyter), data science focused
+environments (IDEs; RStudio [@rstudio2024] and Jupyter [@soton403913]), data science focused
 partial mirrors of the associated package repositories (CRAN, PyPI), and lesson
 materials structured for local use via the browser. This package
 includes Python and command-line interfaces and is designed for both
@@ -187,7 +187,7 @@ and 2) package repositories must follow specific file structures with
 appropriate metadata. To address this issue, we leverage software
 packages designed to create partial mirrors of the CRAN and PyPI package
 repositories. We use miniCRAN [@vries2022minicran] for mirroring CRAN and
-pypi-mirror for mirroring PyPI. These packages automate the download of
+pypi-mirror [@montag2023pypimirror] for mirroring PyPI. These packages automate the download of
 packages including their full dependency trees and set up the local
 repository file structures. These local mirrors can then be used by
 pointing to a local teaching server with the repository mirror or by
@@ -220,7 +220,7 @@ external dependencies for rendering the lesson material into websites.
 Therefore offlinedatasci downloads rendered content directly from lesson
 websites to avoid the complexity and fragility associated with upstream
 changes when building lessons from multiple sources. Our approach uses
-Wget, a software package that enables retrieving files using common
+Wget [@fsf2010wget], a software package that enables retrieving files using common
 Internet protocols. We use Wget to manage this process, leveraging it\'s
 capabilities to: 1) recursively mirror directories; automating the
 process of finding all of the web pages associated with multiple page
