@@ -17,10 +17,10 @@ offlinedatasci install all <path>
 You can download and configure the different components separately:
 
 * Python: `offlinedatasci install python <path>`
-* Python packages: `offlinedatasci install python_libraries <path>`
+* Python packages: `offlinedatasci install python-packages <path>`
 * R: `offlinedatasci install r <path>`
 * RStudio: `offlinedatasci install rstudio <path>`
-* R packages: `offlinedatasci install minicran <path>`
+* R packages: `offlinedatasci install r-packages <path>`
 * Lessons: `offlinedatasci install lessons <path>`
 
 ### Managing R and Python packages
@@ -29,11 +29,11 @@ By default offlinedatasci creates local package mirrors of the most common data 
 You can add additional packages yourself using `add-packages`, then language `r` or `python`, and the name of the packages to install:
 
 ```sh
-offlinedatasci add-packages r package1 package2 ... <path>`
+offlinedatasci add r-packages package1 package2 ... <path>`
 ```
 
 ```sh
-offlinedatasci add-packages python package1 package2 ... <path>`
+offlinedatasci add python-packages package1 package2 ... <path>`
 ```
 
 ## Python interface
