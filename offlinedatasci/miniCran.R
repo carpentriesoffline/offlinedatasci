@@ -14,7 +14,7 @@ if (!require("miniCRAN")) {
 }
 
 if (install_minicran) {
-    if (grepl("http", getOption("repos"))){
+    if (!grepl("http", getOption("repos"))){
         #Lack of a default repo can cause the install to fail
         install.packages("miniCRAN", repos = "https://cloud.r-project.org" )
     } else {
