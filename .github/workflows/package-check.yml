@@ -37,6 +37,9 @@ jobs:
           pip install --prefer-binary lxml
       - name: Install testing dependencies
         run: pip install pytest
+      - name: Set CRAN repository to @CRAN@ to test behavior on systems with no default repos
+        run: |
+          cp test/Rprofile.site ~/.Rprofile
       - name: Test package installation
         run: pip install .
       - name: Package tests
