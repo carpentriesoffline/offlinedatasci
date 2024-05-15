@@ -38,4 +38,36 @@ offlinedatasci add python-packages package1 package2 ... <path>`
 
 ## Python interface
 
-Coming soon!
+The Python interface follows a similar structure but calling Python
+functions directly rather than through the CLI.
+
+### Import the package
+
+```python
+import offlinedatasci as ods
+```
+
+### Installing everything
+
+```python
+ods.download_all("<path>")
+```
+
+### Installing individual components
+
+You can download and configure the different components separately:
+
+- Python: `ods.download_python("<path>")`
+- Python packages: `ods.download_python_packages("<path>")`
+- R: `ods.download_r("<path>")`
+- RStudio: `ods.download_rstudio("<path>")`
+- R packages: `ods.download_r_packages("<path>")`
+- Lessons: `ods.download_lessons("<path>")`
+
+### Managing R and Python packages
+
+By default offlinedatasci creates local package mirrors of the most common data science packages.
+You can add additional packages yourself using the `download_*_packages` functions:
+
+- Install custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
+- Install custom Python packages: `ods.download_python_packages("<path>", [<packagename>, <packagename>])`
