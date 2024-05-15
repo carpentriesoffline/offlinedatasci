@@ -1,0 +1,17 @@
+{
+    "title": "offlinedatasci",
+    "description": "Download and configure common tools for teaching and doing data science without an internet connection",
+    "version": "0.5.0",
+    "creators": [
+      {"name": "Virnaliz Cruz"},
+      {"name": "Colin Sauze"},
+      {"name": "Jannetta Steyn"},
+      {"name": "Abhishek Dasgupta"},
+      {"name": "Ethan P. White"}
+    ],
+    "license": "MIT",
+    "upload_type": "software",
+    "access_right": "open",
+    "keywords": ["Education", "Science/Research", "Python", "Data Science", "Offline"],
+    "programming_languages": ["Python"]
+  }
