@@ -50,8 +50,8 @@ teaching and doing data science in Internet-limited environments.
 Offlinedatasci automates the downloading and updating of the most recent
 materials for running workshops, and conducting offline data science
 work more broadly, including open source statistical and graphing
-software (R and Python), the associated integrated development
-environments (IDEs; RStudio [@rstudio2024] and Jupyter [@soton403913]), data science focused
+software (R [@r2023] and Python [@rossum2009py]), the associated integrated development
+environments (IDEs; RStudio [@rstudio2024] and Jupyter Notebooks [@soton403913]), data science focused
 partial mirrors of the associated package repositories (CRAN, PyPI), and lesson
 materials structured for local use via the browser. This package
 includes Python and command-line interfaces and is designed for both
@@ -206,7 +206,7 @@ allows package repository install and update commands to be run
 regularly to ensure that the most up-to-date versions of packages are
 always available.
 
-Offlinedatasci also downloads lesson material to facilitate workshop
+Offlinedatasci downloads lesson material to facilitate workshop
 instruction and individual learning. The lesson materials currently
 included are the Software Carpentry, Data Carpentry, and Library
 Carpentry lessons. These open lesson materials serve as the foundation
@@ -235,6 +235,11 @@ access. The lessons are presented on a single unified landing page, so
 that users can open a single index.html file with their browser of
 choice and smoothly navigate to all local lessons just as if they were
 connected to the world wide web.
+
+Offlinedatasci uses the following R and Python packages for unmentioned processes: airium [@kaczmarczyk2023airum], requests [@reitz2023requests], beautifulsoup4 [@richardson2024bs4], importlib-resources [@warsaw2024implib], remotes [@csardi2024remotes] and multiple packages that are distributed as part of Python 3: (argparse, os, pathlib, re, secrets, shutil, subprocess, sys, warnings; [@rossum2009py]).
+
+
+package 1 (citation 1), package 2 (citation 2), ... package n(citation n).
 
 ### Installation
 
