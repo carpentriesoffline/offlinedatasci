@@ -2,6 +2,22 @@
 
 offlinedatasci comes with two interfaces, a command line interface and a Python interface.
 
+## Installation
+
+### Using pip:
+
+```sh
+pip install offlinedatasci
+```
+
+### Using pipx:
+
+To install just the command line interface (CLI) we recommend [pipx](https://pipx.pypa.io/). [Install pipx](https://pipx.pypa.io/stable/installation/) and then run:
+
+```sh
+pipx install offlinedatasci
+```
+
 ## Command line interface
 
 ### Installing everything

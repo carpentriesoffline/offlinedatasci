@@ -20,23 +20,33 @@ Early stage experiment
 
 ### Using pip:
 
-From PyPI
-
 ```sh
 pip install offlinedatasci
 ```
 
-From GitHub (latest development version)
+### Using pipx:
+
+To install just the command line interface (CLI) we recommend [pipx](https://pipx.pypa.io/). [Install pipx](https://pipx.pypa.io/stable/installation/) and then run:
+
+```sh
+pipx install offlinedatasci
+```
+
+### Installing development versions
+
+#### Directly From GitHub
 
 ```sh
 pip install git+https://git@github.com/carpentriesoffline/offlinedatasci.git
 ```
 
-### For local development:
+#### Locally
 
 Clone the repository and from the root directory run:
 
 ```sh
+git clone https://github.com/carpentriesoffline/offlinedatasci.git
+cd offlinedatasci
 pip install .
 ```
 
