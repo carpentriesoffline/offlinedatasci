@@ -1,5 +1,5 @@
 ---
-title: "Offlinedatasci: A Python package for managing Data Science software installers when limited access to the Internet is anticipated"
+title: "offlinedatasci: A Python Package for Managing Data Science Software Installers when Limited Access to the Internet is Anticipated"
 
 tags:
   - Python
@@ -43,30 +43,29 @@ bibliography: paper.bib
 
 ## Summary
 
-Teaching, learning, and conducting data science often rely on Internet
+Teaching, learning, and conducting data science often rely on internet
 connections for accessing and distributing data, software, and
 educational materials. As a result, it can be challenging to run data
 science training and conduct data science work in locations with limited
-or no Internet access. We developed the offlinedatasci package to help
-address this challenge as part of a broader set of tools and
+or no internet access. We developed the offlinedatasci package to help
+address this challenge, as part of a broader set of tools and
 instructional materials developed by [CarpentriesOffline](https://carpentriesoffline.org) to facilitate
-teaching and doing data science in Internet-limited environments.
+teaching and practicing data science in internet-limited environments.
 
-Offlinedatasci automates the downloading and updating of the most recent
-materials for running workshops, and conducting offline data science
-work more broadly, including open source statistical and graphing
-software (R [@r2023] and Python [@rossum2009py]), the associated integrated development
+The offlinedatasci package automates downloading or updating a bank of 
+materials for running workshops and conducting offline data science
+work more broadly. These materials include open source statistical and graphing
+software (R [@r2024] and Python [@rossum2009py]), the associated integrated development
 environments (IDEs; RStudio [@rstudio2024] and Jupyter Notebooks [@soton403913]), data science focused
-partial mirrors of the associated package repositories (CRAN, PyPI), and lesson
-materials structured for local use via the browser. This package
-includes Python and command-line interfaces and is designed for both
-maintaining local teaching servers (for instructors teaching in
-Internet-limited environments) and for local use by individual learners
-and data science practitioners.
+partial mirrors of the associated package repositories ([CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/), and lesson
+materials structured for local use via the browser. The package
+provides both Python and command-line interfaces and is designed for 
+maintaining local servers for instructors to use in teaching or for individual learners
+and data science practitioners to create a local repository of essential resources.
 
 ## Introduction and Statement of Need
 
-Working with data has become more accessible with increased data
+The practice of data science has become more accessible with increased data
 generation, more open data sharing practices, and improvements in
 computational power and storage capacity [@kelleher2018ds]. In
 response, there has been an increase in the development of software for
@@ -75,48 +74,48 @@ materials to make it easier to learn these important skills and tools.
 The resulting data, software, and educational materials are typically
 distributed online. As a result, these improvements in access to data
 science tools and skills are not homogeneously distributed. The median
-percent of population with Internet access across all countries is only
+percentage of population with internet access across all countries is only
 60.1% [cia2021internetusers]. This includes a connection from any device with
 varying degrees of consistency ranging from continuously, to several
 times a week, to once every few months. In the US, some of the factors
-that are associated with limited Internet access are race and ethnicity,
+that are associated with limited internet access are race and ethnicity,
 geography, and most importantly income [@swenson2021internet].
 Low-income US households are less likely to have access to broadband and
-more likely to have no Internet access at all [@swenson2021internet]. Although the increase in Internet access worldwide is undeniable,
+more likely to have no internet access at all [@swenson2021internet]. Although the increase in internet access worldwide is undeniable,
 the rate at which access increases and the quality of that access
 remains unequally distributed.
 
 Most online data science tools and teaching materials make two basic
 assumptions about the users' resources: 1) access to computers; and 2) a
-stable Internet connection to download data, install software, and view
+stable internet connection to download data, install software, and view
 teaching materials while learning or working. While access to a computer
 is an unavoidable requirement for most stages of data science, the need
-for regular Internet access can be mitigated by obtaining the necessary
-data, software, and lesson materials when and where Internet access is
+for regular internet access can be mitigated by obtaining the necessary
+data, software, and lesson materials when and where internet access is
 available. Once these materials are downloaded, much of the associated
-training and data science work can be accomplished without Internet
+training and data science work can be accomplished without internet
 access. However, the knowledge necessary to accomplish this is often not
-available to beginning data scientists. This makes limited Internet
+available to beginning data scientists. This makes limited internet
 access particularly challenging in teaching environments, where students
 often learn how to download and install data science tools during
-classes and workshops. Workshops may be run without Internet access and
-many of the students may not have sufficient Internet access prior to
+classes and workshops. Workshops may have to be run in venues without reliable internet access and
+many of the students may not have sufficient, affordable internet access prior to
 the workshop, leading to problems in acquiring hundreds of megabytes
 worth of software applications and their dependencies for workshop
-attendees. Simplifying the downloading and offline use of data science
-components that have Internet requirements could ameliorate some of the
+participants. Simplifying the downloading and offline use of data science
+components that have internet requirements could ameliorate some of the
 challenges that students and data scientists face due to unequal
-accessibility to the Internet.
+accessibility to the internet.
 
 The offlinedatasci package is part of a growing set of tools and
 instructional materials developed by CarpentriesOffline to facilitate
-teaching and doing data science in Internet-limited environments. The
-larger ecosystem allows local computers and low power devices such as the Raspberry Pi, to be used
-as isolated servers to provide workshop attendees a wireless network to
+teaching and practicing data science in internet-limited environments. The
+larger ecosystem allows local computers and low power devices such as the Raspberry Pi to be used
+as isolated servers that provide a wireless network to workshop participants, so that they can 
 acquire the necessary materials during workshops even when there is no
-Internet access. The offlinedatasci package automates the downloading
-and updating of the most recent materials for running workshops and also
-facilitates offline data science work more broadly by providing: 1) open
+internet access. The offlinedatasci package automates downloading
+or updating a bank of materials for running workshops or 
+practicing data science offline, by providing: 1) open
 source statistical and graphing software (R and Python), 2) integrated
 development environments (IDEs) for working with this software (RStudio
 and Jupyter), 3) up-to-date mirrors of the package repositories used to
@@ -127,20 +126,20 @@ materials configured for local viewing (currently a selection of
 ## Software Design (Methods)
 
 This package is designed for two use cases. The original design focused
-on instructors teaching data science in Internet limited environments
+on instructors teaching data science in internet limited environments
 using a Raspberry Pi, or a local computer capable of serving content
 over WiFi, that would provide students with access to data, installers,
 package repositories, and lesson material. This local server would serve
-as a replacement for a connection to the Internet. The
+as a replacement for a connection to the internet. The
 offlinedatasci package was designed to make creating and updating the
 content on this local teaching server easier. To make the software more
 broadly useful it has been designed to be helpful to both individual
 learners outside of a workshop and for individuals working in data
-science who anticipate unreliable or no access to the Internet. It
+science who anticipate unreliable or no access to the internet. It
 downloads a selection of software installers, configures partial mirrors
-of package repositories, and downloads lessons content for later use on
-the Internet limited computer. This means that when an Internet
-connection is available a single command can be executed to download,
+of package repositories, and downloads lesson content for later use on
+the internet limited computer. This means that when an internet
+connection is available, a single command can be executed to download,
 update, and configure all necessary material for later use.
 
 ### User knowledge assumptions
@@ -173,7 +172,7 @@ the widest range of possible user architectures (1.36 GB total as of
 extract version information, we eliminate the need for manual checks for
 updates and facilitate instructors, researchers, and data scientists
 having the latest software readily available for future use. To avoid
-unnecessary downloads in Internet limited environments the update
+unnecessary downloads in internet limited environments, the update
 mechanism checks if the most recent version of the required components
 is already available locally (based on the filenames of the installers which
 include the version number) and if the local version is up-to-date it is
@@ -217,7 +216,7 @@ included are the Software Carpentry, Data Carpentry, and Library
 Carpentry lessons. These open lesson materials serve as the foundation
 for a global teaching effort, run by The Carpentries
 (https://carpentries.org/),
-that involves instruction in a number of regions with limited Internet.
+that involves instruction in a number of regions with limited internet.
 The software is also designed to allow the easy addition of any online
 teaching material. Lesson material is written in a variety of different
 formats and using a range of build systems that frequently rely on
@@ -226,7 +225,7 @@ Therefore offlinedatasci downloads rendered content directly from lesson
 websites to avoid the complexity and fragility associated with upstream
 changes when building lessons from multiple sources. Our approach uses
 Wget [@fsf2010wget], a software package that enables retrieving files using common
-Internet protocols. We use Wget to manage this process, leveraging it\'s
+internet protocols. We use Wget to manage this process, leveraging it\'s
 capabilities to: 1) recursively mirror directories; automating the
 process of finding all of the web pages associated with multiple page
 lessons; 2) convert absolute links in downloaded documents to relative
@@ -235,16 +234,13 @@ the lessons; 3) automate downloading all of the external resources
 ensuring inclusion of things like images and CSS that are crucial for
 the proper presentation of materials; 4) only download lesson pages that
 have been updated since the last download; and 5) resume aborted
-downloads, minimizing data use in cases of interruptions to Internet
+downloads, minimizing data use in cases of interruptions to internet
 access. The lessons are presented on a single unified landing page, so
 that users can open a single index.html file with their browser of
 choice and smoothly navigate to all local lessons just as if they were
 connected to the world wide web.
 
 Offlinedatasci uses the following R and Python packages for unmentioned processes: airium [@kaczmarczyk2023airum], requests [@reitz2023requests], beautifulsoup4 [@richardson2024bs4], importlib-resources [@warsaw2024implib], remotes [@csardi2024remotes] and multiple packages that are distributed as part of Python 3: (argparse, os, pathlib, re, secrets, shutil, subprocess, sys, warnings; [@rossum2009py]).
-
-
-package 1 (citation 1), package 2 (citation 2), ... package n(citation n).
 
 ### Installation
 
@@ -272,7 +268,7 @@ server. This is done using:
 `offlinedatasci install all <path>`
 
 where \<path> is replaced with the path where offlinedatasci should
-create its storage directory.This will download software for both macOS
+create its storage directory. This will download software for both macOS
 and Windows, set up repository mirrors for both Python and R packages,
 and download and set up the default instructional material for viewing
 from a local web browser.
@@ -312,19 +308,19 @@ CLI. For example:
 
 ### Documentation
 
-Package documentation is built automatically on each commit to the GitHub repository using Sphinx [@brandl2010sphinx] and Read The Docs (<https://about.readthedocs.com/?ref=readthedocs.org>).
-Documentation is available at <https://offlinedatasci.readthedocs.io>.
+Documentation for offlinedatasci is built automatically on each commit to the GitHub repository using Sphinx [@brandl2010sphinx] and Read The Docs (<https://about.readthedocs.com/?ref=readthedocs.org>).
+The documentation is available at <https://offlinedatasci.readthedocs.io>.
 
 ## Acknowledgements
 
-We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in Internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
+We would like to acknowledge The Carpentries for their support through regular interactions with their core staff, invaluable feedback their team members working in internet limited environments, and for infrastructure support including communications channels and incorporation into their incubator program.
 
 # 
 
 ![figure1](offlinedatasci.png)
 
-Figure 1. Visualization of offlinedatasci works in the context of the
-larger Carpentries Offline system. Offlinedatasci handles downloading
+Figure 1. Visualization of how offlinedatasci works in the context of the
+larger Carpentries Offline system. The offlinedatasci package handles downloading
 and configuring software and lessons. This can be done on a local
 teaching server, like a Raspberry Pi, that can then be used to serve
 materials to learners taking classes or workshops. It can also be used
