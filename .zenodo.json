@@ -1,7 +1,7 @@
 {
     "title": "offlinedatasci",
     "description": "Download and configure common tools for teaching and doing data science without an internet connection",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "creators": [
       {"name": "Virnaliz Cruz"},
       {"name": "Colin Sauze"},
