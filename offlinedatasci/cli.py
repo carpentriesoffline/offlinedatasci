@@ -31,7 +31,7 @@ def main():
     packages_parser = subparsers.add_parser('add')
     packages_parser.add_argument('package_type',
                                 nargs = 1,
-                                choices =['r-packages', 'python-packages'])
+                                choices =['r-packages', 'python-packages', 'lessons'])
     packages_parser.add_argument('packages',
                                 nargs = '+')
 
@@ -49,11 +49,14 @@ def main():
             get_installer_function(i, ods_dir)
 
     elif args.command == 'add':
-        packages_to_install = package_selection(args.package_type[0], args.packages)
         if args.package_type[0] == "python-packages":
+            packages_to_install = package_selection(args.package_type[0], args.packages)
             download_python_packages(ods_dir, packages_to_install)
         elif args.package_type[0] == "r-packages":
+            packages_to_install = package_selection(args.package_type[0], args.packages)
             download_r_packages(ods_dir, packages_to_install)
+        elif args.package_type[0] == "lessons":
+            download_lessons(ods_dir, args.packages)
         
             
 if __name__=='__main__':

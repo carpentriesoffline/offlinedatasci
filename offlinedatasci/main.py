@@ -92,8 +92,8 @@ def download_and_save_installer(latest_version_url, destination_path):
     destination_path -- Path to save installer
     """
     if not os.path.exists(destination_path):
-                print("****Downloading file: ", destination_path)    
-                urllib.request.urlretrieve(latest_version_url, destination_path) 
+        print("****Downloading file: ", destination_path)
+        urllib.request.urlretrieve(latest_version_url, destination_path)
     else:
         print("File not being downloaded")
 
@@ -114,7 +114,7 @@ def download_r(ods_dir):
     download_r_macosx(r_current_version, ods_dir)
 
 
-def download_lessons(ods_dir):
+def download_lessons(ods_dir, lessons = "all"):
     """Downloads the workshop lessons as rendered HTML.
     Keyword arguments:
     destination_path -- Path to save rendered HTML lessons
@@ -132,56 +132,58 @@ def download_lessons(ods_dir):
         """)
         return
 
-    dc_lessons = ["https://datacarpentry.org/ecology-workshop/",
-                  "https://datacarpentry.org/spreadsheet-ecology-lesson/",
-                  "http://datacarpentry.org/OpenRefine-ecology-lesson/",
-                  "https://datacarpentry.org/R-ecology-lesson/",
-                  "https://datacarpentry.org/python-ecology-lesson/",
-                  "https://datacarpentry.org/sql-ecology-lesson/"]
-    lc_lessons = ["https://librarycarpentry.org/lc-overview/",
-                  "https://librarycarpentry.org/lc-data-intro/",
-                  "https://librarycarpentry.org/lc-shell/",
-                  "https://librarycarpentry.org/lc-open-refine/",
-                  "https://librarycarpentry.org/lc-git/",
-                  ]
+    dc_lessons = {
+        "https://datacarpentry.org/ecology-workshop/": "data-carpentry",
+        "https://datacarpentry.org/spreadsheet-ecology-lesson/": "data-carpentry",
+        "http://datacarpentry.org/OpenRefine-ecology-lesson/": "data-carpentry",
+        "https://datacarpentry.org/R-ecology-lesson/": "data-carpentry",
+        "https://datacarpentry.org/python-ecology-lesson/": "data-carpentry",
+        "https://datacarpentry.org/sql-ecology-lesson/": "data-carpentry"
+    }
+    lc_lessons = {
+        "https://librarycarpentry.org/lc-overview/": "library-carpentry",
+        "https://librarycarpentry.org/lc-data-intro/": "library-carpentry",
+        "https://librarycarpentry.org/lc-shell/": "library-carpentry",
+        "https://librarycarpentry.org/lc-open-refine/": "library-carpentry",
+        "https://librarycarpentry.org/lc-git/": "library-carpentry"
+    }
+    sc_lessons = {
+        "http://swcarpentry.github.io/shell-novice": "software-carpentry",
+        "http://swcarpentry.github.io/git-novice": "software-carpentry",
+        "http://swcarpentry.github.io/python-novice-inflammation": "software-carpentry",
+        "http://swcarpentry.github.io/python-novice-gapminder": "software-carpentry",
+        "http://swcarpentry.github.io/r-novice-inflammation": "software-carpentry",
+        "http://swcarpentry.github.io/r-novice-gapminder": "software-carpentry",
+        "http://swcarpentry.github.io/shell-novice-es": "software-carpentry",
+        "http://swcarpentry.github.io/git-novice-es": "software-carpentry",
+        "http://swcarpentry.github.io/r-novice-gapminder-es": "software-carpentry"
+    }
+
+    lessons_to_install = {}
+    for lesson in lessons:
+        if lesson == "all":
+            lessons_to_install.update({**dc_lessons, **lc_lessons, **sc_lessons})
+        if lesson == "data-carpentry":
+            lessons_to_install.update(dc_lessons)
+        if lesson == "library-carpentry":
+            lessons_to_install.update(lc_lessons)
+        if "http" in lesson:
+            lessons_to_install.update({lesson: "custom-lesson"})
 
     lesson_path = Path(Path(ods_dir), Path("lessons"))
     if not os.path.isdir(lesson_path):
         os.makedirs(lesson_path)
 
-    for lesson in dc_lessons:
-        print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
-                        "-P", Path(lesson_path, "data-carpentry"), lesson],
-                       stdout=subprocess.DEVNULL,
-                       stderr=subprocess.STDOUT)
-        
-    for lesson in lc_lessons:
-        print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
-                        "-P", Path(lesson_path, "library-carpentry"), lesson],
+    for current_lesson in lessons_to_install:
+        print(f"Downloading lesson from {current_lesson}")
+        subprocess.run([
+            "wget", "-r", "-k", "-N", "-c", "--no-parent",
+            "--no-host-directories", "-P",
+            Path(lesson_path, lessons_to_install[current_lesson]), current_lesson
+        ],
                        stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
 
-    sc_lessons = ["http://swcarpentry.github.io/shell-novice",
-                  "http://swcarpentry.github.io/git-novice",
-                  "http://swcarpentry.github.io/python-novice-inflammation",
-                  "http://swcarpentry.github.io/python-novice-gapminder",
-                  "http://swcarpentry.github.io/r-novice-inflammation",
-                  "http://swcarpentry.github.io/r-novice-gapminder",
-                  "http://swcarpentry.github.io/shell-novice-es",
-                  "http://swcarpentry.github.io/git-novice-es",
-                  "http://swcarpentry.github.io/r-novice-gapminder-es"]
-
-    # Software Carpentry lessons have external CSS so requires a more expansive search & rewriting to get all necessary files
-    for lesson in sc_lessons:
-        print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D",
-                        "swcarpentry.github.io", "-K", "--no-parent", "--no-host-directories",
-                        "-P", Path(lesson_path, "software-carpentry"), lesson],
-                       stdout = subprocess.DEVNULL,
-                       stderr = subprocess.STDOUT)
-        
     add_lesson_index_page(lesson_path)
 
 def download_rstudio(ods_dir):
@@ -222,16 +224,16 @@ def download_python(ods_dir):
     table_body = r_studio_download_table.find('tbody')
     python_versions = {}
     for row in table_body.find_all("tr"):
-      os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
-      os_version = os_data[key] 
-      python_versions[os_version] = os_data
+        os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
+        os_version = os_data[key]
+        python_versions[os_version] = os_data
     for key in python_versions.keys():
         is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
         is_macos = key.startswith("macOS")
         if (is_macos or is_windows):
-          download_link = python_versions[key]["url"]
-          destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
-          download_and_save_installer(download_link, destination_path2)
+            download_link = python_versions[key]["url"]
+            destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
+            download_and_save_installer(download_link, destination_path2)
 
 def find_r_current_version(url):
     """Determine the most recent version of R from CRAN
@@ -242,7 +244,7 @@ def find_r_current_version(url):
     version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
     urlfile = requests.get(url)
     for line in urlfile:
-        decoded = line.decode("utf-8") 
+        decoded = line.decode("utf-8")
         match = re.findall(version_regex, decoded)
         if (match):
             r_current_version = match[0].strip(".exe").strip(".pkg")
@@ -327,7 +329,7 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link = columns[hrefcolnum].a # return second column data (href) and access atag with href
     link_url = link['href'].strip()
     link_inner_html = link.text.strip()
-    return {"osver": os, "version": link_inner_html, "url": link_url}        
+    return {"osver": os, "version": link_inner_html, "url": link_url}
 
 def download_r_packages(ods_dir,
                       py_library_reqs = ["tidyverse", "RSQLite"],
@@ -345,10 +347,10 @@ def download_r_packages(ods_dir,
         Install R from: https://cloud.r-project.org/
         """)
         return
-    
+
     if r_version is None:
         r_version = find_r_current_version("https://cloud.r-project.org/bin/windows/base/")
-    
+
     r_major_minor_version_nums = r_version.replace('R-', '').split('.')
     r_major_minor_version = '.'.join(r_major_minor_version_nums[:2])
 
@@ -394,13 +396,13 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
 def get_default_packages(package_type):
-    packages = { 
+    packages = {
         "r-packages": {
             "data-carpentry": ["tidyverse", "RSQLite"],
             "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
         },
         "python-packages": {
-            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
+            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"],
             "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
             "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
         }
