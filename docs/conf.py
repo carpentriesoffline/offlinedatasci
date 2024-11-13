@@ -12,7 +12,7 @@ import sys
 project = 'offlinedatasci'
 copyright = '2023, Virnaliz Cruz, Abhishek Dasgupta, Colin Sauze, Jannetta Steyn, Ethan P. White'
 author = 'Virnaliz Cruz, Abhishek Dasgupta, Colin Sauze, Jannetta Steyn, Ethan P. White'
-release = 'v0.6.1'
+release = 'v0.7.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
