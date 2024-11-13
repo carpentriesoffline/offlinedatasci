@@ -200,38 +200,25 @@ def download_rstudio(ods_dir):
             download_and_save_installer(url, Path(Path(destination_path), Path(os.path.basename(url))))
 
 def download_python(ods_dir):
-    """Download Python installers from HTML page
+    """Download Python installers
 
     Keyword arguments:
     ods_dir -- Directory to save installers
     """
-    url = get_python_download_page()
-    download_table_num=0
-    oscolnum=1
-    hrefcolnum=0
-    key="version"
+    version = get_python_version()
+    download_urls = [f"https://www.python.org/ftp/python/{version}/python-{version}.exe",
+                     f"https://www.python.org/ftp/python/{version}/python-{version}-amd64.exe",
+                     f"https://www.python.org/ftp/python/{version}/python-{version}-arm64.exe",
+                     f"https://www.python.org/ftp/python/{version}/python-{version}-macos11.pkg"
+    ]
+    #TODO: dynamically check for macos version (at some point it won't be macos11)
 
     destination_path = Path(Path(ods_dir), Path("python"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
-    python_versions = {}
-    fp = requests.get(url)
-    web_content = fp.content
-    soup = bs.BeautifulSoup(web_content, 'lxml')
-    r_studio_download_table = soup.find_all('table')[download_table_num]
-    table_body = r_studio_download_table.find('tbody')
-    python_versions = {}
-    for row in table_body.find_all("tr"):
-      os_data = table_parse_version_info(row,oscolnum,hrefcolnum)
-      os_version = os_data[key] 
-      python_versions[os_version] = os_data
-    for key in python_versions.keys():
-        is_windows = "embeddable" not in key and "help" not in key and key.startswith("Windows")
-        is_macos = key.startswith("macOS")
-        if (is_macos or is_windows):
-          download_link = python_versions[key]["url"]
-          destination_path2 = Path(Path(destination_path), Path(os.path.basename(download_link)))
-          download_and_save_installer(download_link, destination_path2)
+    for url in download_urls:
+        destination_path2 = Path(Path(destination_path), Path(os.path.basename(url)))
+        download_and_save_installer(url, destination_path2)
 
 def find_r_current_version(url):
     """Determine the most recent version of R from CRAN
@@ -295,23 +282,14 @@ def get_ods_dir(directory=Path.home()):
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
-def get_python_download_page():
-    """Get download page from Python homepage."""
-    base_url="https://www.python.org"
-    fp = requests.get(base_url)
-    web_content = fp.content
-    soup = bs.BeautifulSoup(web_content, "html.parser")
-    release_a_tag = soup.find("a", href=lambda href: href and "release" in href)
-    current_release_path = release_a_tag["href"]
-    current_release_url = base_url + current_release_path
-    return(current_release_url)
-
-def get_python_version():
+def get_python_version(minor_version = "3.12"):
     """Determine the Python version from the Python homepage."""
-    python_download_page = get_python_download_page()
-    version_txt = python_download_page.split('-')[1][0:3]
-    version = version_txt[0] + "." + version_txt[1:3]
-    return version
+    url = "https://www.python.org/ftp/python/"
+    response = requests.get(url)
+    soup = bs.BeautifulSoup(response.text, 'html.parser')
+    versions = [a.text for a in soup.find_all('a') if a.text.startswith(minor_version)]
+    latest_version = sorted(versions, reverse=True)[0].strip('/')
+    return latest_version
 
 def table_parse_version_info(row,oscolnum,hrefcolnum):
     """Parse and return software information from table.
