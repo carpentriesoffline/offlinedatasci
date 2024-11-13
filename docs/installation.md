@@ -43,4 +43,4 @@ mamba install wget
 
 #### Windows
 
-Download the appropriate wget executable from https://eternallybored.org/misc/wget/ and place it on your PATH.
+Download the appropriate wget executable from <https://eternallybored.org/misc/wget/> and place it on your PATH.
