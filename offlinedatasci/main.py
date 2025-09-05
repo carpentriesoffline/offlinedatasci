@@ -18,7 +18,7 @@ import warnings
 
 def add_lesson_index_page(lesson_path):
     """Add a basic landing page for lessons
-    
+
     Uses the top-level directory name to group lessons into sections by source
     Then displays an unordered list of lessons within each source
 
@@ -84,6 +84,147 @@ def download_all(ods_dir):
     except Exception as e:
         print(f"Error downloading Python packages: {e}")
 
+def activate(ods_dir):
+    """Use local mirrors for CRAN and PyPI repositories
+
+    Parameters:
+    ods_dir (str): The directory where the offline data science (ods) environment is located. 
+                   This directory should contain the miniCRAN and PyPI repositories.
+
+    Modifies the .Rprofile and pip.conf files in the user's home directory to set the CRAN and PyPI 
+    repositories to the local mirrors located in the ods_dir.
+
+    The function does not return any value. It modifies the .Rprofile and pip.conf files in place.
+    """
+        
+    activate_cran(ods_dir)
+    activate_pypi(ods_dir)
+
+def activate_cran(ods_dir):
+    """Use local mirror of CRAN
+
+    Parameters:
+    ods_dir (str): The directory where the offline data science (ods) environment is located. 
+                   This directory should contain the miniCRAN repository.
+
+    The function works by adding a line to the .Rprofile file that sets the CRAN repository to the miniCRAN repository 
+    located in the ods_dir. If this line already exists in the .Rprofile file, it is not added again. If the line exists 
+    but is commented out, it is uncommented.
+
+    The function does not return any value. It modifies the .Rprofile file in place.
+    """
+
+    minicran_path = os.path.join("file://", ods_dir.lstrip("/"), "miniCRAN") #lstrip needed because "If any component is an absolute path, all previous path components will be discarded"
+    rprofile_line = 'local({r <- getOption("repos"); r["CRAN"] <- "%s"; options(repos=r)}) #Added by offlinedatasci\n' % minicran_path
+    rprofile_path = Path(os.path.join(os.path.expanduser("~"), ".Rprofile"))
+    if rprofile_path.is_file():
+        with open(rprofile_path) as input:
+            rprofile_list = list(input)
+    else:
+        rprofile_list = []
+    with open(rprofile_path, 'w') as output:
+        activated = False
+        for line in rprofile_list:
+            if line.strip() == rprofile_line.strip():
+                output.write(line)
+                activated = True
+            elif line.strip() == f"#{rprofile_line.strip()}":
+                output.write(rprofile_line)
+                activated = True
+            else:
+                output.write(line)
+        if not activated:
+            output.write(rprofile_line)
+
+def activate_pypi(ods_dir):
+    """Use local mirror of PyPI
+
+    Parameters:
+    ods_dir (str): The directory where the offline data science (ods) environment is located. 
+                   This directory should contain the PyPI repository in a pypi subdirectory.
+
+    The function works by adding a line to the ~/.config/pip.conf file that sets the index-url to the PyPI repository 
+    located in the ods_dir. If this line already exists in the pip.conf file, it is not added again. If the line is
+    commented out, it is uncommented.
+
+    The function does not return any value. It modifies the pip.conf file in place.
+    """
+
+    pypi_path = os.path.join("file:///", ods_dir.lstrip("/"), "pypi") #lstrip needed because "If any component is an absolute path, all previous path components will be discarded"
+    pip_config_line = f"#Added by offlinedatasci\n[global]\nindex-url = {pypi_path}\n"
+    pip_config_folder_path = Path(os.path.join(os.path.expanduser("~"), ".config", "pip"))
+    pip_config_path = Path(pip_config_folder_path, "pip.conf")
+    if not pip_config_folder_path.is_dir():
+        print("\nCreating .config/pip folder in home directory")
+        Path.mkdir(pip_config_folder_path, parents=True)
+    if pip_config_path.is_file():
+        with open(pip_config_path) as input:
+            pip_config_list = list(input)
+    else:
+        pip_config_list = []
+    with open(pip_config_path, 'w') as output:
+        if not pip_config_list:
+            output.write(pip_config_line)
+        else:
+            activated = False
+            for line in pip_config_list:
+                if line.strip() == pip_config_line.strip():
+                    output.write(line)
+                    activated = True
+                elif line.strip() == f"#{pip_config_line.strip()}":
+                    output.write(pip_config_line)
+                    activated = True
+                else:
+                    output.write(line)
+            if not activated:
+                output.write(pip_config_line)
+    
+def deactivate():
+    """Stop using the local CRAN and PyPI mirrors
+    
+    Removes any lines added by offlinedatasci to ~/.Rprofile and ~/.config/pip/pip.conf
+    """
+    deactivate_cran()
+    deactivate_pypi()
+
+def deactivate_cran():
+    """Stop using the local CRAN mirror
+
+    Removes any lines added by offlinedatasci to ~/.Rprofile 
+    """
+    rprofile_path = os.path.join(os.path.expanduser("~"), ".Rprofile")
+    with open(rprofile_path) as input:
+        rprofile_list = list(input)
+    with open(rprofile_path, 'w') as output:
+        for line in rprofile_list:
+            if "#Added by offlinedatasci" in line.strip():
+                pass
+            else:
+                output.write(line)
+
+def deactivate_pypi():
+    """Stop using the local PyPI mirror
+
+    Removes any lines added by offlinedatasci to ~/.config/pip/pip.conf 
+    """
+    pip_config_folder_path = Path(os.path.join(os.path.expanduser("~"), ".config", "pip"))
+    pip_config_path = Path(pip_config_folder_path, "pip.conf")
+    with open(pip_config_path) as input:
+        pip_config_list = list(input)
+    last_line_ods_comment = False
+    next_last_line_ods_comment = False
+    with open(pip_config_path, 'w') as output:
+        for line in pip_config_list:
+            if "#Added by offlinedatasci" in line.strip():
+                last_line_ods_comment = True
+            elif last_line_ods_comment:
+                next_last_line_ods_comment = True
+                last_line_ods_comment = False
+            elif next_last_line_ods_comment:
+                next_last_line_ods_comment = False
+            else:
+                output.write(line)
+
 def download_and_save_installer(latest_version_url, destination_path):
     """Download and save installer in user given path.
 
@@ -92,8 +233,8 @@ def download_and_save_installer(latest_version_url, destination_path):
     destination_path -- Path to save installer
     """
     if not os.path.exists(destination_path):
-                print("****Downloading file: ", destination_path)    
-                urllib.request.urlretrieve(latest_version_url, destination_path) 
+                print("****Downloading file: ", destination_path)
+                urllib.request.urlretrieve(latest_version_url, destination_path)
     else:
         print("File not being downloaded")
 
@@ -127,7 +268,7 @@ def download_lessons(ods_dir):
 
         macOS: you can install wget using Xcode command line tools
                or using `conda install wget -c conda-forge` if you are using conda.
-        
+
         Windows: you can download a wget binary from: https://eternallybored.org/misc/wget/
         """)
         return
@@ -155,7 +296,7 @@ def download_lessons(ods_dir):
                         "-P", Path(lesson_path, "data-carpentry"), lesson],
                        stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
-        
+
     for lesson in lc_lessons:
         print(f"Downloading lesson from {lesson}")
         subprocess.run(["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories",
@@ -181,7 +322,7 @@ def download_lessons(ods_dir):
                         "-P", Path(lesson_path, "software-carpentry"), lesson],
                        stdout = subprocess.DEVNULL,
                        stderr = subprocess.STDOUT)
-        
+
     add_lesson_index_page(lesson_path)
 
 def download_rstudio(ods_dir):
@@ -229,7 +370,7 @@ def find_r_current_version(url):
     version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
     urlfile = requests.get(url)
     for line in urlfile:
-        decoded = line.decode("utf-8") 
+        decoded = line.decode("utf-8")
         match = re.findall(version_regex, decoded)
         if (match):
             r_current_version = match[0].strip(".exe").strip(".pkg")
@@ -305,7 +446,7 @@ def table_parse_version_info(row,oscolnum,hrefcolnum):
     link = columns[hrefcolnum].a # return second column data (href) and access atag with href
     link_url = link['href'].strip()
     link_inner_html = link.text.strip()
-    return {"osver": os, "version": link_inner_html, "url": link_url}        
+    return {"osver": os, "version": link_inner_html, "url": link_url}
 
 def download_r_packages(ods_dir,
                       py_library_reqs = ["tidyverse", "RSQLite"],
@@ -323,10 +464,10 @@ def download_r_packages(ods_dir,
         Install R from: https://cloud.r-project.org/
         """)
         return
-    
+
     if r_version is None:
         r_version = find_r_current_version("https://cloud.r-project.org/bin/windows/base/")
-    
+
     r_major_minor_version_nums = r_version.replace('R-', '').split('.')
     r_major_minor_version = '.'.join(r_major_minor_version_nums[:2])
 
@@ -356,7 +497,7 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
         # Therefore we don't download mac and Linux packages on Windows
         # See https://github.com/pypa/pip/issues/11664
         warnings.warn("""Only mirroring Python packages for Windows
-                      
+
         pip cannot currently download macos and Linux packages on Windows.
         See https://github.com/pypa/pip/issues/11664
         """)
@@ -372,13 +513,14 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
     pypi_mirror.create_mirror(**mirror_creation_parameters)
 
 def get_default_packages(package_type):
-    packages = { 
+    packages = {
         "r-packages": {
             "data-carpentry": ["tidyverse", "RSQLite"],
-            "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr", "esquisse", "mlr3", "knitr", "DT"]
+            "data-science": ["dplyr", "ggplot2", "shiny", "lubridate", "knitr",
+                             "esquisse", "mlr3", "knitr", "DT", "ratdat"]
         },
         "python-packages": {
-            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"], 
+            "data-carpentry": ["pandas", "notebook", "numpy", "matplotlib", "plotnine"],
             "software-carpentry": ["matplotlib", "notebook", "numpy", "pandas"] ,
             "data-science": ["scipy", "numpy", "pandas", "matplotlib", "keras", "scikit-learn", "beautifulsoup4", "seaborn","torch"]
         }
