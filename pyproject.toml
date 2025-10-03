@@ -42,12 +42,12 @@ dependencies = [
   'beautifulsoup4',
   'importlib_resources',
   'lxml',
-  'python-pypi-mirror',
+  'python-pypi-mirror>=5.2.1',
   'requests',
   'setuptools'
 ]
 
-requires-python = ">=3.6"
+requires-python = ">=3.10"
 
 [project.urls]
 "Carpentries Offline Website" = "https://carpentriesoffline.github.io/"
