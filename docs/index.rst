@@ -21,6 +21,9 @@ This includes:
 
    installation
    getting-started
+   contributing
+   code-of-conduct
+
 
 Indices and tables
 ==================
