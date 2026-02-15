@@ -49,6 +49,12 @@ dependencies = [
 
 requires-python = ">=3.10"
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock"
+]
+
 [project.urls]
 "Carpentries Offline Website" = "https://carpentriesoffline.github.io/"
 "Documentation" = "https://github.com/carpentriesoffline/offlinedatasci/#readme"
