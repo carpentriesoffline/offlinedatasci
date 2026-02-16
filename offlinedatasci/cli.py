@@ -18,27 +18,60 @@ def get_installer_function(selection, ods_dir):
         try_except_functions(ods_dir, download_lessons)
 
 def main():
-    parser = argparse.ArgumentParser(prog = 'offlinedatasci')
-    subparsers = parser.add_subparsers(help = 'sub-command help', dest='command')
+    parser = argparse.ArgumentParser(
+        prog='offlinedatasci',
+        description='Download and setup offline data science environments and lesson materials with R, Python, packages, and lessons'
+    )
+    subparsers = parser.add_subparsers(
+        title='commands',
+        description='Available commands for managing your offline data science setup',
+        help='Use "offlinedatasci <command> --help" for more information on a specific command',
+        dest='command'
+    )
     INSTALL_OPTIONS = ["all", "lessons", "r-packages", "python", "python-packages", "r", "rstudio"]
 
-    install_parser = subparsers.add_parser('install')
-    install_parser.add_argument('item',
-                                default = 'all',
-                                nargs = '+',
-                                choices=INSTALL_OPTIONS)
+    # Install subcommand
+    install_parser = subparsers.add_parser(
+        'install',
+        help='Install components of the offline data science environment',
+        description='Install components of the offline data science environment',
+    )
+    install_parser.add_argument(
+        'item',
+        default='all',
+        nargs='+',
+        choices=INSTALL_OPTIONS,
+        metavar='COMPONENT',
+        help='Component(s) to install. Choices: %(choices)s. '
+             'all=everything, lessons=lesson material, r-packages=CRAN Mirror, '
+             'python=Python development environment, python-packages=PyPI Mirror, '
+             'r=R interpreter, rstudio=RStudio IDE'
+    )
 
-    packages_parser = subparsers.add_parser('add')
-    packages_parser.add_argument('package_type',
-                                nargs = 1,
-                                choices =['r-packages', 'python-packages'])
-    packages_parser.add_argument('packages',
-                                nargs = '+')
+    # Add packages subcommand
+    packages_parser = subparsers.add_parser(
+        'add',
+        help='Add additional (non-default) packages to existing package repositories',
+        description = 'Add additional (non-default) packages to existing package repositories',
+    )
+    packages_parser.add_argument(
+        'package_type',
+        nargs=1,
+        choices=['r-packages', 'python-packages'],
+        metavar='TYPE',
+        help='Package repository type. Choices: %(choices)s'
+    )
+    packages_parser.add_argument(
+        'packages',
+        nargs='+',
+        metavar='PACKAGE',
+        help='Name(s) of packages to add to the repository'
+    )
 
     parser.add_argument('path',
                         metavar = 'path',
                         type = str,
-                        help = 'path to setup offlinedatasci files in') 
+                        help = 'path to setup offlinedatasci files in')
 
 
     args = parser.parse_args()
@@ -54,8 +87,8 @@ def main():
             download_python_packages(ods_dir, packages_to_install)
         elif args.package_type[0] == "r-packages":
             download_r_packages(ods_dir, packages_to_install)
-        
-            
+
+
 if __name__=='__main__':
-              
+
     main()
