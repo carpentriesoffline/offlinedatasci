@@ -75,39 +75,27 @@ The resulting data, software, and educational materials are typically
 distributed online. As a result, these improvements in access to data
 science tools and skills are not homogeneously distributed. The median
 percentage of population with internet access across all countries is only
-60.1% [cia2021internetusers]. This includes a connection from any device with
-varying degrees of consistency ranging from continuously, to several
-times a week, to once every few months. In the US, some of the factors
-that are associated with limited internet access are race and ethnicity,
-geography, and most importantly income [@swenson2021internet].
-Low-income US households are less likely to have access to broadband and
-more likely to have no internet access at all [@swenson2021internet]. Although the increase in internet access worldwide is undeniable,
+60.1% [cia2021internetusers]. In the US, limited internet access is associated
+with race and ethnicity, geography, and income [@swenson2021internet],
+with ow-income US households less likely to have access to broadband and
+more likely to have no internet access at all [@swenson2021internet].
+Although the increase in internet access worldwide is undeniable,
 the rate at which access increases and the quality of that access
 remains unequally distributed.
 
-Most online data science tools and teaching materials make two basic
-assumptions about the users' resources: 1) access to computers; and 2) a
+Most online data science tools and teaching materials assume about the users' have a
 stable internet connection to download data, install software, and view
-teaching materials while learning or working. While access to a computer
-is an unavoidable requirement for most stages of data science, the need
-for regular internet access can be mitigated by obtaining the necessary
-data, software, and lesson materials when and where internet access is
-available. Once these materials are downloaded, much of the associated
-training and data science work can be accomplished without internet
-access. However, the knowledge necessary to accomplish this is often not
-available to beginning data scientists. This makes limited internet
+teaching materials while learning or working.
+This internet dependency can be mitigated by downloading materials when/where internet
+is available, but this can be difficult to manage for training opportunities like
+workshops and for people new to data science. This makes limited internet
 access particularly challenging in teaching environments, where students
 often learn how to download and install data science tools during
 classes and workshops. Workshops may have to be run in venues without reliable internet access and
 many of the students may not have sufficient, affordable internet access prior to
-the workshop, leading to problems in acquiring hundreds of megabytes
-worth of software applications and their dependencies for workshop
-participants. Simplifying the downloading and offline use of data science
-components that have internet requirements could ameliorate some of the
-challenges that students and data scientists face due to unequal
-accessibility to the internet.
+the workshop.
 
-The offlinedatasci package is part of a growing set of tools and
+The offlinedatasci package is part of a set of tools and
 instructional materials developed by CarpentriesOffline to facilitate
 teaching and practicing data science in internet-limited environments. The
 larger ecosystem allows local computers and low power devices such as the Raspberry Pi to be used
