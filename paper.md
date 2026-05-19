@@ -57,7 +57,7 @@ materials for running workshops and conducting offline data science
 work more broadly. These materials include open source statistical and graphing
 software (R [@r2024] and Python [@rossum2009py]), the associated integrated development
 environments (IDEs; RStudio [@rstudio2024] and Jupyter Notebooks [@soton403913]), data science focused
-partial mirrors of the associated package repositories ([CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/), and lesson
+partial mirrors of the associated package repositories ([CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/)), and lesson
 materials structured for local use via the browser. The package
 provides both Python and command-line interfaces and is designed for 
 maintaining local servers for instructors to use in teaching or for individual learners
@@ -240,76 +240,13 @@ that users can open a single index.html file with their browser of
 choice and smoothly navigate to all local lessons just as if they were
 connected to the world wide web.
 
-Offlinedatasci uses the following R and Python packages for unmentioned processes: airium [@kaczmarczyk2023airum], requests [@reitz2023requests], beautifulsoup4 [@richardson2024bs4], importlib-resources [@warsaw2024implib], remotes [@csardi2024remotes] and multiple packages that are distributed as part of Python 3: (argparse, os, pathlib, re, secrets, shutil, subprocess, sys, warnings; [@rossum2009py]).
-
-### Installation
-
-The package can be installed via the Python Package Index (PyPI) using
-pip:
-
-`pip install offlinedatasci`
-
-The development version can be installed directly from the associated
-GitHub repository (https://github.com/carpentriesoffline/offlinedatasci/):
-
-`pip install git+https://git@github.com/carpentriesoffline/offlinedatasci.git`
-
-### User interface
-
-The package has two interfaces, a command line interface and a Python
-interface.
-
-#### Command line interface
-
-For workshop instructors, the standard approach to using offlinedatasci
-will be to install all components for use on their local teaching
-server. This is done using:
-
-`offlinedatasci install all <path>`
-
-where \<path> is replaced with the path where offlinedatasci should
-create its storage directory. This will download software for both macOS
-and Windows, set up repository mirrors for both Python and R packages,
-and download and set up the default instructional material for viewing
-from a local web browser.
-
-More granular control for installing individual components is also
-available to facilitate personal use and customizing content for
-specific workshops. For example:
-
--   Install Python: `offlinedatasci install python <path>`
--   Install R and RStudio: `offlinedatasci install r rstudio <path>`
--   Install lessons: `offlinedatasci install lessons <path>`
--   Install R and Python package mirrors: `offlinedatasci install
-    r-packages python-packages <path>`
--   Add additional R packages: `offlinedatasci add r-packages
-    <packagename> <packagename> <path>`
--   Add additional Python packages:`offlinedatasci add python-packages
-    <packagename> <packagename> <path>`
-
-#### Python interface
-
-The Python interface follows a similar structure but calling Python
-functions directly rather than through the CLI. The default installation
-command for workshop instructors that installs/updates all of the
-software and lesson material is:
-
-`import offlinedatasci as ods`
-
-`ods.download_all("<path>")`
-
-The more granular functions follow a similar structure to those in the
-CLI. For example:
-
-- Install Python: `ods.download_python("<path>")`
-- Install lesson material: `ods.download_lessons("<path>")`
-- Install R packages: `ods.download_r_packages("<path>")`
-- Install custom R packages: `ods.download_r_packages("<path>", [<packagename>, <packagename>])`
+Offlinedatasci has two interfaces, a command line interface and a Python
+interface. In addition to pacakges cited above it uses the following R and Python packages: airium [@kaczmarczyk2023airum], requests [@reitz2023requests], beautifulsoup4 [@richardson2024bs4], importlib-resources [@warsaw2024implib], remotes [@csardi2024remotes] and multiple packages that are distributed as part of Python 3: (argparse, os, pathlib, re, secrets, shutil, subprocess, sys, warnings; [@rossum2009py]).
 
 ### Documentation
 
 Documentation for offlinedatasci is built automatically on each commit to the GitHub repository using Sphinx [@brandl2010sphinx] and Read The Docs (<https://about.readthedocs.com/?ref=readthedocs.org>).
-The documentation is available at <https://offlinedatasci.readthedocs.io>.
+The documentation is available at <https://offlinedatasci.readthedocs.io> and covers installation details, the command line interface, and the Python API details.
 
 ## Acknowledgements
 
@@ -328,4 +265,3 @@ by individual learners or data science practitioners by installing it on
 their personal computers.
 
 ## References
-
