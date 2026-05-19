@@ -123,19 +123,14 @@ offlinedatasci package was designed to make creating and updating the
 content on this local teaching server easier. To make the software more
 broadly useful it has been designed to be helpful to both individual
 learners outside of a workshop and for individuals working in data
-science who anticipate unreliable or no access to the internet. It
-downloads a selection of software installers, configures partial mirrors
-of package repositories, and downloads lesson content for later use on
-the internet limited computer. This means that when an internet
-connection is available, a single command can be executed to download,
-update, and configure all necessary material for later use.
+science who anticipate unreliable or no access to the internet.
 
 ### User knowledge assumptions
 
 The package assumes that the user: 1) has an understanding of paths for
-storing and accessing files; 2) is capable of either using a basic
-command line interface (including flags) or running functions with
-arguments from a Python package; and 3) knows how to use pip to install
+storing and accessing files; 2) is capable of using a basic
+command line interface or running functions with
+arguments from a Python package; and 3) knows how to install
 Python packages.
 
 ### Core design and backend
@@ -144,15 +139,7 @@ The offlinedatasci package automatically downloads the most recent
 versions of installers for essential tools including R, Python, and
 Rstudio. Obtaining up-to-date installers for all systems, that students are
 likely to use, requires automating the download of the most recent version for
-each operating system. We accomplish this by parsing the HTML from the
-relevant installer download pages, for R
-(https://cran.r-project.org/),
-Python
-(https://www.python.org/downloads/),
-and RStudio
-(https://posit.co/download/rstudio-desktop/)
-to determine the most recent versions and download the corresponding
-installers for both Windows and macOS. In cases where multiple
+each operating system. In cases where multiple
 installers are available for different architectures (e.g., M1/M2 macs
 and Intel-based macs) we download all available installers to support
 the widest range of possible user architectures (1.36 GB total as of
@@ -162,58 +149,35 @@ updates and facilitate instructors, researchers, and data scientists
 having the latest software readily available for future use. To avoid
 unnecessary downloads in internet limited environments, the update
 mechanism checks if the most recent version of the required components
-is already available locally (based on the filenames of the installers which
-include the version number) and if the local version is up-to-date it is
-not redownloaded. This approach avoids unnecessary data use while
-ensuring that the latest version of the software is available.
+is already available locally before downloading.
 
 Offlinedatasci also creates partial local mirrors of the R and Python
 package repositories, containing data science packages for data
-manipulation, visualization, and analysis. It also allows users to add
-other packages to these mirrors. Installing packages is a common
-activity in data science workshops and research. Creating local mirrors
-of these package repositories can be complicated because 1) packages
-typically depend on other packages and therefore require not only
-downloading the package of interest but also its entire dependency tree;
-and 2) package repositories must follow specific file structures with
-appropriate metadata. To address this issue, we leverage software
+manipulation, visualization, and analysis.We do this using 
 packages designed to create partial mirrors of the CRAN and PyPI package
 repositories. We use miniCRAN [@vries2022minicran] for mirroring CRAN and
-pypi-mirror [@montag2023pypimirror] for mirroring PyPI. These packages automate the download of
+pypi-mirror [@montag2023pypimirror] for mirroring PyPI, which automate the download of
 packages including their full dependency trees and set up the local
 repository file structures. These local mirrors can then be used by
 pointing to a local teaching server with the repository mirror or by
 individual users pointing to the mirrored repository on their own
-machine. The latter use case is facilitated by offlinedatasci commands
-that can be used to configure R and Python to perform installs
-from a specific local mirror. By default users can access a pre-selected
+machine. By default users can access a pre-selected
 curated selection of packages and add more packages as needed without
 worrying about dependency management and file structures. We focus on
 partial mirrors containing the essential packages needed for data
 science tasks, rather than full mirrors, to save time, bandwidth, and
 storage since the full mirrors can be hundreds of gigabytes. Both
 miniCRAN and pypi-mirror check versions and only download packages that
-are either not present or for which a new release is available. This
-allows package repository install and update commands to be run
-regularly to ensure that the most up-to-date versions of packages are
-always available.
+are either not present or for which a new release is available.
 
 Offlinedatasci downloads lesson material to facilitate workshop
 instruction and individual learning. The lesson materials currently
 included are the Software Carpentry, Data Carpentry, and Library
-Carpentry lessons. These open lesson materials serve as the foundation
-for a global teaching effort, run by The Carpentries
-(https://carpentries.org/),
-that involves instruction in a number of regions with limited internet.
+Carpentry lessons. 
 The software is also designed to allow the easy addition of any online
-teaching material. Lesson material is written in a variety of different
-formats and using a range of build systems that frequently rely on
-external dependencies for rendering the lesson material into websites.
-Therefore offlinedatasci downloads rendered content directly from lesson
-websites to avoid the complexity and fragility associated with upstream
-changes when building lessons from multiple sources. Our approach uses
-Wget [@fsf2010wget], a software package that enables retrieving files using common
-internet protocols. We use Wget to manage this process, leveraging it\'s
+teaching material. Because lesson material uses a variety of different
+formats and build systems offlinedatasci downloads rendered content directly from lesson
+websites using Wget [@fsf2010wget]. We leverage Wget's 
 capabilities to: 1) recursively mirror directories; automating the
 process of finding all of the web pages associated with multiple page
 lessons; 2) convert absolute links in downloaded documents to relative
@@ -224,8 +188,8 @@ the proper presentation of materials; 4) only download lesson pages that
 have been updated since the last download; and 5) resume aborted
 downloads, minimizing data use in cases of interruptions to internet
 access. The lessons are presented on a single unified landing page, so
-that users can open a single index.html file with their browser of
-choice and smoothly navigate to all local lessons just as if they were
+that users can open a single index.html file with their browser
+and smoothly navigate to all local lessons just as if they were
 connected to the world wide web.
 
 Offlinedatasci has two interfaces, a command line interface and a Python
