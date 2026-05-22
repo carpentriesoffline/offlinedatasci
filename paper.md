@@ -142,8 +142,8 @@ likely to use, requires automating the download of the most recent version for
 each operating system. In cases where multiple
 installers are available for different architectures (e.g., M1/M2 macs
 and Intel-based macs) we download all available installers to support
-the widest range of possible user architectures (1.36 GB total as of
-2023-08-15). By leveraging Python\'s capabilities to parse web pages and
+the widest range of possible user architectures (1.38 GB total as of
+2026-05-22). By leveraging Python\'s capabilities to parse web pages and
 extract version information, we eliminate the need for manual checks for
 updates and facilitate instructors, researchers, and data scientists
 having the latest software readily available for future use. To avoid
