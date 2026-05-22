@@ -59,8 +59,8 @@ software (R [@r2024] and Python [@rossum2009py]), the associated integrated deve
 environments (IDEs; RStudio [@rstudio2024] and Jupyter Notebooks [@soton403913]), data science focused
 partial mirrors of the associated package repositories ([CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/)), and lesson
 materials structured for local use via the browser. The package
-provides both Python and command-line interfaces and is designed for 
-maintaining local servers for instructors to use in teaching or for individual learners
+provides both Python and command-line interfaces and works as part of the larger CarpentriesOffline ecosystem to  
+maintaining local servers for instructors to use in teaching and for individual learners
 and data science practitioners to create a local repository of essential resources.
 
 ## Introduction and Statement of Need
