@@ -228,7 +228,7 @@ def find_r_current_version(url):
     Keyword arguments:
     url -- CRAN r-project URL
     """
-    version_regex = "(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
+    version_regex = r"(R\-\d+\.\d+\.\d)+\-(?:x86_64|arm64|win)\.(?:exe|pkg)"
     urlfile = requests.get(url)
     for line in urlfile:
         decoded = line.decode("utf-8") 
