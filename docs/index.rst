@@ -27,6 +27,8 @@ tools and instructional materials for teaching and practicing data science in in
 
    installation
    getting-started
+   using-downloads
+   what-to-install
    statement-of-need
    contributing
    code-of-conduct
