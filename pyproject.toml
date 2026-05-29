@@ -45,6 +45,7 @@ dependencies = [
   'pip',
   'python-pypi-mirror>=5.2.1',
   'requests',
+  'rich',
   'setuptools'
 ]
 
