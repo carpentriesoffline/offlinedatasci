@@ -9,22 +9,20 @@ repo = c("https://cloud.r-project.org/")
 install_minicran = FALSE
 if (!require("miniCRAN")) {
     install_minicran = TRUE
-} else if (packageVersion('miniCRAN') < "0.3.0") {
+} else if (packageVersion('miniCRAN') <= "0.3.2") {
     install_minicran = TRUE
 }
 
 if (install_minicran) {
-    if (!grepl("http", getOption("repos"))){
-        #Lack of a default repo can cause the install to fail
-        install.packages("miniCRAN", repos = "https://cloud.r-project.org" )
-    } else {
-        install.packages("miniCRAN") 
-    }
+  if (!require("remotes")) {
+      install.packages("remotes", repos = repo)
+  }
+  remotes::install_github("andrie/miniCRAN@main")
 }
 
 library(miniCRAN)
 
-types = c("source", "win.binary", "mac.binary.big-sur-x86_64", "mac.binary.big-sur-arm64")
+types = c("source", "win.binary", "mac.binary.big-sur-x86_64", "mac.binary.sonoma-arm64")
 
 for (type in types) {
     repo_bin_path <- miniCRAN:::repoBinPath(path = pth, type = type, Rversion = r_installer_version)
@@ -40,7 +38,7 @@ for (type in types) {
     if (length(pkgs_to_download) == 0) {
         cat("Repository already exists, checking updates for", type, "\n")
         updatePackages(path = pth, repos = repo, type = type, ask = FALSE)
-    } 
+    }
     else {
         # Get package dependency trees from list of wanted packages
         makeRepo(pkgs_to_download, path = pth, repos = repo, type = type, Rversion = r_installer_version)
