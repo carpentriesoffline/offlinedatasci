@@ -16,6 +16,38 @@ import shutil
 import sys
 import warnings
 
+from rich.console import Console
+from rich.progress import (
+    Progress, BarColumn, TextColumn,
+    DownloadColumn, TransferSpeedColumn, TimeRemainingColumn,
+    MofNCompleteColumn
+)
+
+console = Console()
+
+
+def _reporthook(progress, task_id):
+    """Create a urlretrieve reporthook that updates a Rich progress task."""
+    def hook(count, block_size, total_size):
+        if total_size > 0:
+            progress.update(task_id, total=total_size,
+                           completed=min(count * block_size, total_size))
+        else:
+            progress.update(task_id, advance=block_size)
+    return hook
+
+
+def _file_progress():
+    return Progress(
+        TextColumn("  {task.description}"),
+        BarColumn(),
+        DownloadColumn(),
+        TransferSpeedColumn(),
+        TimeRemainingColumn(),
+        console=console
+    )
+
+
 def add_lesson_index_page(lesson_path):
     """Add a basic landing page for lessons
     
@@ -57,45 +89,50 @@ def download_all(ods_dir):
     try:
         download_r(ods_dir)
     except Exception as e:
-        print(f"Error downloading R: {e}")
+        console.print(f"[red]Error downloading R: {e}[/red]")
 
     try:
         download_rstudio(ods_dir)
     except Exception as e:
-        print(f"Error downloading RStudio: {e}")
+        console.print(f"[red]Error downloading RStudio: {e}[/red]")
 
     try:
         download_r_packages(ods_dir)
     except Exception as e:
-        print(f"Error downloading R packages: {e}")
+        console.print(f"[red]Error downloading R packages: {e}[/red]")
 
     try:
         download_lessons(ods_dir)
     except Exception as e:
-        print(f"Error downloading lessons: {e}")
+        console.print(f"[red]Error downloading lessons: {e}[/red]")
 
     try:
         download_python(ods_dir)
     except Exception as e:
-        print(f"Error downloading Python: {e}")
+        console.print(f"[red]Error downloading Python: {e}[/red]")
 
     try:
         download_python_packages(ods_dir)
     except Exception as e:
-        print(f"Error downloading Python packages: {e}")
+        console.print(f"[red]Error downloading Python packages: {e}[/red]")
 
-def download_and_save_installer(latest_version_url, destination_path):
+def download_and_save_installer(latest_version_url, destination_path, progress):
     """Download and save installer in user given path.
 
     Keyword arguments:
     latest_version_url -- Link to download installer
     destination_path -- Path to save installer
+    progress -- Rich Progress instance to add a task to
     """
-    if not os.path.exists(destination_path):
-                print("****Downloading file: ", destination_path)    
-                urllib.request.urlretrieve(latest_version_url, destination_path) 
+    destination_path = Path(destination_path)
+    filename = destination_path.name
+    if not destination_path.exists():
+        task = progress.add_task(filename, total=None)
+        urllib.request.urlretrieve(latest_version_url, destination_path,
+                                  reporthook=_reporthook(progress, task))
     else:
-        print("File not being downloaded")
+        task = progress.add_task(f"[dim]{filename} (already downloaded)[/dim]", total=1)
+        progress.update(task, completed=1)
 
 
 def download_r(ods_dir):
@@ -104,14 +141,17 @@ def download_r(ods_dir):
     Keyword arguments:
     destination_path -- Path to save installers
     """
+    console.rule("[bold]Downloading R")
     destination_path = Path(Path(ods_dir), Path("R"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
 
     latest_version_url = "https://cloud.r-project.org/bin/macosx/"
     r_current_version = find_r_current_version(latest_version_url)
-    download_r_windows(r_current_version, ods_dir)
-    download_r_macosx(r_current_version, ods_dir)
+
+    with _file_progress() as progress:
+        download_r_windows(r_current_version, ods_dir, progress)
+        download_r_macosx(r_current_version, ods_dir, progress)
 
 
 def download_lessons(ods_dir):
@@ -119,6 +159,7 @@ def download_lessons(ods_dir):
     Keyword arguments:
     destination_path -- Path to save rendered HTML lessons
     """
+    console.rule("[bold]Downloading Lessons")
 
     if not shutil.which('wget'):
         warnings.warn("""wget not detected so not downloading lessons.
@@ -173,20 +214,37 @@ def download_lessons(ods_dir):
                   "http://swcarpentry.github.io/git-novice-es",
                   "http://swcarpentry.github.io/r-novice-gapminder-es"]
 
-    # Software Carpentry lessons have external CSS so requires a more expansive search & rewriting to get all necessary files
-    for lesson in sc_lessons:
-        print(f"Downloading lesson from {lesson}")
-        subprocess.run(["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D",
-                        "swcarpentry.github.io", "-K", "--no-parent", "--no-host-directories",
-                        "-P", Path(lesson_path, "software-carpentry"), lesson],
-                       stdout = subprocess.DEVNULL,
-                       stderr = subprocess.STDOUT)
-        
+    lesson_path = Path(Path(ods_dir), Path("lessons"))
+    if not os.path.isdir(lesson_path):
+        os.makedirs(lesson_path)
+
+    dc_wget = ["wget", "-r", "-k", "-N", "-c", "--no-parent", "--no-host-directories"]
+    sc_wget = ["wget", "-p", "-r", "-k", "-N", "-c", "-E", "-H", "-D",
+               "swcarpentry.github.io", "-K", "--no-parent", "--no-host-directories"]
+
+    lessons_to_run = (
+        [(url, Path(lesson_path, "data-carpentry"), dc_wget) for url in dc_lessons]
+        + [(url, Path(lesson_path, "library-carpentry"), dc_wget) for url in lc_lessons]
+        + [(url, Path(lesson_path, "software-carpentry"), sc_wget) for url in sc_lessons]
+    )
+
+    with Progress(
+        TextColumn("  {task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        console=console
+    ) as progress:
+        task = progress.add_task("Downloading lessons", total=len(lessons_to_run))
+        for url, dest, wget_args in lessons_to_run:
+            subprocess.run(wget_args + ["-P", dest, url],
+                          stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+            progress.advance(task)
+
     add_lesson_index_page(lesson_path)
 
 def download_rstudio(ods_dir):
     """Download RStudio installers"""
-    baseurl = 'https://www.rstudio.com/products/rstudio/download/#download'
+    console.rule("[bold]Downloading RStudio")
     destination_path = Path(Path(ods_dir), Path("rstudio"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
@@ -198,8 +256,9 @@ def download_rstudio(ods_dir):
         f"{baseurl}/windows/RStudio-{version}.exe",
         f"{baseurl}/macos/RStudio-{version}.dmg",
     ]
-    for url in urls:
-        download_and_save_installer(url, Path(destination_path, os.path.basename(url)))
+    with _file_progress() as progress:
+        for url in urls:
+            download_and_save_installer(url, Path(destination_path, os.path.basename(url)), progress)
 
 def download_python(ods_dir):
     """Download Python installers
@@ -207,6 +266,7 @@ def download_python(ods_dir):
     Keyword arguments:
     ods_dir -- Directory to save installers
     """
+    console.rule("[bold]Downloading Python")
     version = get_python_version()
     download_urls = [f"https://www.python.org/ftp/python/{version}/python-{version}.exe",
                      f"https://www.python.org/ftp/python/{version}/python-{version}-amd64.exe",
@@ -218,9 +278,10 @@ def download_python(ods_dir):
     destination_path = Path(Path(ods_dir), Path("python"))
     if not os.path.isdir(destination_path):
         os.makedirs(destination_path)
-    for url in download_urls:
-        destination_path2 = Path(Path(destination_path), Path(os.path.basename(url)))
-        download_and_save_installer(url, destination_path2)
+
+    with _file_progress() as progress:
+        for url in download_urls:
+            download_and_save_installer(url, Path(destination_path, os.path.basename(url)), progress)
 
 def find_r_current_version(url):
     """Determine the most recent version of R from CRAN
@@ -238,12 +299,13 @@ def find_r_current_version(url):
             return r_current_version
     return None
 
-def download_r_windows(r_current_version, ods_dir):
+def download_r_windows(r_current_version, ods_dir, progress):
     """Download the most recent version of R installer for Windows from CRAN.
 
     Keyword arguments:
     r_current_version -- The most recent version of R
     ods_dir -- Directory to save R installers
+    progress -- Rich Progress instance to add a task to
     """
     baseurl = "https://cloud.r-project.org/bin/windows/base/"
     download_path = baseurl + r_current_version + "-win.exe"
@@ -252,25 +314,22 @@ def download_r_windows(r_current_version, ods_dir):
         print("****Downloading file: ", destination_path)
         urllib.request.urlretrieve(download_path, destination_path)
 
-def download_r_macosx(r_current_version, ods_dir):
+def download_r_macosx(r_current_version, ods_dir, progress):
     """Download the most recent version of R installer for MacOSX from CRAN.
 
     Keyword arguments:
     r_current_version -- The most recent version of R
     ods_dir -- Directory to save R installers
+    progress -- Rich Progress instance to add a task to
     """
     baseurl = "https://cloud.r-project.org/bin/macosx/"
     download_path_arm64 = baseurl + "sonoma-arm64/base/" + r_current_version + "-arm64.pkg"
     destination_path_arm64 = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-arm64.pkg"))
-    if not os.path.exists(destination_path_arm64):
-        print("****Downloading file: ", destination_path_arm64)
-        urllib.request.urlretrieve(download_path_arm64, destination_path_arm64)
+    download_and_save_installer(download_path_arm64, destination_path_arm64, progress)
 
     download_path_x86_64 = baseurl + "big-sur-x86_64/base/" + r_current_version + "-x86_64.pkg"
     destination_path_x86_64 = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-x86_64.pkg"))
-    if not os.path.exists(destination_path_x86_64):
-        print("****Downloading file: ", destination_path_x86_64)
-        urllib.request.urlretrieve(download_path_x86_64, destination_path_x86_64)
+    download_and_save_installer(download_path_x86_64, destination_path_x86_64, progress)
 
 def get_ods_dir(directory=Path.home()):
     """Get path to save downloads, create if it does not exist.
@@ -280,7 +339,7 @@ def get_ods_dir(directory=Path.home()):
     """
     folder_path = Path(directory)
     if not folder_path.is_dir():
-        print("\nCreating ods folder in " + str(directory))
+        console.print(f"\nCreating ods folder in {directory}")
         Path.mkdir(folder_path, parents=True)
     return str(folder_path)
 
@@ -317,6 +376,8 @@ def download_r_packages(ods_dir,
     Keyword arguments:
     ods_dir -- Directory to create CRAN mirror
     """
+    console.rule("[bold]Downloading R Packages")
+
     if not shutil.which('Rscript'):
         warnings.warn("""Rscript not detected so not installing miniCRAN.
 
@@ -334,6 +395,7 @@ def download_r_packages(ods_dir,
 
     minicranpath = importlib_resources.files("offlinedatasci") / "miniCran.R"
     custom_library_string = ' '.join(py_library_reqs)
+    console.print("  Building CRAN mirror with miniCRAN (this may take a while)...")
     subprocess.run(["Rscript", minicranpath, ods_dir, custom_library_string, r_major_minor_version])
 
 
@@ -343,6 +405,8 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
     Keyword arguments:
     ods_dir -- Directory to save partial Pypi mirror
     """
+    console.rule("[bold]Downloading Python Packages")
+
     python_version = get_python_version()
     download_dir = Path(Path(ods_dir), Path("pythonlibraries"))
     pypi_dir = Path(Path(ods_dir), Path("pypi"))
@@ -363,9 +427,13 @@ def download_python_packages(ods_dir,py_library_reqs = [ "matplotlib", "notebook
         See https://github.com/pypa/pip/issues/11664
         """)
     else:
+        console.print("  Downloading packages for Linux (manylinux_2_17_x86_64)...")
         pypi_mirror.download(platform = ['manylinux_2_17_x86_64'], **parameters)
+        console.print("  Downloading packages for macOS (macosx_10_12_x86_64)...")
         pypi_mirror.download(platform = ['macosx_10_12_x86_64'], **parameters)
+    console.print("  Downloading packages for Windows (win_amd64)...")
     pypi_mirror.download(platform = ['win_amd64'], **parameters)
+    console.print("  Creating PyPI mirror index...")
     mirror_creation_parameters = {
         'download_dir': download_dir,
         'mirror_dir': pypi_dir,
@@ -403,4 +471,4 @@ def try_except_functions(input, function):
     try:
         function(input)
     except Exception as e:
-        print( f"Error in function: {function.__name__}. Error: {str(e)}")
+        console.print(f"[red]Error in function: {function.__name__}. Error: {str(e)}[/red]")
