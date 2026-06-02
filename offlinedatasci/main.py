@@ -310,9 +310,7 @@ def download_r_windows(r_current_version, ods_dir, progress):
     baseurl = "https://cloud.r-project.org/bin/windows/base/"
     download_path = baseurl + r_current_version + "-win.exe"
     destination_path = Path(Path(ods_dir), Path("R"), Path(r_current_version + "-win.exe"))
-    if not os.path.exists(destination_path):
-        print("****Downloading file: ", destination_path)
-        urllib.request.urlretrieve(download_path, destination_path)
+    download_and_save_installer(download_path, destination_path, progress)
 
 def download_r_macosx(r_current_version, ods_dir, progress):
     """Download the most recent version of R installer for MacOSX from CRAN.
