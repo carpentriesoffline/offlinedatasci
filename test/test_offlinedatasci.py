@@ -1,5 +1,20 @@
 from offlinedatasci import *
 from glob import glob
+import pytest
+
+
+@pytest.mark.parametrize("filename", [
+    "R-4.4.1-win.exe",
+    "R-4.5.12-arm64.pkg",
+    "R-4.5.12-x86_64.pkg",
+])
+def test_find_r_current_version(monkeypatch, filename):
+    from offlinedatasci import main
+
+    monkeypatch.setattr(main.requests, "get", lambda url: [
+        f'<a href="{filename}">{filename}</a>'.encode("utf-8")
+    ])
+    assert find_r_current_version("https://example.test/") == filename.rsplit("-", 1)[0]
 
 def test_download_r(tmp_path):
     download_r(tmp_path)
